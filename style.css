@@ -214,6 +214,28 @@ body {
   box-shadow: 0 10px 26px rgba(93, 53, 135, 0.32);
 }
 
+.btn-secondary:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+  transform: none;
+  box-shadow: none;
+}
+
+.form-message {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-height: 1.35em;
+}
+
+.form-message--success {
+  color: #15803d;
+}
+
+.form-message--error {
+  color: #b91c1c;
+}
+
 .site-footer {
   background-color: var(--color-primary);
   color: var(--color-neutral);
