@@ -73,12 +73,13 @@ a {
   line-height: 0;
 }
 
+/* Logo header: hiển thị theo CHIỀU CAO; file PNG nên crop sát viền nội dung (ít padding) */
 .brand-logo {
   display: block;
   width: auto;
-  height: clamp(52px, 8.5vw, 76px);
-  max-height: 76px;
-  max-width: min(360px, 72vw);
+  height: clamp(56px, 9.5vw, 88px);
+  max-height: 88px;
+  max-width: min(400px, 78vw);
   object-fit: contain;
   object-position: left center;
 }
