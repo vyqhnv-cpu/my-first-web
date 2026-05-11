@@ -9,6 +9,10 @@
   --shadow-soft: 0 12px 40px rgba(93, 53, 135, 0.1);
   --radius-lg: 20px;
   --radius-md: 14px;
+  /* Trùng nền file logo (trắng) — toàn trang */
+  --page-bg: #ffffff;
+  /* Trùng nền file Banner-1 (viền ngoài đen); nếu banner của bạn nền trắng, đổi thành #ffffff */
+  --hero-banner-bg: #0a0a0a;
 }
 
 * {
@@ -19,12 +23,13 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--page-bg);
 }
 
 body {
   font-family: "Manrope", sans-serif;
   color: var(--color-text);
-  background: #fff;
+  background-color: var(--page-bg);
   line-height: 1.65;
 }
 
@@ -57,8 +62,8 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  min-height: 72px;
-  padding: 0.35rem 0;
+  min-height: 84px;
+  padding: 0.45rem 0;
 }
 
 .brand {
@@ -70,10 +75,12 @@ a {
 
 .brand-logo {
   display: block;
-  height: 40px;
   width: auto;
-  max-width: min(200px, 42vw);
+  height: clamp(52px, 8.5vw, 76px);
+  max-height: 76px;
+  max-width: min(360px, 72vw);
   object-fit: contain;
+  object-position: left center;
 }
 
 .header-right {
@@ -172,7 +179,7 @@ a {
 /* —— Hero —— */
 .hero {
   padding: 3.5rem 0 4.5rem;
-  background: linear-gradient(180deg, #fff 0%, #fefbff 100%);
+  background-color: var(--page-bg);
 }
 
 .hero-grid {
@@ -269,16 +276,21 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 360px;
+  min-height: min(420px, 52vw);
+  background-color: var(--hero-banner-bg);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  padding: 0;
 }
 
 .hero-glow {
   position: absolute;
-  inset: 10% 5% 5%;
+  inset: 0;
+  z-index: 0;
   background: radial-gradient(
-    circle at 70% 40%,
-    rgba(249, 168, 212, 0.45) 0%,
-    rgba(255, 255, 255, 0) 55%
+    circle at 50% 35%,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 55%
   );
   pointer-events: none;
 }
@@ -286,11 +298,15 @@ a {
 .hero-banner-img {
   position: relative;
   z-index: 1;
-  width: min(100%, 460px);
+  display: block;
+  width: 100%;
   height: auto;
-  border-radius: var(--radius-lg);
-  object-fit: cover;
-  box-shadow: 0 24px 50px rgba(93, 53, 135, 0.2);
+  max-width: 520px;
+  margin: 0 auto;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .hero-badge {
@@ -605,6 +621,7 @@ a {
 /* —— Contact / Lead —— */
 .contact {
   padding: 0 0 4.5rem;
+  background-color: var(--page-bg);
 }
 
 .contact-grid {
@@ -615,21 +632,27 @@ a {
 }
 
 .contact-logo-wrap {
-  margin: 0 0 1.1rem;
+  margin: 0 0 0.5rem;
   line-height: 0;
 }
 
 .contact-logo {
   display: block;
-  max-width: 240px;
-  width: 100%;
+  width: auto;
   height: auto;
+  max-width: min(340px, 100%);
+  max-height: 88px;
   object-fit: contain;
+  object-position: left center;
 }
 
 .contact-about p {
   color: var(--color-muted);
   margin-bottom: 0.85rem;
+}
+
+.contact-about .contact-logo-wrap + p {
+  margin-top: 0;
 }
 
 .signup-card {
