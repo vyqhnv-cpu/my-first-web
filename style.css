@@ -64,22 +64,16 @@ a {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
   text-decoration: none;
-  font-family: "Epilogue", sans-serif;
-  font-weight: 800;
-  font-size: 1.05rem;
-  color: var(--color-text);
-  letter-spacing: -0.02em;
+  line-height: 0;
 }
 
-.brand-mark {
-  display: flex;
-  color: var(--color-primary);
-}
-
-.brand-text {
-  text-transform: lowercase;
+.brand-logo {
+  display: block;
+  height: 40px;
+  width: auto;
+  max-width: min(200px, 42vw);
+  object-fit: contain;
 }
 
 .header-right {
@@ -289,18 +283,14 @@ a {
   pointer-events: none;
 }
 
-.hero-sphere {
+.hero-banner-img {
   position: relative;
-  width: min(380px, 78vw);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 28% 28%, #ebe3dc 0%, transparent 42%),
-    radial-gradient(circle at 72% 58%, #8a7f78 0%, transparent 48%),
-    radial-gradient(circle at 50% 50%, #c9bfb6, #5c554f);
-  box-shadow:
-    inset -18px -22px 36px rgba(0, 0, 0, 0.18),
-    0 28px 55px rgba(93, 53, 135, 0.18);
+  z-index: 1;
+  width: min(100%, 460px);
+  height: auto;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  box-shadow: 0 24px 50px rgba(93, 53, 135, 0.2);
 }
 
 .hero-badge {
@@ -461,9 +451,19 @@ a {
   color: #fff;
 }
 
-.journey-card--orange h3 {
+.journey-card--orange .journey-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
   font-family: "Epilogue", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+
+.journey-card--orange .journey-title-icon {
+  display: flex;
+  flex-shrink: 0;
+  opacity: 0.95;
 }
 
 .journey-card--orange p {
@@ -575,28 +575,11 @@ a {
   object-fit: cover;
 }
 
-.course-card--accent .course-media--icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(145deg, #fdeef6 0%, var(--color-tertiary) 100%);
-  color: var(--color-primary);
-}
-
-.course-date {
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--color-secondary);
-  padding: 1rem 1.15rem 0;
-}
-
 .course-card h3 {
   font-family: "Epilogue", sans-serif;
   font-size: 1.08rem;
   color: var(--color-primary);
-  padding: 0.35rem 1.15rem 0;
+  padding: 1rem 1.15rem 0;
   line-height: 1.35;
 }
 
@@ -619,87 +602,6 @@ a {
   color: var(--color-secondary);
 }
 
-/* —— Newsletter —— */
-.newsletter {
-  padding: 0 0 4rem;
-}
-
-.newsletter-box {
-  background: linear-gradient(135deg, #f3e9fb 0%, #fce8f2 100%);
-  border-radius: var(--radius-lg);
-  padding: 2.25rem 1.75rem;
-  text-align: center;
-  max-width: 640px;
-  margin: 0 auto;
-  border: 1px solid #eadcf5;
-}
-
-.newsletter-icon {
-  display: inline-flex;
-  color: var(--color-primary);
-  margin-bottom: 0.75rem;
-}
-
-.newsletter-box h2 {
-  font-family: "Epilogue", sans-serif;
-  font-size: 1.5rem;
-  color: var(--color-primary);
-  margin-bottom: 0.5rem;
-}
-
-.newsletter-box > p {
-  color: var(--color-muted);
-  font-size: 0.95rem;
-  margin-bottom: 1.25rem;
-}
-
-.newsletter-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  justify-content: center;
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-.newsletter-form input {
-  flex: 1 1 220px;
-  min-width: 0;
-  padding: 0.8rem 1rem;
-  border-radius: 12px;
-  border: 1px solid #dcc9ef;
-  font-size: 0.95rem;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.newsletter-form input:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(93, 53, 135, 0.12);
-}
-
-.btn-newsletter {
-  padding: 0.8rem 1.35rem;
-  border-radius: 12px;
-  border: none;
-  background: var(--color-primary);
-  color: #fff;
-  font-family: "Manrope", sans-serif;
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-.btn-newsletter:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 22px rgba(93, 53, 135, 0.35);
-}
-
-.newsletter-box .form-message {
-  margin-top: 1rem;
-}
-
 /* —— Contact / Lead —— */
 .contact {
   padding: 0 0 4.5rem;
@@ -712,11 +614,17 @@ a {
   align-items: start;
 }
 
-.contact-about h2 {
-  font-family: "Epilogue", sans-serif;
-  font-size: 1.65rem;
-  color: var(--color-primary);
-  margin-bottom: 1rem;
+.contact-logo-wrap {
+  margin: 0 0 1.1rem;
+  line-height: 0;
+}
+
+.contact-logo {
+  display: block;
+  max-width: 240px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 .contact-about p {
@@ -792,8 +700,7 @@ a {
   box-shadow: 0 10px 26px rgba(93, 53, 135, 0.32);
 }
 
-.btn-secondary:disabled,
-.btn-newsletter:disabled {
+.btn-secondary:disabled {
   cursor: not-allowed;
   opacity: 0.72;
   transform: none;
