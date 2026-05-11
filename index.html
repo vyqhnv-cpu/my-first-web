@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Khám Phá Tính Cách - Nhận Tư Vấn Chuyên Sâu</title>
+    <title>Gau Studio — Khám phá tính cách &amp; nhận tư vấn</title>
     <meta
       name="description"
       content="Làm bài test trắc nghiệm tính cách để nhận tư vấn phù hợp với điểm mạnh, định hướng phát triển và mục tiêu cá nhân của bạn."
@@ -19,7 +19,7 @@
   <body>
     <header class="site-header">
       <div class="container header-content">
-        <a href="#" class="brand">Personality Insight</a>
+        <a href="#" class="brand">Gau Studio</a>
         <nav class="nav">
           <a href="#gioi-thieu">Giới thiệu</a>
           <a href="#dang-ky">Nhận tư vấn</a>
@@ -62,7 +62,7 @@
           <div id="dang-ky" class="signup-card">
             <h3>Nhận tư vấn sau khi làm test</h3>
             <p>Để lại thông tin để đội ngũ liên hệ và đặt lịch tư vấn.</p>
-            <form class="signup-form" action="#" method="post">
+            <form class="signup-form" id="lead-form" novalidate>
               <label for="fullname">Họ và tên</label>
               <input
                 type="text"
@@ -70,6 +70,7 @@
                 name="fullname"
                 placeholder="Nguyễn Văn A"
                 required
+                autocomplete="name"
               />
 
               <label for="email">Email</label>
@@ -79,6 +80,7 @@
                 name="email"
                 placeholder="example@email.com"
                 required
+                autocomplete="email"
               />
 
               <label for="phone">Số điện thoại</label>
@@ -88,10 +90,19 @@
                 name="phone"
                 placeholder="09xxxxxxxx"
                 required
+                autocomplete="tel"
               />
 
-              <button type="submit" class="btn-secondary">
-                Yêu cầu được tư vấn
+              <p
+                class="form-message"
+                id="form-message"
+                role="status"
+                aria-live="polite"
+                hidden
+              ></p>
+
+              <button type="submit" class="btn-secondary" id="lead-submit">
+                Gửi
               </button>
             </form>
           </div>
@@ -101,8 +112,91 @@
 
     <footer class="site-footer">
       <div class="container footer-content">
-        <p>© 2026 Personality Insight. All rights reserved.</p>
+        <p>© 2026 Gau Studio. All rights reserved.</p>
       </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      (function () {
+        var SUPABASE_URL = "https://gpydibzaymuubtkthomb.supabase.co";
+        var SUPABASE_ANON_KEY =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdweWRpYnpheW11dWJ0a3Rob21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NDk3NDMsImV4cCI6MjA5NDAyNTc0M30.rADQpZtx_SvMdF-Y_e7epsSMp-0JO1WHQShqhlN6YDI";
+
+        var form = document.getElementById("lead-form");
+        var messageEl = document.getElementById("form-message");
+        var submitBtn = document.getElementById("lead-submit");
+        if (!form || !messageEl || !submitBtn || typeof supabase === "undefined") {
+          return;
+        }
+
+        var createClient = supabase.createClient;
+        if (typeof createClient !== "function") {
+          return;
+        }
+        var client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        function setMessage(text, kind) {
+          messageEl.textContent = text;
+          messageEl.hidden = false;
+          messageEl.classList.remove("form-message--success", "form-message--error");
+          if (kind === "success") {
+            messageEl.classList.add("form-message--success");
+          } else if (kind === "error") {
+            messageEl.classList.add("form-message--error");
+          }
+        }
+
+        function clearMessage() {
+          messageEl.textContent = "";
+          messageEl.hidden = true;
+          messageEl.classList.remove("form-message--success", "form-message--error");
+        }
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          clearMessage();
+
+          if (!form.reportValidity()) {
+            return;
+          }
+
+          var fullnameInput = document.getElementById("fullname");
+          var emailInput = document.getElementById("email");
+          var phoneInput = document.getElementById("phone");
+
+          var payload = {
+            name: fullnameInput.value.trim(),
+            email: emailInput.value.trim(),
+            phone: phoneInput.value.trim(),
+          };
+
+          submitBtn.disabled = true;
+          var originalLabel = submitBtn.textContent;
+          submitBtn.textContent = "Đang gửi…";
+
+          client
+            .from("leads")
+            .insert(payload)
+            .then(function (res) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = originalLabel;
+
+              if (res.error) {
+                setMessage("Có lỗi xảy ra", "error");
+                return;
+              }
+
+              setMessage("Gửi thành công!", "success");
+              form.reset();
+            })
+            .catch(function () {
+              submitBtn.disabled = false;
+              submitBtn.textContent = originalLabel;
+              setMessage("Có lỗi xảy ra", "error");
+            });
+        });
+      })();
+    </script>
   </body>
 </html>
