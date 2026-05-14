@@ -745,6 +745,34 @@ a {
   color: #b91c1c;
 }
 
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.error-text {
+  color: #b91c1c;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 4px;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.error-text.show {
+  opacity: 1;
+  height: auto;
+  margin-top: 4px;
+}
+
+.signup-form input.invalid {
+  border-color: #b91c1c;
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
+}
+
 /* —— Footer —— */
 .site-footer {
   background: var(--color-primary);

@@ -260,14 +260,17 @@
                 autocomplete="email"
               />
               <label for="phone">Số điện thoại</label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                placeholder="09xxxxxxxx"
-                required
-                autocomplete="tel"
-              />
+              <div class="input-wrapper">
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder="09xxxxxxxx"
+                  required
+                  autocomplete="tel"
+                />
+                <span class="error-text" id="phone-error">Vui lòng nhập số điện thoại hợp lệ (tối đa 10 số)</span>
+              </div>
               <p class="form-message" id="form-message" role="status" aria-live="polite" hidden></p>
               <button type="submit" class="btn-secondary" id="lead-submit">Gửi</button>
             </form>
@@ -386,13 +389,43 @@
         var leadMsg = document.getElementById("form-message");
         var leadBtn = document.getElementById("lead-submit");
         if (leadForm && leadMsg && leadBtn) {
+          var phoneInput = document.getElementById("phone");
+          var phoneError = document.getElementById("phone-error");
+
+          if (phoneInput && phoneError) {
+            phoneInput.addEventListener("input", function () {
+              // 1. Chỉ cho phép nhập chữ số
+              var val = this.value.replace(/\D/g, "");
+              // 2. Giới hạn tối đa 10 ký tự
+              if (val.length > 10) val = val.slice(0, 10);
+              this.value = val;
+
+              // 3. Kiểm tra định dạng (ví dụ: đủ 10 số)
+              if (val.length > 0 && val.length < 10) {
+                phoneError.classList.add("show");
+                this.classList.add("invalid");
+              } else {
+                phoneError.classList.remove("show");
+                this.classList.remove("invalid");
+              }
+            });
+          }
+
           leadForm.addEventListener("submit", function (e) {
             e.preventDefault();
             clearFormMessage(leadMsg);
+
+            // Kiểm tra tính hợp lệ trước khi gửi
+            if (phoneInput && (phoneInput.value.length < 10 || phoneInput.classList.contains("invalid"))) {
+              phoneError.classList.add("show");
+              phoneInput.classList.add("invalid");
+              phoneInput.focus();
+              return;
+            }
+
             if (!leadForm.reportValidity()) return;
             var fullnameInput = document.getElementById("fullname");
             var emailInput = document.getElementById("email");
-            var phoneInput = document.getElementById("phone");
             submitLead(
               {
                 name: fullnameInput.value.trim(),
