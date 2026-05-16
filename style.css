@@ -111,12 +111,21 @@ p {
 }
 
 .btn-secondary {
-  background-color: var(--color-secondary);
-  color: var(--color-white);
+  display: inline-block;
+  padding: 0.9rem 2rem;
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
 }
 
 .btn-secondary:hover {
-  opacity: 0.9;
+  background: var(--color-primary);
+  color: var(--color-white);
   transform: translateY(-2px);
 }
 
@@ -354,16 +363,16 @@ p {
   font-size: 0.85rem;
   font-weight: 600;
   color: #D4A373;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.footer-arrow {
-  font-size: 1.2rem;
-  transition: transform 0.2s ease;
+.card-footer:hover {
+  color: var(--color-primary);
+  background: rgba(0,0,0,0.02);
 }
 
-.journey-card-v2:hover .footer-arrow {
-  transform: translateX(4px);
-}
 
 /* —— Form Dark (CTA Banner) —— */
 .signup-form-dark {
@@ -778,4 +787,184 @@ input.invalid {
 .section-head--center {
   text-align: center;
   margin-bottom: 4rem;
+}
+
+/* --- SURVEY MODAL --- */
+.survey-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background: rgba(15, 61, 62, 0.4);
+  backdrop-filter: blur(8px);
+  padding: 2rem;
+  overflow-y: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.survey-modal.is-open {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--color-white);
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  border-radius: var(--radius-sm);
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  animation: modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--color-muted);
+  cursor: pointer;
+  z-index: 20;
+  transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+  color: var(--color-primary);
+}
+
+.survey-inner {
+  padding: 3rem 2.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.survey-inner .section-head {
+  margin-bottom: 2rem;
+}
+
+.survey-inner .section-head h2 {
+  font-size: 1.75rem;
+}
+
+.survey-inner .section-head .section-lead {
+  font-size: 0.95rem;
+}
+
+.survey-form {
+  text-align: left;
+}
+
+.survey-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.survey-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.survey-group.full-width {
+  grid-column: span 2;
+}
+
+.survey-group label {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.survey-form input[type="text"],
+.survey-form input[type="tel"],
+.survey-form select,
+.survey-form textarea {
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 4px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #fafafa;
+}
+
+.survey-form textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.survey-form input:focus,
+.survey-form select:focus,
+.survey-form textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(15, 61, 62, 0.05);
+}
+
+.radio-group {
+  display: flex;
+  gap: 3rem;
+  padding: 0.5rem 0;
+}
+
+.radio-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.radio-item input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-primary);
+}
+
+.survey-actions {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .survey-modal {
+    padding: 1rem;
+  }
+  .modal-content {
+    border-radius: 0;
+  }
+  .survey-inner {
+    padding: 3rem 1.5rem;
+  }
+  .survey-grid {
+    grid-template-columns: 1fr;
+  }
+  .survey-group.full-width {
+    grid-column: span 1;
+  }
+  .radio-group {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }

@@ -53,10 +53,11 @@
             <p class="hero-label">Chương trình tìm hiểu bản thân</p>
             <h1><i>Thấu hiểu chính mình là khởi đầu của sự khôn ngoan.</i></h1>
             <p class="hero-description">
-              Khám phá bản thân qua các bài trắc nghiệm tính cách chuẩn khoa học. Nhận báo cáo phân tích chi tiết và lộ trình toàn diện để cải thiện kỹ năng, từ đó xây dựng định hướng phát triển nhân cách lâu dài.
+              Hành trình thấu hiểu chính mình không phải là một đích đến, mà là sự nỗ lực kiên định mỗi ngày. Chúng tôi đồng hành cùng bạn khám phá những góc khuất của tâm trí, để từ đó, mỗi cá nhân có thể tự tin bước đi bằng chính đôi chân và bản sắc thực sự của mình.
             </p>
             <div class="hero-actions">
               <a href="#trac-nghiem" class="btn-primary">Lộ trình thấu hiểu</a>
+              <button type="button" class="btn-secondary" id="open-survey">Làm khảo sát nhanh</button>
             </div>
           </div>
           <div class="hero-visual">
@@ -84,7 +85,7 @@
           <div class="mission-separator"></div>
           <div class="mission-right">
             <p class="mission-text">
-              "Đội ngũ The Lifeskill Hub cam kết cống hiến giá trị cho cộng đồng người Việt. Chúng tôi tin rằng mỗi cá nhân khi thực sự hiểu mình sẽ là một tế bào khỏe mạnh của xã hội. Việc hỗ trợ khai vấn miễn phí là cách chúng tôi đồng hành cùng bạn tìm thấy ý nghĩa cuộc sống."
+              "Chúng tôi tin rằng khi một người đủ can đảm để nhìn sâu vào bản thân, họ không chỉ tìm thấy những hạn chế, mà còn chạm tới những hạt giống tiềm năng chưa được khai phá. Sứ mệnh của chúng tôi là trao đi những công cụ chân thực nhất, để bạn không còn cảm thấy lạc lõng trên hành trình khẳng định giá trị cá nhân giữa thế giới đầy biến động."
             </p>
           </div>
         </div>
@@ -106,10 +107,9 @@
                 <h3>Đăng ký nhận khai vấn</h3>
                 <p>Khởi đầu hành trình bằng việc đăng ký tư vấn chuyên sâu. Đội ngũ chuyên viên sẽ kết nối trực tiếp qua Zalo để thấu hiểu nhu cầu và sắp xếp lịch hẹn cá nhân hóa cho bạn.</p>
               </div>
-              <div class="card-footer">
+              <a href="#dang-ky" class="card-footer">
                 <span>Đăng kí ngay</span>
-                <span class="footer-arrow">→</span>
-              </div>
+              </a>
             </div>
             <div class="journey-card-v2">
               <div class="card-media">
@@ -122,7 +122,6 @@
               </div>
               <div class="card-footer">
                 <span>Kết nối Zalo</span>
-                <span class="footer-arrow">→</span>
               </div>
             </div>
             <div class="journey-card-v2">
@@ -136,7 +135,6 @@
               </div>
               <div class="card-footer">
                 <span>60 phút chuyên sâu</span>
-                <span class="footer-arrow">→</span>
               </div>
             </div>
             <div class="journey-card-v2">
@@ -148,17 +146,16 @@
                 <h3>Công cụ & tài liệu</h3>
                 <p>Tiếp cận hệ thống tài liệu và công cụ bổ trợ được cá nhân hóa, giúp bạn tối ưu hóa thế mạnh và phát triển bền vững.</p>
               </div>
-              <div class="card-footer">
+              <a href="#blog" class="card-footer">
                 <span>Xem thêm</span>
-                <span class="footer-arrow">→</span>
-              </div>
+              </a>
             </div>
           </div>
         </div>
       </section>
 
 
-      <section class="testimonials-editorial">
+      <section class="testimonials-editorial" id="blog">
         <div class="container">
           <header class="section-head section-head--center">
             <h2 class="testimonial-title"><i>Người tham gia nói gì về hành trình thấu hiểu</i></h2>
@@ -193,6 +190,71 @@
           </div>
         </div>
       </section>
+
+      <!-- SURVEY MODAL -->
+      <div class="survey-modal" id="survey-modal">
+        <div class="modal-content">
+          <button type="button" class="modal-close" id="close-survey">&times;</button>
+          <div class="survey-inner">
+            <header class="section-head section-head--center">
+              <p class="mission-label">CHÚNG MÌNH MUỐN LẮNG NGHE BẠN</p>
+              <h2>Một vài câu hỏi nhỏ để chúng mình hiểu nhau hơn</h2>
+              <p class="section-lead">Thật ra, mỗi câu trả lời của bạn là một bước giúp chúng mình chuẩn bị lộ trình tốt nhất cho bạn.</p>
+            </header>
+
+            <form class="survey-form" id="survey-form" novalidate>
+              <div class="survey-grid">
+                <!-- Thông tin cơ bản -->
+                <div class="survey-group">
+                  <label for="s-fullname">HỌ VÀ TÊN</label>
+                  <input type="text" id="s-fullname" name="fullname" placeholder="Tên của bạn là..." required />
+                </div>
+                <div class="survey-group">
+                  <label for="s-phone">SỐ ĐIỆN THOẠI / ZALO</label>
+                  <input type="tel" id="s-phone" name="phone" placeholder="Để chúng mình tiện kết nối nhé" required />
+                </div>
+
+                <!-- Câu hỏi khảo sát -->
+                <div class="survey-group full-width">
+                  <label>Bạn đã trên 18 tuổi chưa? 🔞</label>
+                  <div class="radio-group">
+                    <label class="radio-item"><input type="radio" name="is_over_18" value="true" required> Rồi nè</label>
+                    <label class="radio-item"><input type="radio" name="is_over_18" value="false"> Chưa đâu</label>
+                  </div>
+                </div>
+
+                <div class="survey-group full-width">
+                  <label for="s-concerns">Bạn đang lo lắng về vấn đề gì nhất hiện tại? 😟</label>
+                  <textarea id="s-concerns" name="concerns" placeholder="Đơn giản thôi, bạn cứ chia sẻ thật lòng những gì đang làm bạn mông lung nhé..." required></textarea>
+                </div>
+
+                <div class="survey-group">
+                  <label>Bạn có ngại khi phải khai vấn 1:1 không? 🤐</label>
+                  <div class="radio-group">
+                    <label class="radio-item"><input type="radio" name="is_hesitant" value="true" required> Có một chút</label>
+                    <label class="radio-item"><input type="radio" name="is_hesitant" value="false"> Không hề nè</label>
+                  </div>
+                </div>
+
+                <div class="survey-group">
+                  <label>Bạn thích nói chuyện trực tiếp hay online? ☕</label>
+                  <select id="s-preference" name="preference" required>
+                    <option value="">Chọn một phương án...</option>
+                    <option value="offline">Gặp trực tiếp (nếu có thể)</option>
+                    <option value="online">Nói chuyện Online cho tiện</option>
+                    <option value="both">Cả hai đều được</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="survey-actions">
+                <button type="submit" class="btn-primary" id="survey-submit">Gửi tâm tư cho The Lifeskill Hub nhé ^^</button>
+              </div>
+              <p class="form-message" id="survey-message" role="status" aria-live="polite" hidden></p>
+            </form>
+          </div>
+        </div>
+      </div>
 
       <section class="cta-banner-dark" id="dang-ky">
         <div class="container cta-banner-inner">
@@ -418,6 +480,116 @@
               siteNav.classList.remove("is-open");
               navToggle.setAttribute("aria-expanded", "false");
             });
+          });
+        }
+
+        // --- MODAL LOGIC ---
+        var surveyModal = document.getElementById("survey-modal");
+        var openSurveyBtn = document.getElementById("open-survey");
+        var closeSurveyBtn = document.getElementById("close-survey");
+
+        if (surveyModal && openSurveyBtn && closeSurveyBtn) {
+          var isSubmitted = false;
+          var reShowTimeout;
+
+          // Function to open modal
+          var openModal = function () {
+            if (isSubmitted) return;
+            surveyModal.classList.add("is-open");
+            document.body.style.overflow = "hidden";
+          };
+
+          // Function to close modal
+          var closeModal = function () {
+            surveyModal.classList.remove("is-open");
+            document.body.style.overflow = "";
+            
+            // Re-show after 10s if not submitted
+            if (!isSubmitted) {
+              clearTimeout(reShowTimeout);
+              reShowTimeout = setTimeout(function () {
+                openModal();
+              }, 10000);
+            }
+          };
+
+          openSurveyBtn.addEventListener("click", openModal);
+          closeSurveyBtn.addEventListener("click", closeModal);
+
+          // Auto-show after 3 seconds (only once per session)
+          if (!sessionStorage.getItem("surveyAutoShown")) {
+            setTimeout(function () {
+              openModal();
+              sessionStorage.setItem("surveyAutoShown", "true");
+            }, 3000);
+          }
+
+          // Close on overlay click
+          surveyModal.addEventListener("click", function (e) {
+            if (e.target === surveyModal) {
+              closeModal();
+            }
+          });
+
+          // Global access to mark as submitted
+          window.markSurveyAsSubmitted = function() {
+            isSubmitted = true;
+            clearTimeout(reShowTimeout);
+          };
+        }
+
+        // --- SURVEY FORM LOGIC ---
+        var surveyForm = document.getElementById("survey-form");
+        var surveyMsg = document.getElementById("survey-message");
+        var surveyBtn = document.getElementById("survey-submit");
+
+        if (surveyForm && surveyMsg && surveyBtn) {
+          surveyForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            clearFormMessage(surveyMsg);
+
+            if (!surveyForm.reportValidity()) return;
+
+            var originalBtnText = surveyBtn.textContent;
+            surveyBtn.disabled = true;
+            surveyBtn.textContent = "Đang gửi tâm tư...";
+
+            var formData = new FormData(surveyForm);
+            var payload = {
+              full_name: formData.get("fullname"),
+              phone: formData.get("phone"),
+              is_over_18: formData.get("is_over_18") === "true",
+              concerns: formData.get("concerns"),
+              is_hesitant_11: formData.get("is_hesitant") === "true",
+              meeting_preference: formData.get("preference"),
+            };
+
+            client
+              .from("surveys")
+              .insert(payload)
+              .then(function (res) {
+                surveyBtn.disabled = false;
+                surveyBtn.textContent = originalBtnText;
+                if (res.error) {
+                  console.error("Survey Error:", res.error);
+                  setFormMessage(surveyMsg, "Ôi, có lỗi một chút: " + res.error.message, "error");
+                } else {
+                  if (typeof window.markSurveyAsSubmitted === "function") {
+                    window.markSurveyAsSubmitted();
+                  }
+                  setFormMessage(
+                    surveyMsg,
+                    "Cảm ơn bạn đã tin tưởng chia sẻ cùng chúng mình! The Lifeskill Hub đã nhận được tâm tư của bạn và sẽ sớm phản hồi thôi. Bạn vất vả rồi, cứ yên tâm nhé! 🐼❤️",
+                    "success"
+                  );
+                  surveyForm.reset();
+                }
+              })
+              .catch(function (err) {
+                surveyBtn.disabled = false;
+                surveyBtn.textContent = originalBtnText;
+                setFormMessage(surveyMsg, "Lỗi kết nối rồi, bạn thử lại giúp mình nhé!", "error");
+              });
           });
         }
       })();
