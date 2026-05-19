@@ -1,40 +1,43 @@
-# Kế Hoạch Nội Dung 7 Ngày (Content Plan) - Dịch vụ Coach 1:1
+# Chiến Dịch 7 Ngày: "Tìm Lại Bản Sắc" (Kéo Waitlist Form)
 
-**Dự án:** The Lifeskill Hub
-**Người thực hiện:** Daniel & Amy
-**Đối tượng mục tiêu:** Sinh viên và người đi làm (18-35 tuổi) đang mông lung về định hướng.
-
----
-
-## 1. Phân Tích Khách Hàng (3 Nỗi Đau Lớn Nhất)
-
-1.  **Sợ "Sai" và "Mất thời gian":** Cảm giác lo sợ rằng mình đang đầu tư công sức vào một ngành nghề không phù hợp, dẫn đến việc lãng phí những năm tháng thanh xuân quý giá nhất.
-2.  **Hội chứng "Kém cỏi" (Imposter Syndrome):** Thường xuyên so sánh bản thân với "con nhà người ta" trên mạng xã hội, cảm thấy mình dậm chân tại chỗ trong khi thế giới đang chạy quá nhanh.
-3.  **Bội thực thông tin nhưng thiếu sự thấu hiểu cá nhân:** Đã đọc rất nhiều sách, học nhiều khóa học nhưng vẫn không thấy áp dụng được cho chính mình, vì không ai chỉ ra được "nút thắt" riêng biệt của họ là gì.
+**Mục tiêu:** Thu hút sự quan tâm và đăng ký vào danh sách chờ (Waitlist) qua Form khảo sát trên Website.
+**Đối tượng:** Sinh viên & Người đi làm (18-35) đang mông lung.
 
 ---
 
-## 2. Lịch Đăng Bài 7 Ngày
+## 📅 Lịch Trình Chi Tiết
 
-| Ngày | Chủ đề bài viết | Mục tiêu | CTA (Lời kêu gọi hành động) |
+| Ngày | Kênh & Tone | Chủ đề & Nội dung | Mục tiêu |
 | :--- | :--- | :--- | :--- |
-| **1** | **Tương tác thấu cảm:** "Thức dậy lúc 7h30 và nỗi sợ lạc đường." | Kết nối, phá vỡ rào cản bằng sự chân thành. | "Thử xem... bạn có đang thấy giống mình không? Chia sẻ ở dưới nhé." |
-| **2** | **Kiến thức chuyên môn:** "Tại sao trắc nghiệm tính cách thôi là chưa đủ?" | Xây dựng uy tín, khẳng định giá trị của Coaching. | "Đọc thêm về lộ trình thấu hiểu tại đây: [Link Website]" |
-| **3** | **Tình huống thực tế (Story):** "Câu chuyện về một bạn trẻ đã tìm lại bản sắc sau 6 buổi coach." | Chứng minh hiệu quả thực tế (Social Proof). | "Chúng mình cùng đi nhanh hơn tại đây: [Link Website]" |
-| **4** | **Cảnh báo sai lầm:** "3 cái bẫy khi tự mình loay hoay tìm định hướng." | Xây dựng niềm tin, giúp khách hàng nhận ra nhu cầu cần Coach. | "Đừng để thanh xuân trôi qua trong hối tiếc. Nhắn tin cho chúng mình nhé." |
-| **5** | **Triết lý dịch vụ:** "Tại sao chúng mình chọn Coach 1:1 thay vì bán khóa học đại trà?" | Tạo sự khác biệt, định vị thương hiệu (Positioning). | "Tìm hiểu về triết lý của The Lifeskill Hub tại: [Link Website]" |
-| **6** | **Giải đáp thắc mắc (Q&A):** "Khai vấn có phải là dạy đời không?" | Giải tỏa lo ngại, làm rõ khái niệm khai vấn chuyên nghiệp. | "Bạn có thắc mắc nào khác không? Thử xem... nhắn cho mình ngay nha." |
-| **7** | **Lời mời gọi chân thành:** "Một cái ôm cho tâm trí và tấm vé đi thẳng tới bản sắc của bạn." | Chốt lịch khai vấn (Conversion). | "Làm là sẽ được. Đăng ký buổi khai vấn đầu tiên tại đây: [Link Website]" |
+| **1** | **FB (Gần gũi):** | "Thức dậy lúc 7h30 và nỗi sợ lạc đường." (Câu chuyện ngủ nướng & cảm giác mông lung). | Tạo sự thấu cảm. |
+| | **TikTok (Hài hước):** | Clip ngắn: "Khi bạn đọc hết 10 cuốn sách self-help nhưng vẫn không biết mình là ai." | Gây tò mò. |
+| | **LinkedIn (Sắc bén):** | Tại sao "tự bơi" trong biển kiến thức lại là cách nhanh nhất để kiệt sức? | Định vị chuyên gia. |
+| **2** | **FB (Nghiêm nghị):** | Giải mã 3 "nút thắt" tâm lý khiến bạn trì hoãn dù rất muốn thay đổi. | Trao giá trị tri thức. |
+| | **IG/TikTok (Đời):** | POV: Một buổi sáng loay hoay giữa hàng tá sự lựa chọn nghề nghiệp. | Chạm vào nỗi đau. |
+| | **FB (Tương tác):** | "Nếu chỉ được chọn một điều để thay đổi ngay bây giờ, bạn chọn gì?" | Thu thập insights. |
+| **3** | **FB (Câu chuyện):** | "Hành trình từ 'kẻ nghiện khóa học' đến người thấu suốt bản thân" (Kể về trải nghiệm của Amy). | Xây dựng niềm tin. |
+| | **TikTok (Tips):** | 3 câu hỏi mở bạn nên tự hỏi mình thay vì hỏi "Tại sao?". | Khơi gợi nhu cầu Coach. |
+| | **Blog/Web (Sâu):** | Khai vấn 1:1 khác gì với việc đi học một khóa học đại trà? | Phân loại khách hàng. |
+| **4** | **FB (Sắc sảo):** | Cảnh báo: "Bẫy an toàn" và lý do bạn mãi không dám khẳng định giá trị bản thân. | Thách thức tư duy cũ. |
+| | **TikTok (POV):** | "Đừng đợi đến lúc kiệt sức mới tìm người đồng hành." | Thúc đẩy hành động. |
+| | **IG (Thẩm mỹ):** | Quote: "Thật ra, đơn giản thôi, bạn không cần phải hoàn hảo để bắt đầu." | Truyền cảm hứng. |
+| **5** | **FB (Triết lý):** | "Chúng mình không bán khóa học, chúng mình trao đi sự thấu suốt." (Lý do chọn Coach 1:1). | Khẳng định bản sắc. |
+| | **TikTok (Behind):** | "Hậu trường" một buổi chuẩn bị tài liệu khai vấn cho học viên. | Chứng minh sự tận tâm. |
+| | **LinkedIn (Chuyên):** | Tầm quan trọng của sự thấu cảm trong quản trị nhân sự và phát triển cá nhân. | Thu hút người đi làm. |
+| **6** | **FB (Q&A):** | "Khai vấn có phải là dạy đời không?" (Giải đáp các lầm tưởng về Coaching). | Giải tỏa lo ngại. |
+| | **TikTok (Hài):** | "Phản ứng của bạn khi nhận ra 'nút thắt' của mình sau 60 phút nói chuyện." | Show hiệu quả. |
+| | **IG (Gần gũi):** | "Bạn vất vả rồi, hãy để chúng mình cùng bạn gỡ rối một chút nhé." | Giảm rào cản tâm lý. |
+| **7** | **FB (Chốt):** | "Một cái ôm cho tâm trí và tấm vé đi thẳng tới bản sắc của riêng bạn." (Lời mời đăng ký list chờ). | **Chốt đơn (Waitlist).** |
+| | **TikTok (Action):** | Hướng dẫn điền Form khảo sát để nhận lộ trình cá nhân hóa. | Hướng dẫn CTA. |
+| | **FB (Khích lệ):** | "Làm là sẽ được. Danh sách chờ đang dần lấp đầy, bạn tham gia chứ?" | Tạo hiệu ứng đám đông. |
 
 ---
 
-## 3. Brand Voice Checklist (Để Amy kiểm tra bài viết)
+## 🎯 Chiến thuật Call-to-Action (CTA) của Daniel
 
-- [ ] Có dùng các từ: *thật ra, đơn giản thôi, thử xem, bạn vất vả rồi, làm là sẽ được*?
-- [ ] Có xưng hô *mình - bạn* hoặc *chúng mình* không?
-- [ ] Có tránh các từ ngữ quá học thuật/corporate không?
-- [ ] Lập luận có sắc bén và đi thẳng vào sự thật không?
-- [ ] Có lồng ghép một chút sự hài hước nhẹ nhàng không?
+1.  **Giai đoạn đầu (Ngày 1-3):** Dùng CTA nhẹ nhàng: *"Thử xem... bạn có thấy mình trong đó không?"* hoặc *"Ghé chơi website của mình nhé."*
+2.  **Giai đoạn giữa (Ngày 4-6):** Dùng CTA mang tính gợi mở: *"Nếu bạn muốn đi nhanh hơn, thử xem lộ trình này nhé."*
+3.  **Giai đoạn cuối (Ngày 7):** Dùng CTA trực diện và đầy năng lượng: *"Làm là sẽ được. Điền Form để chúng mình bắt đầu hành trình ngay hôm nay nhé!"*
 
 ---
-*Ghi chú của Daniel: Bản kế hoạch này được thiết kế để tạo ra một hành trình cảm xúc cho độc giả, từ việc cảm thấy được thấu hiểu (Ngày 1) đến việc tin tưởng vào chuyên môn (Ngày 2, 3) và cuối cùng là dũng cảm hành động (Ngày 7).*
+*Ghi chú: Mỗi bài viết sẽ được Daniel tối ưu hóa ngữ pháp nhưng vẫn giữ nguyên những "từ khóa hạnh phúc" của Amy.*

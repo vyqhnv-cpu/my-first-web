@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>thelifeskillhub — Khám phá bản thân &amp; nâng tầm kỹ năng</title>
+    <link rel="icon" href="asset/favicon.png" type="image/png" />
     <meta
       name="description"
       content="Nền tảng trắc nghiệm tính cách và kỹ năng mềm: học mọi lúc mọi nơi, lộ trình thực tiễn và cộng đồng học viên."
@@ -211,7 +212,10 @@
                 </div>
                 <div class="survey-group">
                   <label for="s-phone">SỐ ĐIỆN THOẠI / ZALO</label>
-                  <input type="tel" id="s-phone" name="phone" placeholder="Để chúng mình tiện kết nối nhé" required />
+                  <div class="input-wrapper">
+                    <input type="tel" id="s-phone" name="phone" placeholder="Để chúng mình tiện kết nối nhé" required />
+                    <span class="error-text" id="s-phone-error">Vui lòng nhập số điện thoại hợp lệ (tối đa 10 số)</span>
+                  </div>
                 </div>
 
                 <!-- Câu hỏi khảo sát -->
@@ -460,9 +464,8 @@
               leadMsg
             ).then(function (ok) {
               if (ok) {
-                leadForm.reset();
-                if (phoneError) phoneError.classList.remove("show");
-                if (phoneInput) phoneInput.classList.remove("invalid");
+                // Redirect to thank-you page
+                window.location.href = "thank-you.html";
               }
             });
           });
@@ -516,12 +519,12 @@
           openSurveyBtn.addEventListener("click", openModal);
           closeSurveyBtn.addEventListener("click", closeModal);
 
-          // Auto-show after 3 seconds (only once per session)
+          // Auto-show after 60 seconds (only once per session)
           if (!sessionStorage.getItem("surveyAutoShown")) {
             setTimeout(function () {
               openModal();
               sessionStorage.setItem("surveyAutoShown", "true");
-            }, 3000);
+            }, 60000);
           }
 
           // Close on overlay click
@@ -544,9 +547,39 @@
         var surveyBtn = document.getElementById("survey-submit");
 
         if (surveyForm && surveyMsg && surveyBtn) {
+          var sPhoneInput = document.getElementById("s-phone");
+          var sPhoneError = document.getElementById("s-phone-error");
+
+          if (sPhoneInput && sPhoneError) {
+            sPhoneInput.addEventListener("input", function () {
+              // 1. Chỉ cho phép nhập chữ số
+              var val = this.value.replace(/\D/g, "");
+              // 2. Giới hạn tối đa 10 ký tự
+              if (val.length > 10) val = val.slice(0, 10);
+              this.value = val;
+
+              // 3. Kiểm tra định dạng (ví dụ: đủ 10 số)
+              if (val.length > 0 && val.length < 10) {
+                sPhoneError.classList.add("show");
+                this.classList.add("invalid");
+              } else {
+                sPhoneError.classList.remove("show");
+                this.classList.remove("invalid");
+              }
+            });
+          }
+
           surveyForm.addEventListener("submit", function (e) {
             e.preventDefault();
             clearFormMessage(surveyMsg);
+
+            // Kiểm tra tính hợp lệ trước khi gửi
+            if (sPhoneInput && (sPhoneInput.value.length < 10 || sPhoneInput.classList.contains("invalid"))) {
+              sPhoneError.classList.add("show");
+              sPhoneInput.classList.add("invalid");
+              sPhoneInput.focus();
+              return;
+            }
 
             if (!surveyForm.reportValidity()) return;
 
@@ -577,12 +610,8 @@
                   if (typeof window.markSurveyAsSubmitted === "function") {
                     window.markSurveyAsSubmitted();
                   }
-                  setFormMessage(
-                    surveyMsg,
-                    "Cảm ơn bạn đã tin tưởng chia sẻ cùng chúng mình! The Lifeskill Hub đã nhận được tâm tư của bạn và sẽ sớm phản hồi thôi. Bạn vất vả rồi, cứ yên tâm nhé! 🐼❤️",
-                    "success"
-                  );
-                  surveyForm.reset();
+                  // Redirect to thank-you page
+                  window.location.href = "thank-you.html";
                 }
               })
               .catch(function (err) {
@@ -594,5 +623,246 @@
         }
       })();
     </script>
+
+    <!-- CHATBOT WIDGET -->
+    <div class="chatbot-widget" id="chatbot-widget">
+      <!-- Toggle button -->
+      <button class="chatbot-toggle" id="chatbot-toggle" aria-label="Mở khung chat">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      </button>
+
+      <!-- Chat window -->
+      <div class="chatbot-window" id="chatbot-window">
+        <header class="chatbot-header">
+          <div class="chatbot-header-info">
+            <span class="chatbot-avatar">🐼</span>
+            <div>
+              <h3>The Lifeskill Hub</h3>
+              <span class="chatbot-status">Đang trực tuyến</span>
+            </div>
+          </div>
+          <button class="chatbot-close" id="chatbot-close" aria-label="Đóng khung chat">&times;</button>
+        </header>
+
+        <div class="chatbot-body" id="chatbot-body">
+          <div class="chatbot-messages" id="chatbot-messages">
+            <!-- Messages will be dynamically inserted here -->
+          </div>
+        </div>
+
+        <div class="chatbot-options" id="chatbot-options">
+          <p class="options-title">Chọn câu hỏi của bạn:</p>
+          <div class="options-grid" id="options-grid">
+            <!-- Questions as buttons -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        const salesScript = {
+          greeting: "Chào bạn nha! Tụi mình là The Lifeskill Hub đây. Dạo này bạn sao rồi, có đang thấy mông lung hay vướng mắc ở đâu không? Cứ thoải mái chia sẻ nhé, tụi mình ở đây để nghe bạn kể nè.",
+          faqs: [
+            {
+              q: "Hub có bán khóa học kỹ năng không?",
+              a: "Thiệt ra tụi mình không bán khóa học đại trà đâu. Mỗi người có một 'nút thắt' riêng nên học chung chung khó thấm lắm. Tụi mình tập trung vào khai vấn 1:1 để gỡ rối và xây dựng lộ trình dành riêng cho bạn thôi nè."
+            },
+            {
+              q: "Khai vấn 1:1 là làm gì vậy?",
+              a: "Đơn giản thôi, nó giống như một buổi nói chuyện cafe vậy đó. Tụi mình sẽ cùng bạn xem xét kết quả bài test tính cách, tìm ra điểm nghẽn khiến bạn hay trì hoãn hay mông lung. Tụi mình không dạy đời hay khuyên bảo cứng nhắc đâu, chỉ gợi mở để bạn tự tìm thấy bản sắc của mình thôi."
+            },
+            {
+              q: "Trắc nghiệm tính cách dùng công cụ gì?",
+              a: "Tụi mình kết hợp các công cụ khoa học như các bài test tính cách phổ biến để giúp bạn nhìn sâu vào bên trong. Bài test này sẽ chỉ ra cơ chế phòng vệ và lý do sâu xa khiến bạn hành xử theo thói quen cũ đó."
+            },
+            {
+              q: "Khóa khai vấn này có giá bao nhiêu?",
+              a: "Hiện tại buổi khai vấn đầu tiên (60 phút) để giải mã bài test tính cách đang được tụi mình hỗ trợ hoàn toàn miễn phí nhé! Tụi mình muốn trao đi công cụ chân thực nhất giúp bạn trước, sau đó nếu bạn muốn đồng hành sâu hơn thì tụi mình mới tính phí.",
+              cta: "chot-don"
+            },
+            {
+              q: "Mình chưa đủ 18 tuổi có tham gia được không?",
+              a: "Ôi, cảm ơn bạn đã quan tâm đến Hub nha. Nhưng khai vấn 1:1 sẽ hiệu quả nhất khi bạn từ 18 tuổi trở lên. Nếu bạn chưa đủ tuổi, tụi mình khuyên bạn nên bắt đầu bằng việc đọc các tài liệu miễn phí tụi mình chia sẻ trên web trước nhé. Đừng vội, cứ đi từng bước nhỏ thôi nè.",
+              cta: "khao-sat"
+            },
+            {
+              q: "Mình ngại nói chuyện với người lạ lắm...",
+              a: "Tụi mình hiểu cảm giác này mà, ai lúc đầu chia sẻ chuyện cá nhân cũng ngại hết. Bạn vất vả rồi, đừng quá lo lắng. Không gian của tụi mình hoàn toàn an toàn và không phán xét. Bạn cứ thoải mái mở lòng, nói tới đâu hay tới đó nha.",
+              cta: "chot-don"
+            },
+            {
+              q: "Khai vấn online hay offline vậy Hub?",
+              a: "Tụi mình linh hoạt lắm. Nếu bạn bận rộn thì mình gọi Google Meet/Zoom cho tiện. Còn nếu bạn thích không gian ấm cúng, mình có thể hẹn nhau ở một quán cafe yên tĩnh. Tùy bạn chọn nhé!",
+              cta: "chot-don"
+            },
+            {
+              q: "Làm sao nhận tài liệu phát triển bản thân?",
+              a: "Sau buổi khai vấn 1:1, dựa vào 'nút thắt' của riêng bạn, tụi mình sẽ chắt lọc và gửi tặng những đầu sách/tài liệu phù hợp nhất (như Khắc kỷ, Đứa trẻ bên trong...). Không gửi đại trà đâu, chỉ gửi thứ bạn thực sự cần thôi.",
+              cta: "chot-don"
+            },
+            {
+              q: "Đọc sách self-help không hiệu quả, coaching có khác gì không?",
+              a: "Lý thuyết sách vở ai cũng đọc được, nhưng áp dụng vào đời mình thì lại khó. Khai vấn 1:1 khác ở chỗ nó chỉ ra đúng điểm mù của riêng bạn. Đường cao tốc của người ta không dành cho mình thì tụi mình đi đường khác. Hub sẽ giúp bạn tìm ra con đường đó.",
+              cta: "chot-don"
+            },
+            {
+              q: "Nhỡ đăng ký rồi lại lười và bỏ cuộc thì sao?",
+              a: "Ngay cả tụi mình cũng có những lúc lười hay dậy muộn mà. Tụi mình không bắt bạn phải hoàn hảo ngay lập tức. Lộ trình của Hub chia thành từng bước rất nhỏ để bạn không bị ngợp. Làm là sẽ được, tụi mình sẽ đồng hành nhắc nhở bạn.",
+              cta: "chot-don"
+            }
+          ],
+          chotDon: "Tụi mình thấy bạn đã sẵn sàng gỡ rối rồi đó. Đừng ôm đồm mọi thứ một mình nữa nha. Điền nhanh thông tin vào form đăng ký để tụi mình sắp xếp lịch ngồi lại với nhau nhé. Tụi mình mong được gặp bạn lắm! ❤️",
+          khaoSat: "Không sao đâu nè, cứ từ từ suy nghĩ nha. Tìm lại bản sắc là hành trình dài mà. Cơ mà nếu được, bạn cứ làm trước cái khảo sát nhỏ xíu này (chưa tới 1 phút đâu), để tụi mình hiểu bạn đang vướng ở đâu. Biết đâu lúc nào đó bạn cần, tụi mình đã sẵn sàng lộ trình cho bạn rồi."
+        };
+
+        const toggleBtn = document.getElementById("chatbot-toggle");
+        const closeBtn = document.getElementById("chatbot-close");
+        const chatWindow = document.getElementById("chatbot-window");
+        const messagesContainer = document.getElementById("chatbot-messages");
+        const optionsGrid = document.getElementById("options-grid");
+        const chatBody = document.getElementById("chatbot-body");
+
+        let initialized = false;
+
+        function scrollToBottom() {
+          chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+          const indicator = document.createElement("div");
+          indicator.className = "typing-indicator";
+          indicator.id = "typing-indicator";
+          indicator.innerHTML = "<span></span><span></span><span></span>";
+          messagesContainer.appendChild(indicator);
+          scrollToBottom();
+          return indicator;
+        }
+
+        function removeTypingIndicator() {
+          const indicator = document.getElementById("typing-indicator");
+          if (indicator) indicator.remove();
+        }
+
+        function addMessage(text, sender) {
+          const msg = document.createElement("div");
+          msg.className = `chat-message ${sender}`;
+          msg.textContent = text;
+          messagesContainer.appendChild(msg);
+          scrollToBottom();
+          return msg;
+        }
+
+        function addCTALink(type) {
+          const btn = document.createElement("button");
+          btn.className = "chat-cta-btn";
+          if (type === "chot-don") {
+            btn.textContent = "Đăng ký khai vấn 1:1 miễn phí";
+            btn.onclick = function() {
+              chatWindow.classList.remove("is-open");
+              const target = document.getElementById("dang-ky");
+              if (target) target.scrollIntoView({ behavior: "smooth" });
+            };
+          } else if (type === "khao-sat") {
+            btn.textContent = "Làm khảo sát nhanh";
+            btn.onclick = function() {
+              chatWindow.classList.remove("is-open");
+              const modal = document.getElementById("survey-modal");
+              if (modal) {
+                modal.classList.add("is-open");
+                document.body.style.overflow = "hidden";
+              }
+            };
+          }
+          messagesContainer.appendChild(btn);
+          scrollToBottom();
+        }
+
+        function renderOptions() {
+          optionsGrid.innerHTML = "";
+          salesScript.faqs.forEach((faq, index) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.textContent = faq.q;
+            btn.onclick = function() {
+              handleUserSelection(faq);
+            };
+            optionsGrid.appendChild(btn);
+          });
+        }
+
+        function handleUserSelection(faq) {
+          // Hide options while processing
+          optionsGrid.style.pointerEvents = "none";
+          optionsGrid.style.opacity = "0.5";
+
+          // Add user message
+          addMessage(faq.q, "user");
+
+          // Show typing indicator
+          showTypingIndicator();
+
+          setTimeout(() => {
+            removeTypingIndicator();
+            
+            // Add bot reply
+            addMessage(faq.a, "bot");
+
+            // If question has specific CTA
+            if (faq.cta) {
+              setTimeout(() => {
+                if (faq.cta === "chot-don") {
+                  addMessage(salesScript.chotDon, "bot");
+                  addCTALink("chot-don");
+                } else if (faq.cta === "khao-sat") {
+                  addMessage(salesScript.khaoSat, "bot");
+                  addCTALink("khao-sat");
+                }
+              }, 600);
+            }
+
+            // Restore options
+            optionsGrid.style.pointerEvents = "auto";
+            optionsGrid.style.opacity = "1";
+          }, 1000);
+        }
+
+        function initChatbot() {
+          if (initialized) return;
+          initialized = true;
+          
+          showTypingIndicator();
+          setTimeout(() => {
+            removeTypingIndicator();
+            addMessage(salesScript.greeting, "bot");
+            renderOptions();
+          }, 800);
+        }
+
+        toggleBtn.addEventListener("click", () => {
+          const isOpen = chatWindow.classList.toggle("is-open");
+          if (isOpen) {
+            initChatbot();
+            scrollToBottom();
+          }
+        });
+
+        closeBtn.addEventListener("click", () => {
+          chatWindow.classList.remove("is-open");
+        });
+
+        // Auto-open chatbot window 2s after load
+        window.addEventListener("load", () => {
+          setTimeout(() => {
+            if (!chatWindow.classList.contains("is-open")) {
+              chatWindow.classList.add("is-open");
+              initChatbot();
+              scrollToBottom();
+            }
+          }, 2000);
+        });
+      })();
+    </script>
   </body>
 </html>
+
