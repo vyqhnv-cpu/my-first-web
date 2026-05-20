@@ -1,0 +1,7 @@
+{
+  "name": "my-first-web",
+  "version": "1.0.0",
+  "description": "My first web project with SePay integration",
+  "main": "index.html",
+  "dependencies": {}
+}
