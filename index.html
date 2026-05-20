@@ -29,7 +29,7 @@
           <a href="#mission">Sứ mệnh</a>
           <a href="#trac-nghiem">Lộ trình thấu hiểu</a>
           <a href="#blog">Blog</a>
-          <a href="#">Donate</a>
+          <a href="#" id="donate-link">Donate</a>
         </nav>
 
         <div class="header-tools">
@@ -623,6 +623,207 @@
         }
       })();
     </script>
+
+    <!-- PAYMENT MODAL SCRIPT (Independent of Supabase) -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var paymentModal = document.getElementById("payment-modal");
+        var donateLink = document.getElementById("donate-link");
+        var closePaymentBtn = document.getElementById("close-payment");
+        var qrImg = document.getElementById("payment-qr-img");
+        
+        var pollingInterval = null;
+        var sepayApiToken = "ID0HAQKQBSD63I4GHORCNY2A1XJPXU39A2ELRTMEDX4PWTKUQBCGI6OYCW8DPJLB"; // Nhập API Token của bạn ở đây
+
+        // Cấu hình tài khoản ngân hàng của bạn (Nhớ đổi lại thông tin thực tế)
+        var bankConfig = {
+          bank: "MB", // Tên viết tắt ngân hàng (ví dụ: MB, VCB, ACB, ICB, ...)
+          account: "0982286340", // Số tài khoản ngân hàng
+          name: "QUACH HAI NGOC VY" // Tên chủ tài khoản viết hoa không dấu
+        };
+
+        if (paymentModal && closePaymentBtn) {
+          var openPayment = function (amount, description) {
+            document.getElementById("payment-bank-name").textContent = bankConfig.bank;
+            document.getElementById("payment-acc-num").textContent = bankConfig.account;
+            document.getElementById("payment-acc-name").textContent = bankConfig.name;
+            document.getElementById("payment-amount").textContent = Number(amount).toLocaleString('vi-VN') + 'đ';
+            document.getElementById("payment-desc").textContent = description;
+            
+            // Tạo link VietQR động thông qua SePay
+            var qrUrl = "https://qr.sepay.vn/img?acc=" + bankConfig.account + 
+                        "&bank=" + bankConfig.bank + 
+                        "&amount=" + amount + 
+                        "&des=" + encodeURIComponent(description);
+            
+            qrImg.src = qrUrl;
+            
+            paymentModal.classList.add("is-open");
+            document.body.style.overflow = "hidden";
+            
+            // Kích hoạt lắng nghe thanh toán
+            startPaymentPolling(amount, description);
+          };
+
+          var closePayment = function () {
+            paymentModal.classList.remove("is-open");
+            document.body.style.overflow = "";
+            stopPaymentPolling();
+          };
+
+          function startPaymentPolling(amount, description) {
+            if (pollingInterval) clearInterval(pollingInterval);
+            
+            var spinner = document.querySelector("#payment-modal .spinner");
+            if (spinner) spinner.style.display = "inline-block";
+
+            var statusText = document.getElementById("payment-status-text");
+            if (statusText) {
+              statusText.textContent = "Đang chờ bạn quét mã thanh toán...";
+              statusText.style.color = "";
+            }
+
+            // Gọi API SePay mỗi 5 giây
+            pollingInterval = setInterval(function () {
+              if (sepayApiToken === "YOUR_API_TOKEN_HERE" || !sepayApiToken) {
+                console.warn("Chưa cấu hình API Token của SePay. Vui lòng cấu hình sepayApiToken.");
+                return;
+              }
+
+              // Sử dụng API lấy danh sách giao dịch có lọc theo tài khoản ngân hàng và số tiền nhận vào (thông qua proxy corsproxy.io để vượt lỗi CORS)
+              var apiTarget = "https://my.sepay.vn/userapi/transactions/list?account_number=" + bankConfig.account + 
+                              "&limit=10&amount_in=" + amount;
+              var url = "https://corsproxy.io/?url=" + encodeURIComponent(apiTarget);
+
+              fetch(url, {
+                headers: {
+                  "Authorization": "Bearer " + sepayApiToken,
+                  "Content-Type": "application/json"
+                }
+              })
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (data) {
+                if (data && data.transactions) {
+                  var found = false;
+                  for (var i = 0; i < data.transactions.length; i++) {
+                    var tx = data.transactions[i];
+                    // So khớp mã chuyển khoản trong nội dung giao dịch (không phân biệt hoa thường)
+                    var content = (tx.transaction_content || "").toUpperCase();
+                    if (content.indexOf(description.toUpperCase()) !== -1) {
+                      found = true;
+                      break;
+                    }
+                  }
+
+                  if (found) {
+                    handlePaymentSuccess();
+                  }
+                }
+              })
+              .catch(function (error) {
+                console.error("Lỗi khi kiểm tra giao dịch:", error);
+              });
+            }, 5000);
+          }
+
+          function stopPaymentPolling() {
+            if (pollingInterval) {
+              clearInterval(pollingInterval);
+              pollingInterval = null;
+            }
+          }
+
+          function handlePaymentSuccess() {
+            stopPaymentPolling();
+            
+            var spinner = document.querySelector("#payment-modal .spinner");
+            if (spinner) spinner.style.display = "none";
+
+            var statusText = document.getElementById("payment-status-text");
+            if (statusText) {
+              statusText.innerHTML = "<strong style='color: #10b981; font-size: 1.1rem; display: block; margin-top: 0.5rem;'>🎉 Thanh toán thành công! Đang chuyển hướng...</strong>";
+            }
+            
+            // Chuyển hướng sang trang cám ơn sau 2.5 giây
+            setTimeout(function () {
+              window.location.href = "thank-you.html";
+            }, 2500);
+          }
+
+          if (donateLink) {
+            donateLink.addEventListener("click", function (e) {
+              e.preventDefault();
+              var randomId = Math.floor(1000 + Math.random() * 9000);
+              var desc = "LSHDONATE" + randomId;
+              openPayment(2000, desc); // Mặc định quyên góp 2k để thử nghiệm
+            });
+          }
+
+          closePaymentBtn.addEventListener("click", closePayment);
+
+          paymentModal.addEventListener("click", function (e) {
+            if (e.target === paymentModal) {
+              closePayment();
+            }
+          });
+          
+          window.openPaymentModal = openPayment;
+          window.closePaymentModal = closePayment;
+        }
+      });
+    </script>
+
+    <!-- PAYMENT MODAL -->
+    <div class="payment-modal" id="payment-modal">
+      <div class="modal-content payment-modal-content">
+        <button type="button" class="modal-close" id="close-payment">&times;</button>
+        <div class="payment-inner">
+          <header class="section-head section-head--center">
+            <p class="mission-label">ỦNG HỘ / ĐÓNG GÓP</p>
+            <h2>Quét Mã QR Chuyển Khoản Tự Động</h2>
+            <p class="section-lead">Quét mã dưới đây bằng ứng dụng ngân hàng của bạn. Hệ thống sẽ tự động nhận diện và cập nhật giao dịch.</p>
+          </header>
+          
+          <div class="payment-details-container">
+            <div class="qr-container">
+              <img id="payment-qr-img" src="" alt="Mã VietQR" class="payment-qr-image" />
+              <div class="payment-loading">
+                <span class="spinner"></span>
+                <p id="payment-status-text">Đang chờ bạn quét mã thanh toán...</p>
+              </div>
+            </div>
+            
+            <div class="payment-info">
+              <div class="info-row">
+                <span class="info-label">Ngân hàng</span>
+                <strong class="info-value" id="payment-bank-name">MB Bank</strong>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Số tài khoản</span>
+                <strong class="info-value" id="payment-acc-num">0982286340</strong>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Tên tài khoản</span>
+                <strong class="info-value" id="payment-acc-name">QUACH HAI NGOC VY</strong>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Số tiền</span>
+                <strong class="info-value text-highlight" id="payment-amount">2.000đ</strong>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Nội dung chuyển khoản</span>
+                <div class="copy-container">
+                  <strong class="info-value highlight-code" id="payment-desc">LSHDONATE</strong>
+                  <button type="button" class="btn-copy" id="btn-copy-desc" onclick="navigator.clipboard.writeText(document.getElementById('payment-desc').innerText); alert('Đã sao chép nội dung chuyển khoản!')">Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- CHATBOT WIDGET -->
     <div class="chatbot-widget" id="chatbot-widget">
