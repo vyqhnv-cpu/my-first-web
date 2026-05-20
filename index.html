@@ -633,7 +633,6 @@
         var qrImg = document.getElementById("payment-qr-img");
         
         var pollingInterval = null;
-        var sepayApiToken = "ID0HAQKQBSD63I4GHORCNY2A1XJPXU39A2ELRTMEDX4PWTKUQBCGI6OYCW8DPJLB"; // Nhập API Token của bạn ở đây
 
         // Cấu hình tài khoản ngân hàng của bạn (Nhớ đổi lại thông tin thực tế)
         var bankConfig = {
@@ -683,24 +682,17 @@
               statusText.style.color = "";
             }
 
-            // Gọi API SePay mỗi 5 giây
+            // Gọi API SePay mỗi 5 giây (thông qua serverless function trên Vercel để tránh lỗi CORS và bảo mật Token)
             pollingInterval = setInterval(function () {
-              if (sepayApiToken === "YOUR_API_TOKEN_HERE" || !sepayApiToken) {
-                console.warn("Chưa cấu hình API Token của SePay. Vui lòng cấu hình sepayApiToken.");
-                return;
-              }
+              // Tự động chuyển hướng API về domain chính nếu đang chạy ở local / file:// để test dễ dàng
+              var host = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:"
+                ? "https://www.thelifeskillhub.com"
+                : "";
 
-              // Sử dụng API lấy danh sách giao dịch có lọc theo tài khoản ngân hàng và số tiền nhận vào (thông qua proxy corsproxy.io để vượt lỗi CORS)
-              var apiTarget = "https://my.sepay.vn/userapi/transactions/list?account_number=" + bankConfig.account + 
-                              "&limit=10&amount_in=" + amount;
-              var url = "https://corsproxy.io/?url=" + encodeURIComponent(apiTarget);
+              var url = host + "/api/transactions?account_number=" + bankConfig.account + 
+                        "&amount_in=" + amount;
 
-              fetch(url, {
-                headers: {
-                  "Authorization": "Bearer " + sepayApiToken,
-                  "Content-Type": "application/json"
-                }
-              })
+              fetch(url)
               .then(function (response) {
                 return response.json();
               })
