@@ -3,5 +3,12 @@
   "version": "1.0.0",
   "description": "My first web project with SePay integration",
   "main": "index.html",
-  "dependencies": {}
+  "scripts": {
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "express-basic-auth": "^1.2.0"
+  }
 }

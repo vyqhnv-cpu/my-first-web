@@ -5,3 +5,10 @@ Desktop.ini
 
 # Editor
 .vscode/
+
+# Dependencies
+node_modules/
+
+# Temporary files
+sqlite.zip
+temp_sqlite/

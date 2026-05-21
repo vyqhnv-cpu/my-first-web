@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <script>
+      window.onerror = function(message, source, lineno, colno, error) {
+        fetch('/log', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'error', message: message, source: source, lineno: lineno, colno: colno, stack: error ? error.stack : '' })
+        });
+      };
+      console.error = function(...args) {
+        fetch('/log', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'console.error', args: args.map(a => a instanceof Error ? a.stack : String(a)) })
+        });
+      };
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hệ Thống Quản Trị - The Lifeskill Hub</title>
+    <link rel="icon" href="../asset/favicon.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <h2>The Lifeskill Hub</h2>
+          <span class="badge">ADMIN</span>
+        </div>
+        <nav class="sidebar-nav">
+          <button class="nav-item active" data-target="products">
+            <span class="icon">💝</span> Gói ủng hộ
+          </button>
+          <button class="nav-item" data-target="customers">
+            <span class="icon">👥</span> Khách hàng
+          </button>
+          <button class="nav-item" data-target="orders">
+            <span class="icon">📋</span> Đơn hàng
+          </button>
+        </nav>
+        <div class="sidebar-footer">
+          <a href="/" class="btn-back-home">← Về trang chủ</a>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="main-header">
+          <div class="header-title">
+            <h1 id="page-title">Quản Lý Gói Ủng Hộ</h1>
+            <p id="page-desc">Xem, chỉnh sửa, thêm và xóa thông tin các gói ủng hộ (Donation) của Lifeskill Hub.</p>
+          </div>
+          <div class="header-actions">
+            <button id="btn-add-new" class="btn-primary">
+              <span class="icon-plus">+</span> Thêm Mới
+            </button>
+          </div>
+        </header>
+
+        <div class="content-body">
+          <!-- Panels -->
+          <section id="products" class="tab-panel active">
+            <div class="table-card">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Tên gói ủng hộ</th>
+                      <th>Giá trị (VNĐ)</th>
+                      <th>Mô tả</th>
+                      <th>Lượt khả dụng còn lại</th>
+                      <th class="actions-col">Hành động</th>
+                    </tr>
+                  </thead>
+                  <tbody id="products-table-body">
+                    <tr>
+                      <td colspan="6" class="loading-state">Đang tải dữ liệu sản phẩm...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section id="customers" class="tab-panel">
+            <div class="table-card">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Họ và Tên</th>
+                      <th>Số điện thoại</th>
+                      <th>Zalo / Facebook</th>
+                      <th>Ngày tham gia</th>
+                      <th class="actions-col">Hành động</th>
+                    </tr>
+                  </thead>
+                  <tbody id="customers-table-body">
+                    <tr>
+                      <td colspan="6" class="loading-state">Đang tải dữ liệu khách hàng...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section id="orders" class="tab-panel">
+            <div class="table-card">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Khách hàng</th>
+                      <th>Sản phẩm đặt mua</th>
+                      <th>Số tiền (VNĐ)</th>
+                      <th>Trạng thái</th>
+                      <th>Ngày đặt hàng</th>
+                      <th class="actions-col">Hành động</th>
+                    </tr>
+                  </thead>
+                  <tbody id="orders-table-body">
+                    <tr>
+                      <td colspan="7" class="loading-state">Đang tải danh sách đơn hàng...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <!-- Modal Form (Hidden by default) -->
+    <div id="form-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modal-title">Thêm Sản Phẩm Mới</h2>
+          <button type="button" class="btn-close-modal" id="btn-close-modal">&times;</button>
+        </div>
+        <form id="entity-form">
+          <div class="modal-body" id="modal-fields-container">
+            <!-- Dynamic Form Fields will be inserted here by JS -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" id="btn-cancel-modal">Hủy bỏ</button>
+            <button type="submit" class="btn-primary" id="btn-submit-form">Lưu thông tin</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Feedback Toast -->
+    <div id="toast-message" class="toast"></div>
+
+    <script src="admin.js"></script>
+  </body>
+</html>

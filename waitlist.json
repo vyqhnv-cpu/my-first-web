@@ -1,0 +1,32 @@
+[
+  {
+    "full_name": "Nguyen Van An",
+    "phone": "+84 912 345 678",
+    "zalo": "an.nguyen",
+    "registered_at": "2026-05-20T10:15:00+07:00"
+  },
+  {
+    "full_name": "Tran Thi Binh",
+    "phone": "+84 923 456 789",
+    "zalo": "binh.tran",
+    "registered_at": "2026-05-20T11:30:45+07:00"
+  },
+  {
+    "full_name": "Le Hoang Nam",
+    "phone": "+84 934 567 890",
+    "zalo": "nam.le",
+    "registered_at": "2026-05-20T12:05:12+07:00"
+  },
+  {
+    "full_name": "Pham Van Dung",
+    "phone": "+84 945 678 901",
+    "zalo": "dung.pham",
+    "registered_at": "2026-05-20T13:22:33+07:00"
+  },
+  {
+    "full_name": "Hoang Thi Hien",
+    "phone": "+84 956 789 012",
+    "zalo": "hien.hoang",
+    "registered_at": "2026-05-20T14:45:20+07:00"
+  }
+]
