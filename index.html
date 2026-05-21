@@ -469,7 +469,19 @@
             ).then(function (ok) {
               if (ok) {
                 // Redirect to thank-you page
-                window.location.href = "thank-you.html";
+                                // Ra lệnh gửi email
+                fetch('/api/send-email', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ 
+                    to_email: emailInput.value.trim(), 
+                    user_name: fullnameInput.value.trim(), 
+                    form_type: 'Khai Vấn' 
+                  })
+                }).finally(function() {
+                  // Sau khi ra lệnh xong thì mới chuyển trang
+                  window.location.href = "thank-you.html";
+                });;
               }
             });
           });
@@ -616,7 +628,19 @@
                     window.markSurveyAsSubmitted();
                   }
                   // Redirect to thank-you page
-                  window.location.href = "thank-you.html";
+                                    // Ra lệnh gửi email
+                  fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                      to_email: payload.email, 
+                      user_name: payload.full_name, 
+                      form_type: 'Khảo Sát' 
+                    })
+                  }).finally(function() {
+                    // Sau khi ra lệnh xong thì mới chuyển trang
+                    window.location.href = "thank-you.html";
+                  });;
                 }
               })
               .catch(function (err) {

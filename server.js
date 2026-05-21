@@ -5,6 +5,11 @@ const express = require('express');
 const basicAuth = require('express-basic-auth');
 const path = require('path');
 const { supabase } = require('./lib/supabase');
+const { Resend } = require('resend');
+
+// Khởi tạo Resend
+// Thay chữ 'API_KEY_CUA_BAN' bằng đoạn mã trong file resend_config.txt của bạn nhé
+const resend = new Resend('re_Yh2eBit5_B4trFa1cYnoKNFPGwHmBEK8C');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -90,7 +95,36 @@ app.post('/api/public-donate', async (req, res) => {
     return res.status(500).json({ error: e.message || 'Server error' });
   }
 });
+// API Tự động gửi email cảm ơn
+app.post('/api/send-email', async (req, res) => {
+  const { to_email, user_name, form_type } = req.body;
+  
+  // Kiểm tra nếu người dùng không nhập email thì bỏ qua
+  if (!to_email) {
+    return res.status(400).json({ error: 'Không có email' });
+  }
 
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'onboarding@resend.dev', // Ghi chú: Lúc mới tạo, Resend bắt buộc dùng email từ địa chỉ này để test
+      to: to_email, // Gửi tới email của người dùng nhập trong form
+      subject: `Cảm ơn bạn đã điền form ${form_type}!`,
+      html: `
+        <p>Chào <strong>${user_name}</strong>,</p>
+        <p>Cảm ơn bạn đã dành thời gian điền form <b>${form_type}</b> tại The Lifeskill Hub.</p>
+        <p>Chúng tôi đã ghi nhận thông tin của bạn thành công và sẽ liên hệ lại sớm nhất có thể.</p>
+        <p>Chúc bạn một ngày tốt lành!<br><i>Đội ngũ The Lifeskill Hub</i></p>
+      `
+    });
+
+    if (error) {
+      return res.status(400).json({ error });
+    }
+    res.json({ success: true, data });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 // Protect admin static folder
 app.use('/admin', authMiddleware, express.static(path.join(__dirname, 'admin')));
 
