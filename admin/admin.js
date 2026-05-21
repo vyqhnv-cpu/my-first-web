@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fields: [
         { name: 'full_name', label: 'Họ và Tên', type: 'text', required: true },
         { name: 'phone', label: 'Số điện thoại', type: 'tel', required: true },
+        { name: 'email', label: 'Email', type: 'email', required: false },
         { name: 'zalo', label: 'Link Zalo / Facebook / Ghi chú', type: 'text', required: false }
       ]
     },
@@ -191,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tbody.innerHTML = '';
     
     if (customersCache.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Danh sách khách hàng đang trống.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7" class="empty-state">Danh sách khách hàng đang trống.</td></tr>`;
       return;
     }
     
@@ -201,6 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${cust.id}</td>
         <td><strong>${cust.full_name}</strong></td>
         <td>${cust.phone}</td>
+        <td>${cust.email || '<span class="text-muted">Không có</span>'}</td>
         <td>${cust.zalo || '<span class="text-muted">Không có</span>'}</td>
         <td>${formatDate(cust.registered_at)}</td>
         <td class="actions-col">

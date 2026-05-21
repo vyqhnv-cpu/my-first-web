@@ -217,6 +217,10 @@
                     <span class="error-text" id="s-phone-error">Vui lòng nhập số điện thoại hợp lệ (tối đa 10 số)</span>
                   </div>
                 </div>
+                <div class="survey-group">
+                  <label for="s-email">EMAIL</label>
+                  <input type="email" id="s-email" name="email" placeholder="Email của bạn..." />
+                </div>
 
                 <!-- Câu hỏi khảo sát -->
                 <div class="survey-group full-width">
@@ -591,6 +595,7 @@
             var payload = {
               full_name: formData.get("fullname"),
               phone: formData.get("phone"),
+              email: formData.get("email"),
               is_over_18: formData.get("is_over_18") === "true",
               concerns: formData.get("concerns"),
               is_hesitant_11: formData.get("is_hesitant") === "true",

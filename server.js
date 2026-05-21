@@ -47,7 +47,8 @@ app.post('/api/public-donate', async (req, res) => {
         .insert({
           full_name,
           phone,
-          zalo: email ? `Email: ${email}` : null,
+          email: email || null,
+          zalo: null,
           registered_at: new Date().toISOString(),
         })
         .select('id')

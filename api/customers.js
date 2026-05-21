@@ -24,13 +24,14 @@ module.exports = () => {
 
   // POST create customer
   router.post('/', async (req, res) => {
-    const { full_name, phone, zalo, registered_at } = req.body;
+    const { full_name, phone, zalo, email, registered_at } = req.body;
     const { data, error } = await supabase
       .from('customers')
       .insert({
         full_name,
         phone,
         zalo,
+        email,
         registered_at: registered_at || new Date().toISOString(),
       })
       .select('id')
@@ -42,10 +43,10 @@ module.exports = () => {
   // PUT update customer
   router.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const { full_name, phone, zalo, registered_at } = req.body;
+    const { full_name, phone, zalo, email, registered_at } = req.body;
     const { error } = await supabase
       .from('customers')
-      .update({ full_name, phone, zalo, registered_at })
+      .update({ full_name, phone, zalo, email, registered_at })
       .eq('id', id);
     if (error) return res.status(500).json({ error: error.message });
     res.json({ success: true });
