@@ -97,6 +97,7 @@ app.use('/admin', authMiddleware, express.static(path.join(__dirname, 'admin')))
 app.use('/api/products', require('./api/products')());
 app.use('/api/customers', require('./api/customers')());
 app.use('/api/orders', require('./api/orders')());
+app.use('/api/transactions', require('./api/transactions'));
 
 // Static assets
 app.use('/asset', express.static(path.join(__dirname, 'asset')));
