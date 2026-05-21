@@ -1,86 +1,71 @@
 // api/public-donate.js
-// Vercel serverless function handling public donation requests
-// This endpoint does NOT require authentication.
-// It mirrors the logic previously in server.js's /api/public-donate route.
+// Serverless function for public donation using Supabase (CommonJS)
 
-const path = require('path');
-const sqlite3 = require('sqlite3').verbose();
+const { supabase } = require('../lib/supabase');
 
-// Resolve DB path (same as server.js)
-const dbPath = path.join(__dirname, '..', 'my-brain', 'brain.db');
-const db = new sqlite3.Database(dbPath, err => {
-  if (err) console.error('Failed to open DB:', err);
-});
-
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method Not Allowed' });
     return;
   }
-
   const { full_name, phone, email, amount, product_id } = req.body || {};
   if (!full_name || !phone || !amount || !product_id) {
     res.status(400).json({ error: 'Thiếu thông tin bắt buộc!' });
     return;
   }
-
-  // Find or create customer then create order
-  db.get('SELECT id FROM customers WHERE phone = ?', [phone], (err, row) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
+  try {
+    // Find or create customer
+    let { data: customer, error } = await supabase
+      .from('customers')
+      .select('id')
+      .eq('phone', phone)
+      .single();
+    if (error && error.code !== 'PGRST116') throw error;
+    if (!customer) {
+      const { data: newCust, error: err } = await supabase
+        .from('customers')
+        .insert({
+          full_name,
+          phone,
+          zalo: email ? `Email: ${email}` : null,
+          registered_at: new Date().toISOString(),
+        })
+        .select('id')
+        .single();
+      if (err) throw err;
+      customer = newCust;
     }
-    const handleOrderCreation = customerId => {
-      const orderDate = new Date().toISOString();
-      db.serialize(() => {
-        db.run('BEGIN TRANSACTION');
-        db.get('SELECT stock FROM products WHERE id = ?', [product_id], (err, product) => {
-          if (err) {
-            db.run('ROLLBACK');
-            res.status(500).json({ error: err.message });
-            return;
-          }
-          if (!product) {
-            db.run('ROLLBACK');
-            res.status(404).json({ error: 'Gói ủng hộ không tồn tại!' });
-            return;
-          }
-          // Decrease stock
-          db.run('UPDATE products SET stock = MAX(0, stock - 1) WHERE id = ?', [product_id], err => {
-            if (err) {
-              db.run('ROLLBACK');
-              res.status(500).json({ error: err.message });
-              return;
-            }
-            const stmt = db.prepare('INSERT INTO orders (customer_id, product_id, amount, status, order_date) VALUES (?,?,?,?,?)');
-            stmt.run([customerId, product_id, amount, 'pending', orderDate], function (err) {
-              if (err) {
-                db.run('ROLLBACK');
-                res.status(500).json({ error: err.message });
-                return;
-              }
-              db.run('COMMIT');
-              res.json({ success: true, order_id: this.lastID });
-            });
-            stmt.finalize();
-          });
-        });
-      });
-    };
-
-    if (row) {
-      handleOrderCreation(row.id);
-    } else {
-      const registeredAt = new Date().toISOString();
-      const stmt = db.prepare('INSERT INTO customers (full_name, phone, zalo, registered_at) VALUES (?,?,?,?)');
-      stmt.run([full_name, phone, email ? `Email: ${email}` : '', registeredAt], function (err) {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        handleOrderCreation(this.lastID);
-      });
-      stmt.finalize();
-    }
-  });
+    // Validate product stock
+    const { data: product, error: prodErr } = await supabase
+      .from('products')
+      .select('stock')
+      .eq('id', product_id)
+      .single();
+    if (prodErr) throw prodErr;
+    if (!product) return res.status(404).json({ error: 'Gói ủng hộ không tồn tại!' });
+    if (product.stock <= 0) return res.status(400).json({ error: 'Hết hàng' });
+    // Decrease stock
+    const { error: decErr } = await supabase
+      .from('products')
+      .update({ stock: supabase.raw('stock - 1') })
+      .eq('id', product_id);
+    if (decErr) throw decErr;
+    // Insert order
+    const { data: order, error: orderErr } = await supabase
+      .from('orders')
+      .insert({
+        customer_id: customer.id,
+        product_id,
+        amount,
+        status: 'pending',
+        order_date: new Date().toISOString(),
+      })
+      .select('id')
+      .single();
+    if (orderErr) throw orderErr;
+    res.json({ success: true, order_id: order.id });
+  } catch (e) {
+    console.error('Donate error:', e);
+    res.status(500).json({ error: e.message || 'Server error' });
+  }
 };

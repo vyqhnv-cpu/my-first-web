@@ -1,0 +1,5 @@
+id,customer_id,product_id,amount,status,order_date
+1,6,1,20000,pending,2026-05-21T03:07:01.778Z
+2,7,1,20000,pending,2026-05-21T03:14:19.322Z
+3,7,1,20000,pending,2026-05-21T03:14:20.513Z
+4,7,1,20000,pending,2026-05-21T03:14:21.508Z

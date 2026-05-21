@@ -1,55 +1,62 @@
 // api/customers.js
-module.exports = (db) => {
+// Supabase version – no SQLite dependency
+
+const { supabase } = require('../lib/supabase');
+
+export default () => {
   const router = require('express').Router();
 
   // GET all customers
-  router.get('/', (req, res) => {
-    db.all('SELECT * FROM customers', [], (err, rows) => {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json(rows);
-    });
+  router.get('/', async (req, res) => {
+    const { data, error } = await supabase.from('customers').select('*');
+    if (error) return res.status(500).json({ error: error.message });
+    res.json(data);
   });
 
   // GET customer by id
-  router.get('/:id', (req, res) => {
-    const id = req.params.id;
-    db.get('SELECT * FROM customers WHERE id = ?', [id], (err, row) => {
-      if (err) return res.status(500).json({ error: err.message });
-      if (!row) return res.status(404).json({ error: 'Not found' });
-      res.json(row);
-    });
+  router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { data, error } = await supabase.from('customers').select('*').eq('id', id).single();
+    if (error) return res.status(500).json({ error: error.message });
+    if (!data) return res.status(404).json({ error: 'Not found' });
+    res.json(data);
   });
 
   // POST create customer
-  router.post('/', (req, res) => {
+  router.post('/', async (req, res) => {
     const { full_name, phone, zalo, registered_at } = req.body;
-    const stmt = db.prepare('INSERT INTO customers (full_name, phone, zalo, registered_at) VALUES (?,?,?,?)');
-    stmt.run([full_name, phone, zalo, registered_at || new Date().toISOString()], function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ id: this.lastID });
-    });
-    stmt.finalize();
+    const { data, error } = await supabase
+      .from('customers')
+      .insert({
+        full_name,
+        phone,
+        zalo,
+        registered_at: registered_at || new Date().toISOString(),
+      })
+      .select('id')
+      .single();
+    if (error) return res.status(500).json({ error: error.message });
+    res.json({ id: data.id });
   });
 
   // PUT update customer
-  router.put('/:id', (req, res) => {
-    const id = req.params.id;
+  router.put('/:id', async (req, res) => {
+    const { id } = req.params;
     const { full_name, phone, zalo, registered_at } = req.body;
-    const stmt = db.prepare('UPDATE customers SET full_name = ?, phone = ?, zalo = ?, registered_at = ? WHERE id = ?');
-    stmt.run([full_name, phone, zalo, registered_at, id], function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ changes: this.changes });
-    });
-    stmt.finalize();
+    const { error } = await supabase
+      .from('customers')
+      .update({ full_name, phone, zalo, registered_at })
+      .eq('id', id);
+    if (error) return res.status(500).json({ error: error.message });
+    res.json({ success: true });
   });
 
   // DELETE customer
-  router.delete('/:id', (req, res) => {
-    const id = req.params.id;
-    db.run('DELETE FROM customers WHERE id = ?', [id], function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ changes: this.changes });
-    });
+  router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { error } = await supabase.from('customers').delete().eq('id', id);
+    if (error) return res.status(500).json({ error: error.message });
+    res.json({ success: true });
   });
 
   return router;

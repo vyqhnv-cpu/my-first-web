@@ -7,7 +7,7 @@ Amy hãy dùng file này để chấm điểm và góp ý cho Daniel sau mỗi n
 | Ngày | Độ giống giọng Amy (1-10) | Phản hồi từ người xem | Cập nhật Brand Voice hôm nay | Nhận xét ngắn từ Amy |
 | :--- | :---: | :--- | :--- | :--- |
 | **1** |5| | |Khá phù hợp với yêu cầu của mình|
-| **2** | | | | |
+| **2** |6| 3 tương tác | Gần giống với mình | Tiến bộ hơn mỗi ngày |
 | **3** | | | | |
 | **4** | | | | |
 | **5** | | | | |

@@ -1,0 +1,29 @@
+--- BÀI ĐĂNG THÔNG BÁO HỆ THỐNG DONATE TỰ ĐỘNG (TONE: HÀO HỨNG, GẦN GŨI) ---
+
+Ê mấy bà ơi, tui vừa cập nhật “cái máy” mới cho The Lifeskill Hub! 🎉
+
+**Từ nay:**
+- **Donate tự động**: Các bà muốn mời Hub một ly cafe chỉ cần 1 click, ngay trên website – quét QR hoặc nhấn nút “Donate” là tiền về tài khoản tui trong tích tắc. 💸
+- **Quản lý đóng góp**: Hệ thống tự ghi lại tên, lời nhắn, số tiền, và trạng thái (đang chờ → đã nhận). 📦
+- **Dashboard khách hàng**: Mọi thông tin hỗ trợ, lịch sử donate được lưu ở một chỗ, mình chỉ mở một tab là biết hết. 👥
+
+Không cần rời web, không cần mở Excel, không cần chờ đợi – mọi thứ đều đồng bộ, nhanh gọn và an toàn. Tui nghĩ “rất” tiện lợi cho mấy bà muốn hỗ trợ Hub một ly cafe, hoặc tài trợ cho các buổi workshop.
+
+**Cảm giác**: Thật là “wow” khi thấy mọi thứ chạy trơn tru, tự động, còn mình vẫn có thời gian để ngồi nhâm nhi cafe và tư vấn trực tiếp cho khách. ☕️
+
+👉 **Check ngay** tại đây: [Link Website] (có nút “Donate ngay” và QR để quét).
+
+#TheLifeskillHub #DonateTựĐộng #QRPayment #QuảnLýĐóngGóp #BạnVấtVảRồi #LàmLàSẽĐược
+
+--- Image Banner Brief for Facebook (Day 10) ---
+
+- **Kích thước:** 1200 × 1200 px (tỷ lệ 1:1) – chuẩn hình ảnh chia sẻ trên Facebook.
+- **Phong cách:** Gần gũi, năng động, màu pastel nhẹ, ánh sáng ấm áp, đồng nhất với tone hào hứng.
+- **Thành phần chính:**
+  1. Logo The Lifeskill Hub phía trên‑trái, màu trắng.
+  2. Hình ảnh minh hoạ “QR code + smartphone” ở trung tâm, ánh sáng xanh nhạt.
+  3. Text overlay: “Donate tự động – 1 click, một ly cafe!” font Sans‑Serif, màu #2C3E50, size lớn.
+  4. Đánh dấu “Check ngay” ở góc dưới‑phải, màu #FF5722.
+- **Màu sắc chủ đạo:** #F5F5F5, #2C3E50, #FF5722, #00AEEF.
+- **Prompt (tiếng Anh) cho AI tạo banner:**
+  *"A modern, vibrant Facebook banner (1200x1200) featuring a sleek smartphone displaying a QR code, with a friendly chatbot icon floating nearby. Include The Lifeskill Hub logo top left, bold text 'Donate tự động – 1 click, một ly cafe!' in sans‑serif, pastel background, warm lighting, space for a 'Check ngay' button at bottom right. Clean, professional, approachable style."*
