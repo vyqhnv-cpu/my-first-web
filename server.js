@@ -67,7 +67,7 @@ app.post('/api/public-donate', async (req, res) => {
     // Decrease stock
     const { error: decErr } = await supabase
       .from('products')
-      .update({ stock: supabase.raw('stock - 1') })
+      .update({ stock: product.stock - 1 })
       .eq('id', product_id);
     if (decErr) throw decErr;
     // Insert order
