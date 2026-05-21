@@ -744,7 +744,10 @@
             }, 2500);
           }
 
+          var currentAmount = 20000;
+          var currentProductId = 1;
           var currentDesc = "";
+          
           var optionBtns = document.querySelectorAll(".donation-option-btn");
           var customInput = document.getElementById("custom-donation-amount");
           var customContainer = document.getElementById("custom-option-container");
@@ -760,8 +763,8 @@
                 // Activate clicked
                 btn.classList.add("active");
 
-                var amt = parseInt(btn.getAttribute("data-amount"), 10);
-                openPayment(amt, currentDesc);
+                currentAmount = parseInt(btn.getAttribute("data-amount"), 10);
+                currentProductId = parseInt(btn.getAttribute("data-id"), 10);
               });
             });
           }
@@ -775,7 +778,71 @@
               optionBtns.forEach(function (b) { b.classList.remove("active"); });
               if (customContainer) customContainer.classList.add("active");
 
-              openPayment(val, currentDesc);
+              currentAmount = val;
+              currentProductId = 6; // Ủng hộ Tùy chọn
+            });
+          }
+
+          var donationForm = document.getElementById("donation-form");
+          if (donationForm) {
+            donationForm.addEventListener("submit", function (e) {
+              e.preventDefault();
+
+              var donorName = document.getElementById("donor-name").value.trim();
+              var donorPhone = document.getElementById("donor-phone").value.trim();
+              var donorEmail = document.getElementById("donor-email").value.trim();
+
+              if (!donorName || !donorPhone || !donorEmail) {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+              }
+
+              var submitBtn = document.getElementById("btn-submit-donation");
+              submitBtn.disabled = true;
+              submitBtn.innerText = "Đang xử lý...";
+
+              fetch("/api/public-donate", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  full_name: donorName,
+                  phone: donorPhone,
+                  email: donorEmail,
+                  amount: currentAmount,
+                  product_id: currentProductId
+                })
+              })
+              .then(function (res) {
+                if (!res.ok) {
+                  return res.json().then(function (err) { throw new Error(err.error || "Không thể khởi tạo giao dịch"); });
+                }
+                return res.json();
+              })
+              .then(function (data) {
+                // Thành công: Chuyển sang Giai đoạn 2
+                document.getElementById("donate-stage-1").style.display = "none";
+                document.getElementById("donate-stage-2").style.display = "block";
+                
+                openPayment(currentAmount, currentDesc);
+              })
+              .catch(function (err) {
+                alert("Có lỗi xảy ra: " + err.message);
+              })
+              .finally(function () {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Tiếp tục đóng góp (Donation)";
+              });
+            });
+          }
+
+          var backToStage1Btn = document.getElementById("btn-back-to-stage-1");
+          if (backToStage1Btn) {
+            backToStage1Btn.addEventListener("click", function () {
+              stopPaymentPolling();
+              document.getElementById("donate-stage-1").style.display = "block";
+              document.getElementById("donate-stage-2").style.display = "none";
             });
           }
 
@@ -784,6 +851,9 @@
               e.preventDefault();
               var randomId = Math.floor(1000 + Math.random() * 9000);
               currentDesc = "LSHDONATE" + randomId;
+
+              // Reset fields in form
+              if (donationForm) donationForm.reset();
 
               // Reset selector state to default: 20k (Gieo Mầm)
               optionBtns.forEach(function (b) { b.classList.remove("active"); });
@@ -795,15 +865,31 @@
                 defaultBtn.classList.add("active");
               }
 
-              openPayment(20000, currentDesc);
+              currentAmount = 20000;
+              currentProductId = 1;
+
+              // Show Stage 1, hide Stage 2
+              document.getElementById("donate-stage-1").style.display = "block";
+              document.getElementById("donate-stage-2").style.display = "none";
+
+              // Show modal
+              paymentModal.classList.add("is-open");
+              document.body.style.overflow = "hidden";
+              stopPaymentPolling();
             });
           }
 
-          closePaymentBtn.addEventListener("click", closePayment);
+          closePaymentBtn.addEventListener("click", function () {
+            closePayment();
+            document.getElementById("donate-stage-1").style.display = "block";
+            document.getElementById("donate-stage-2").style.display = "none";
+          });
 
           paymentModal.addEventListener("click", function (e) {
             if (e.target === paymentModal) {
               closePayment();
+              document.getElementById("donate-stage-1").style.display = "block";
+              document.getElementById("donate-stage-2").style.display = "none";
             }
           });
           
@@ -817,77 +903,115 @@
     <div class="payment-modal" id="payment-modal">
       <div class="modal-content payment-modal-content">
         <button type="button" class="modal-close" id="close-payment">&times;</button>
-        <div class="payment-inner">
-          <header class="section-head section-head--center" style="margin-bottom: 2rem;">
-            <p class="mission-label">ỦNG HỘ / ĐÓNG GÓP</p>
-            <h2>Quét Mã QR Chuyển Khoản Tự Động</h2>
-            <p class="section-lead" style="margin-bottom: 1rem;">Quét mã dưới đây bằng ứng dụng ngân hàng của bạn. Hệ thống sẽ tự động nhận diện và cập nhật giao dịch.</p>
-          </header>
+          <!-- GIAI ĐOẠN 1: ĐIỀN THÔNG TIN -->
+          <div id="donate-stage-1" style="display: block;">
+            <header class="section-head section-head--center" style="margin-bottom: 1.5rem;">
+              <p class="mission-label">ỦNG HỘ / ĐÓNG GÓP</p>
+              <h2>Nhập Thông Tin Ủng Hộ</h2>
+              <p class="section-lead">Xin vui lòng để lại thông tin để Lifeskill Hub ghi nhận tấm lòng vàng của bạn.</p>
+            </header>
 
-          <!-- Donation Packages Selector -->
-          <div class="donation-selector">
-            <p class="selector-title">Chọn gói ủng hộ:</p>
-            <div class="donation-options-grid">
-              <button type="button" class="donation-option-btn active" data-amount="20000" data-name="Gieo Mầm">
-                <span class="opt-name">Gieo Mầm</span>
-                <span class="opt-amount">20k</span>
-              </button>
-              <button type="button" class="donation-option-btn" data-amount="50000" data-name="Lan Tỏa">
-                <span class="opt-name">Lan Tỏa</span>
-                <span class="opt-amount">50k</span>
-              </button>
-              <button type="button" class="donation-option-btn" data-amount="100000" data-name="Đồng Hành">
-                <span class="opt-name">Đồng Hành</span>
-                <span class="opt-amount">100k</span>
-              </button>
-              <button type="button" class="donation-option-btn" data-amount="200000" data-name="Kiến Tạo">
-                <span class="opt-name">Kiến Tạo</span>
-                <span class="opt-amount">200k</span>
-              </button>
-              <button type="button" class="donation-option-btn" data-amount="500000" data-name="Đại Sứ">
-                <span class="opt-name">Đại Sứ</span>
-                <span class="opt-amount">500k</span>
-              </button>
-              <div class="donation-custom-option" id="custom-option-container">
-                <input type="number" id="custom-donation-amount" placeholder="Số tiền..." min="2000" step="1000" />
-                <span class="custom-currency">đ</span>
+            <form id="donation-form" onsubmit="event.preventDefault();">
+              <div class="donation-form-group">
+                <label for="donor-name">Họ và tên <span class="required">*</span></label>
+                <input type="text" id="donor-name" required placeholder="Ví dụ: Nguyễn Văn An" />
               </div>
-            </div>
+              <div class="donation-form-group">
+                <label for="donor-phone">Số điện thoại <span class="required">*</span></label>
+                <input type="tel" id="donor-phone" required placeholder="Ví dụ: 0912345678" />
+              </div>
+              <div class="donation-form-group">
+                <label for="donor-email">Email <span class="required">*</span></label>
+                <input type="email" id="donor-email" required placeholder="Ví dụ: name@example.com" />
+              </div>
+
+              <!-- Donation Packages Selector -->
+              <div class="donation-selector" style="margin-top: 1.5rem;">
+                <p class="selector-title">Chọn gói ủng hộ <span class="required">*</span>:</p>
+                <div class="donation-options-grid">
+                  <button type="button" class="donation-option-btn active" data-amount="20000" data-id="1" data-name="Gieo Mầm">
+                    <span class="opt-name">Gieo Mầm</span>
+                    <span class="opt-amount">20k</span>
+                  </button>
+                  <button type="button" class="donation-option-btn" data-amount="50000" data-id="2" data-name="Lan Tỏa">
+                    <span class="opt-name">Lan Tỏa</span>
+                    <span class="opt-amount">50k</span>
+                  </button>
+                  <button type="button" class="donation-option-btn" data-amount="100000" data-id="3" data-name="Đồng Hành">
+                    <span class="opt-name">Đồng Hành</span>
+                    <span class="opt-amount">100k</span>
+                  </button>
+                  <button type="button" class="donation-option-btn" data-amount="200000" data-id="4" data-name="Kiến Tạo">
+                    <span class="opt-name">Kiến Tạo</span>
+                    <span class="opt-amount">200k</span>
+                  </button>
+                  <button type="button" class="donation-option-btn" data-amount="500000" data-id="5" data-name="Đại Sứ">
+                    <span class="opt-name">Đại Sứ</span>
+                    <span class="opt-amount">500k</span>
+                  </button>
+                  <div class="donation-custom-option" id="custom-option-container">
+                    <input type="number" id="custom-donation-amount" placeholder="Số tiền..." min="2000" step="1000" />
+                    <span class="custom-currency">đ</span>
+                  </div>
+                </div>
+              </div>
+
+              <div style="text-align: center; margin-top: 1.5rem;">
+                <button type="submit" class="btn-primary" id="btn-submit-donation" style="width: 100%; padding: 0.85rem; font-size: 1rem; font-weight: bold;">
+                  Tiếp tục đóng góp (Donation)
+                </button>
+              </div>
+            </form>
           </div>
-          
-          <div class="payment-details-container">
-            <div class="qr-container">
-              <img id="payment-qr-img" src="" alt="Mã VietQR" class="payment-qr-image" />
-              <div class="payment-loading">
-                <span class="spinner"></span>
-                <p id="payment-status-text">Đang chờ bạn quét mã thanh toán...</p>
+
+          <!-- GIAI ĐOẠN 2: QUÉT MÃ QR -->
+          <div id="donate-stage-2" style="display: none;">
+            <header class="section-head section-head--center" style="margin-bottom: 1.5rem;">
+              <p class="mission-label">ỦNG HỘ / ĐÓNG GÓP</p>
+              <h2>Quét Mã QR Chuyển Khoản Tự Động</h2>
+              <p class="section-lead" style="margin-bottom: 1rem;">Quét mã dưới đây bằng ứng dụng ngân hàng của bạn. Hệ thống sẽ tự động nhận diện và ghi nhận giao dịch.</p>
+            </header>
+
+            <div class="payment-details-container">
+              <div class="qr-container">
+                <img id="payment-qr-img" src="" alt="Mã VietQR" class="payment-qr-image" />
+                <div class="payment-loading">
+                  <span class="spinner"></span>
+                  <p id="payment-status-text">Đang chờ bạn quét mã thanh toán...</p>
+                </div>
+              </div>
+              
+              <div class="payment-info">
+                <div class="info-row">
+                  <span class="info-label">Ngân hàng</span>
+                  <strong class="info-value" id="payment-bank-name">MB Bank</strong>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Số tài khoản</span>
+                  <strong class="info-value" id="payment-acc-num">0982286340</strong>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Tên tài khoản</span>
+                  <strong class="info-value" id="payment-acc-name">QUACH HAI NGOC VY</strong>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Số tiền</span>
+                  <strong class="info-value text-highlight" id="payment-amount">20.000đ</strong>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Nội dung chuyển khoản</span>
+                  <div class="copy-container">
+                    <strong class="info-value highlight-code" id="payment-desc">LSHDONATE</strong>
+                    <button type="button" class="btn-copy" id="btn-copy-desc" onclick="navigator.clipboard.writeText(document.getElementById('payment-desc').innerText); alert('Đã sao chép nội dung chuyển khoản!')">Copy</button>
+                  </div>
+                </div>
               </div>
             </div>
             
-            <div class="payment-info">
-              <div class="info-row">
-                <span class="info-label">Ngân hàng</span>
-                <strong class="info-value" id="payment-bank-name">MB Bank</strong>
-              </div>
-              <div class="info-row">
-                <span class="info-label">Số tài khoản</span>
-                <strong class="info-value" id="payment-acc-num">0982286340</strong>
-              </div>
-              <div class="info-row">
-                <span class="info-label">Tên tài khoản</span>
-                <strong class="info-value" id="payment-acc-name">QUACH HAI NGOC VY</strong>
-              </div>
-              <div class="info-row">
-                <span class="info-label">Số tiền</span>
-                <strong class="info-value text-highlight" id="payment-amount">20.000đ</strong>
-              </div>
-              <div class="info-row">
-                <span class="info-label">Nội dung chuyển khoản</span>
-                <div class="copy-container">
-                  <strong class="info-value highlight-code" id="payment-desc">LSHDONATE</strong>
-                  <button type="button" class="btn-copy" id="btn-copy-desc" onclick="navigator.clipboard.writeText(document.getElementById('payment-desc').innerText); alert('Đã sao chép nội dung chuyển khoản!')">Copy</button>
-                </div>
-              </div>
+            <div style="text-align: center; margin-top: 1.5rem;">
+              <button type="button" class="btn-secondary" id="btn-back-to-stage-1" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">
+                Quay lại sửa thông tin
+              </button>
             </div>
           </div>
         </div>

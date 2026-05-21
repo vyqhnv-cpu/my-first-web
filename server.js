@@ -41,6 +41,69 @@ app.post('/log', (req, res) => {
   res.sendStatus(200);
 });
 
+// Public endpoint for submitting a donation request
+app.post('/api/public-donate', (req, res) => {
+  const { full_name, phone, email, amount, product_id } = req.body;
+  if (!full_name || !phone || !amount || !product_id) {
+    return res.status(400).json({ error: 'Thiếu thông tin bắt buộc!' });
+  }
+
+  // Find or create customer
+  db.get('SELECT id FROM customers WHERE phone = ?', [phone], (err, row) => {
+    if (err) return res.status(500).json({ error: err.message });
+
+    const handleOrderCreation = (customerId) => {
+      const orderDate = new Date().toISOString();
+      db.serialize(() => {
+        db.run('BEGIN TRANSACTION');
+        db.get('SELECT stock FROM products WHERE id = ?', [product_id], (err, product) => {
+          if (err) {
+            db.run('ROLLBACK');
+            return res.status(500).json({ error: err.message });
+          }
+          if (!product) {
+            db.run('ROLLBACK');
+            return res.status(404).json({ error: 'Gói ủng hộ không tồn tại!' });
+          }
+
+          // Decrease stock
+          db.run('UPDATE products SET stock = MAX(0, stock - 1) WHERE id = ?', [product_id], (err) => {
+            if (err) {
+              db.run('ROLLBACK');
+              return res.status(500).json({ error: err.message });
+            }
+            // Insert order
+            const stmt = db.prepare('INSERT INTO orders (customer_id, product_id, amount, status, order_date) VALUES (?,?,?,?,?)');
+            stmt.run([customerId, product_id, amount, 'pending', orderDate], function (err) {
+              if (err) {
+                db.run('ROLLBACK');
+                return res.status(500).json({ error: err.message });
+              }
+              db.run('COMMIT');
+              res.json({ success: true, order_id: this.lastID });
+            });
+            stmt.finalize();
+          });
+        });
+      });
+    };
+
+    if (row) {
+      handleOrderCreation(row.id);
+    } else {
+      const registeredAt = new Date().toISOString();
+      const stmt = db.prepare('INSERT INTO customers (full_name, phone, zalo, registered_at) VALUES (?,?,?,?)');
+      stmt.run([full_name, phone, email ? `Email: ${email}` : '', registeredAt], function (err) {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        handleOrderCreation(this.lastID);
+      });
+      stmt.finalize();
+    }
+  });
+});
+
 // Protect API and Admin routes with Basic Auth
 app.use('/admin', authMiddleware, express.static(path.join(__dirname, 'admin')));
 app.use('/api', authMiddleware);
