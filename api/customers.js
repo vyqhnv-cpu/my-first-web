@@ -3,7 +3,7 @@
 
 const { supabase } = require('../lib/supabase');
 
-export default () => {
+module.exports = () => {
   const router = require('express').Router();
 
   // GET all customers
