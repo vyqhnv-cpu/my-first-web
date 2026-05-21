@@ -95,33 +95,81 @@ app.post('/api/public-donate', async (req, res) => {
     return res.status(500).json({ error: e.message || 'Server error' });
   }
 });
-// API Tự động gửi email cảm ơn
+// Helpers to calculate scheduled dates (in ISO format)
+const addDays = (days) => new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
+
+// API Tự động gửi chuỗi 3 email
 app.post('/api/send-email', async (req, res) => {
   const { to_email, user_name, form_type } = req.body;
   
-  // Kiểm tra nếu người dùng không nhập email thì bỏ qua
   if (!to_email) {
     return res.status(400).json({ error: 'Không có email' });
   }
 
+  // Chế độ test: gửi ngay lập tức cả 3 email nếu email chứa '+test'
+  const isTestMode = to_email.includes('+test');
+  
+  // Lên lịch thời gian (nếu không phải test mode)
+  const scheduledTime2 = isTestMode ? undefined : addDays(2); // 48 giờ sau
+  const scheduledTime3 = isTestMode ? undefined : addDays(3); // 72 giờ sau
+
   try {
-    const { data, error } = await resend.emails.send({
-      from: 'onboarding@resend.dev', // Ghi chú: Lúc mới tạo, Resend bắt buộc dùng email từ địa chỉ này để test
-      to: to_email, // Gửi tới email của người dùng nhập trong form
-      subject: `Cảm ơn bạn đã điền form ${form_type}!`,
+    // === Email 1: Welcome (Gửi ngay) ===
+    await resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: to_email,
+      subject: `Chào bạn, tui là The Lifeskill Hub đây! 👋`,
       html: `
         <p>Chào <strong>${user_name}</strong>,</p>
-        <p>Cảm ơn bạn đã dành thời gian điền form <b>${form_type}</b> tại The Lifeskill Hub.</p>
-        <p>Chúng tôi đã ghi nhận thông tin của bạn thành công và sẽ liên hệ lại sớm nhất có thể.</p>
-        <p>Chúc bạn một ngày tốt lành!<br><i>Đội ngũ The Lifeskill Hub</i></p>
+        <p>Tui vừa nhận được thông tin của bạn qua form <b>${form_type}</b> rồi nè. Cảm ơn bạn vì đã tin tưởng và chia sẻ những tâm tư của mình với tui nha.</p>
+        <p>Tui biết ở tuổi này, giữa muôn vàn ngã rẽ sự nghiệp và cuộc sống, đôi khi mình thấy ngột ngạt và mông lung lắm. Bạn vất vả rồi! Nhưng không sao đâu, bạn thật đặc biệt theo cách của riêng mình, và tui lập ra The Lifeskill Hub là để tạo ra một góc nhỏ an toàn, nơi tụi mình có thể ngồi lại và gỡ rối cùng nhau.</p>
+        <p>Mấy ngày tới, tui sẽ gửi cho bạn một vài câu chuyện nho nhỏ mà tui nghĩ sẽ giúp ích được cho bạn. Đừng áp lực gì nghen, chỉ là chút tâm tình tui muốn gửi gắm thôi.</p>
+        <p>Tạm thời bạn cứ nghỉ ngơi đi nhé, bạn làm tốt lắm rồi!</p>
+        <p>Mình yêu bạn,<br><strong>The Lifeskill Hub</strong></p>
       `
     });
 
-    if (error) {
-      return res.status(400).json({ error });
-    }
-    res.json({ success: true, data });
+    // === Email 2: Nurture (2 ngày sau) ===
+    const email2Payload = {
+      from: 'onboarding@resend.dev',
+      to: to_email,
+      subject: `Thật ra, mông lung không đáng sợ như bạn nghĩ đâu... 🤔`,
+      html: `
+        <p>Chào bạn lại là tui đây,</p>
+        <p>Hôm nay bạn thấy thế nào? Tui muốn kể cho bạn nghe một sự thật: Hầu hết chúng ta đều sợ cảm giác "không biết mình muốn gì". Tui ngày xưa cũng vậy.</p>
+        <p>Nhưng thật ra, mông lung lại là một tín hiệu siêu tốt. Nó báo hiệu rằng bạn không còn chấp nhận một cuộc sống đi theo khuôn mẫu cũ nữa. Bạn đang bắt đầu tìm kiếm một con đường thực sự thuộc về mình.</p>
+        <p>Đơn giản thôi, khi bạn đi lạc, đó là lúc bạn có cơ hội khám phá ra một vùng đất mới. Bạn không cần phức tạp hóa lên hay tự trách bản thân đâu. Cứ cho phép mình hoang mang một chút, quan sát chính mình, và rồi bạn sẽ thấy manh mối đầu tiên xuất hiện.</p>
+        <p>Thử xem sao nhé! Nhớ là dù có chuyện gì, cứ bước từng bước nhỏ thôi.</p>
+        <p>Hẹn gặp bạn trong email ngày mai nha.</p>
+        <p>Thương,<br><strong>The Lifeskill Hub</strong></p>
+      `
+    };
+    if (scheduledTime2) email2Payload.scheduled_at = scheduledTime2;
+    await resend.emails.send(email2Payload);
+
+    // === Email 3: Sale (3 ngày sau) ===
+    const email3Payload = {
+      from: 'onboarding@resend.dev',
+      to: to_email,
+      subject: `Để tui đi cùng bạn đoạn đường này nhé! 🤝`,
+      html: `
+        <p>Chào bạn,</p>
+        <p>Mấy hôm nay tụi mình nói chuyện nhiều về sự mông lung rồi. Hôm nay tui muốn đề xuất một giải pháp cụ thể hơn, để giúp bạn đi nhanh hơn và đỡ phải vấp lại những sai lầm mà tui từng trải qua.</p>
+        <p>Ở The Lifeskill Hub, tui hoàn toàn không bán các khóa học lý thuyết khô khan. Tui chỉ có một đặc sản duy nhất: <strong>Khai vấn (Coaching) 1:1</strong>.</p>
+        <p>Trong các buổi Khai vấn này, tụi mình sẽ ngồi lại trực tiếp với nhau. Tui không dạy đời hay chỉ đạo bạn phải làm thế này thế kia. Tui sẽ dùng những kinh nghiệm thực tế nhất để giúp bạn tự sắp xếp lại suy nghĩ, tìm ra thế mạnh thực sự của bản thân và lên một lộ trình rõ ràng cho sự nghiệp.</p>
+        <p>Làm là sẽ được thôi, đừng lo!</p>
+        <p>Nếu bạn cảm thấy đã sẵn sàng để tụi mình đồng hành cùng nhau, hãy đặt lịch Khai vấn 1:1 hoặc ủng hộ các gói Đồng hành tại đây nhé:<br>
+        👉 <strong><a href="https://my-first-web.vercel.app/">Đăng ký Khai vấn 1:1 / Đóng góp tại đây</a></strong></p>
+        <p>Tui rất mong chờ được lắng nghe trọn vẹn câu chuyện của bạn.</p>
+        <p>Mình đợi bạn nhé,<br><strong>The Lifeskill Hub</strong></p>
+      `
+    };
+    if (scheduledTime3) email3Payload.scheduled_at = scheduledTime3;
+    await resend.emails.send(email3Payload);
+
+    res.json({ success: true, message: isTestMode ? 'Đã gửi test 3 email ngay lập tức' : 'Đã lên lịch gửi 3 email' });
   } catch (error) {
+    console.error('Send Email Error:', error);
     res.status(500).json({ error: error.message });
   }
 });
