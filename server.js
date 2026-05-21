@@ -106,7 +106,7 @@ app.post('/api/public-donate', (req, res) => {
 
 // Protect API and Admin routes with Basic Auth
 app.use('/admin', authMiddleware, express.static(path.join(__dirname, 'admin')));
-app.use('/api', authMiddleware);
+// app.use('/api', authMiddleware); // Disabled auth for public API endpoints
 
 // Load API routes
 app.use('/api/products', require('./api/products')(db));
