@@ -909,6 +909,7 @@ input.invalid {
 
 .survey-form input[type="text"],
 .survey-form input[type="tel"],
+.survey-form input[type="email"],
 .survey-form select,
 .survey-form textarea {
   padding: 1rem 1.25rem;
