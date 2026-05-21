@@ -111,7 +111,12 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 // Fallback
 app.get('*', (req, res) => res.redirect('/'));
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
-});
+// Start server only if run directly (local dev)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server listening on http://localhost:${PORT}`);
+  });
+}
+
+// Export for Vercel
+module.exports = app;
