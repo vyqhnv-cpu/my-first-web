@@ -64,7 +64,7 @@ app.post('/api/public-donate', async (req, res) => {
     // Check product stock
     const { data: product, error: prodErr } = await supabase
       .from('products')
-      .select('stock')
+      .select('stock, name')
       .eq('id', product_id)
       .single();
     if (prodErr) throw prodErr;
@@ -89,6 +89,29 @@ app.post('/api/public-donate', async (req, res) => {
       .select('id')
       .single();
     if (orderErr) throw orderErr;
+
+    // Send order confirmation email
+    if (email) {
+      try {
+        const isTestMode = email.includes('+test');
+        const final_to_email = isTestMode ? email.replace('+test', '') : email;
+        await resend.emails.send({
+          from: 'onboarding@resend.dev',
+          to: final_to_email,
+          subject: `Đơn hàng của bạn đã được ghi nhận rồi nè! Cảm ơn bạn nhé 👋`,
+          html: `
+            <p>Chào <strong>${full_name}</strong>,</p>
+            <p>Mình vừa nhận được thông tin đăng ký của bạn cho <strong>${product.name}</strong> với số tiền là <strong>${Number(amount).toLocaleString('vi-VN')}đ</strong>. Cảm ơn bạn rất nhiều vì đã tin tưởng và đồng hành cùng The Lifeskill Hub nha.</p>
+            <p>Đơn giản thôi, để bắt đầu lộ trình của chúng ta, bạn vui lòng kiểm tra hộp thư email (và cả Zalo) trong vòng 24h tới nhé. Mình sẽ chủ động gửi hướng dẫn chi tiết và liên hệ để xếp lịch với bạn.</p>
+            <p>Đừng lo lắng gì nghen!</p>
+            <p>Mình yêu bạn,<br><strong>The Lifeskill Hub</strong></p>
+          `
+        });
+      } catch (emailErr) {
+        console.error("Order Email Error:", emailErr);
+      }
+    }
+
     return res.json({ success: true, order_id: order.id });
   } catch (e) {
     console.error('Donate error:', e);
