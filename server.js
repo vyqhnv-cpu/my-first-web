@@ -109,6 +109,9 @@ app.post('/api/send-email', async (req, res) => {
   // Chế độ test: gửi ngay lập tức cả 3 email nếu email chứa '+test'
   const isTestMode = to_email.includes('+test');
   
+  // Resend bản miễn phí chỉ cho phép gửi đúng email gốc, nên ta xóa chữ '+test' đi trước khi gửi
+  const final_to_email = isTestMode ? to_email.replace('+test', '') : to_email;
+  
   // Lên lịch thời gian (nếu không phải test mode)
   const scheduledTime2 = isTestMode ? undefined : addDays(2); // 48 giờ sau
   const scheduledTime3 = isTestMode ? undefined : addDays(3); // 72 giờ sau
@@ -117,7 +120,7 @@ app.post('/api/send-email', async (req, res) => {
     // === Email 1: Welcome (Gửi ngay) ===
     await resend.emails.send({
       from: 'onboarding@resend.dev',
-      to: to_email,
+      to: final_to_email,
       subject: `Chào bạn, tui là The Lifeskill Hub đây! 👋`,
       html: `
         <p>Chào <strong>${user_name}</strong>,</p>
@@ -132,7 +135,7 @@ app.post('/api/send-email', async (req, res) => {
     // === Email 2: Nurture (2 ngày sau) ===
     const email2Payload = {
       from: 'onboarding@resend.dev',
-      to: to_email,
+      to: final_to_email,
       subject: `Thật ra, mông lung không đáng sợ như bạn nghĩ đâu... 🤔`,
       html: `
         <p>Chào bạn lại là tui đây,</p>
@@ -150,7 +153,7 @@ app.post('/api/send-email', async (req, res) => {
     // === Email 3: Sale (3 ngày sau) ===
     const email3Payload = {
       from: 'onboarding@resend.dev',
-      to: to_email,
+      to: final_to_email,
       subject: `Để tui đi cùng bạn đoạn đường này nhé! 🤝`,
       html: `
         <p>Chào bạn,</p>
