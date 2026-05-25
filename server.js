@@ -1,22 +1,29 @@
 // server.js (local development)
 // Uses Supabase for all DB operations. Keeps the same routes as before.
 
+require('dotenv').config();
+
 const express = require('express');
 const basicAuth = require('express-basic-auth');
 const path = require('path');
 const { supabase } = require('./lib/supabase');
 const { Resend } = require('resend');
 
-// Khởi tạo Resend
-// Thay chữ 'API_KEY_CUA_BAN' bằng đoạn mã trong file resend_config.txt của bạn nhé
-const resend = new Resend('re_Yh2eBit5_B4trFa1cYnoKNFPGwHmBEK8C');
+// Khởi tạo Resend bằng biến môi trường
+const resendApiKey = process.env.RESEND_API_KEY || 'MISSING_API_KEY';
+const resend = new Resend(resendApiKey);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Basic Auth middleware
+const adminUser = process.env.ADMIN_USER || 'admin';
+const adminPass = process.env.ADMIN_PASSWORD || 'change_me_in_env_file';
+const authUsers = {};
+authUsers[adminUser] = adminPass;
+
 const authMiddleware = basicAuth({
-  users: { admin: 'admin123' },
+  users: authUsers,
   challenge: true,
   realm: 'Admin Area',
 });
@@ -208,12 +215,27 @@ app.use('/api/customers', require('./api/customers')());
 app.use('/api/orders', require('./api/orders')());
 app.use('/api/transactions', require('./api/transactions'));
 
+// Load MCP routes (async setup)
+const mcpWrapper = express.Router();
+app.use('/api/mcp', mcpWrapper);
+const { setupMcpRouter } = require('./mcp/mcp_server');
+setupMcpRouter(express).then(mcpRouter => {
+  mcpWrapper.use(mcpRouter);
+  console.log('[MCP] Routes mounted at /api/mcp');
+}).catch(err => {
+  console.error("[MCP] Failed to setup routes:", err);
+});
+
 // Static assets
 app.use('/asset', express.static(path.join(__dirname, 'asset')));
 app.use('/data', express.static(path.join(__dirname, 'data')));
 app.get('/style.css', (req, res) => res.sendFile(path.join(__dirname, 'style.css')));
+app.get('/blog.css', (req, res) => res.sendFile(path.join(__dirname, 'blog.css')));
 app.get('/thank-you.html', (req, res) => res.sendFile(path.join(__dirname, 'thank-you.html')));
 app.get('/waitlist.json', (req, res) => res.sendFile(path.join(__dirname, 'waitlist.json')));
+
+// Blog page
+app.get('/blog', (req, res) => res.sendFile(path.join(__dirname, 'blog.html')));
 
 // Home page
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
@@ -223,8 +245,8 @@ app.get('*', (req, res) => res.redirect('/'));
 
 // Start server only if run directly (local dev)
 if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Server listening on http://localhost:${PORT}`);
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server listening on http://0.0.0.0:${PORT}`);
   });
 }
 
