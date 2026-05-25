@@ -4,6 +4,7 @@
 require('dotenv').config();
 
 const express = require('express');
+global.WebSocket = require('ws');
 const basicAuth = require('express-basic-auth');
 const path = require('path');
 const { supabase } = require('./lib/supabase');
