@@ -304,6 +304,150 @@ ${ordersText}
       }
     }
   );
+  // Tool 4: check_new_forms
+  server.registerTool(
+    "check_new_forms",
+    {
+      description: "Kiểm tra xem có khách hàng nào vừa điền form Khai Vấn hoặc Khảo sát mới hay không (dành cho Heartbeat).",
+      inputSchema: z.object({})
+    },
+    async () => {
+      try {
+        const { supabase } = require('../lib/supabase');
+        const stateFile = path.resolve(__dirname, '..', 'my-brain', 'alert_state.json');
+        
+        let state = { last_event_check: new Date(Date.now() - 24*60*60*1000).toISOString(), last_daily_report: "" };
+        if (fs.existsSync(stateFile)) {
+          try { state = JSON.parse(fs.readFileSync(stateFile, 'utf8')); } catch (e) {}
+        }
+        
+        const lastCheck = state.last_event_check;
+        const now = new Date().toISOString();
+
+        // Check section_dangki11
+        const { data: leads, error: leadErr } = await supabase
+          .from('section_dangki11')
+          .select('*')
+          .gt('created_at', lastCheck);
+
+        // Check surveys
+        const { data: surveys, error: survErr } = await supabase
+          .from('surveys')
+          .select('*')
+          .gt('created_at', lastCheck);
+
+        if (leadErr) console.error("Lead Error:", leadErr);
+        if (survErr) console.error("Survey Error:", survErr);
+
+        const newLeads = leads || [];
+        const newSurveys = surveys || [];
+
+        if (newLeads.length === 0 && newSurveys.length === 0) {
+          // Update state to now so we don't query old data again
+          state.last_event_check = now;
+          fs.writeFileSync(stateFile, JSON.stringify(state, null, 2), 'utf8');
+          
+          return { content: [{ type: "text", text: "Không có sự kiện form mới. Không cần làm gì." }] };
+        }
+
+        // Format message
+        let msg = "🚨 BÁO CÁO CÓ KHÁCH HÀNG MỚI ĐIỀN FORM:\n\n";
+        
+        if (newLeads.length > 0) {
+          msg += `📝 **FORM KHAI VẤN (${newLeads.length} người):**\n`;
+          newLeads.forEach(l => {
+            msg += `- **${l.full_name || 'Chưa rõ'}** (SĐT: ${l.phone || 'Không có'}, Email: ${l.email || 'Không có'})\n`;
+            msg += `  Lĩnh vực: ${l.interest || 'Không chọn'}\n`;
+            msg += `  Tin nhắn: ${l.message || 'Không có'}\n\n`;
+          });
+        }
+
+        if (newSurveys.length > 0) {
+          msg += `📋 **FORM KHẢO SÁT (${newSurveys.length} người):**\n`;
+          newSurveys.forEach(s => {
+            msg += `- **${s.full_name || 'Chưa rõ'}** (SĐT: ${s.phone || 'Không có'}, Email: ${s.email || 'Không có'})\n`;
+            msg += `  Vấn đề lo lắng: ${s.concerns || 'Không có'}\n`;
+            msg += `  Trực tiếp hay Online: ${s.meeting_preference || 'Không rõ'}\n\n`;
+          });
+        }
+
+        msg += "\nYêu cầu Agent: Hãy gửi ngay tin nhắn báo cáo này cho user (Gấu).";
+
+        // Update state
+        state.last_event_check = now;
+        fs.writeFileSync(stateFile, JSON.stringify(state, null, 2), 'utf8');
+
+        return { content: [{ type: "text", text: msg }] };
+      } catch (err) {
+        return { content: [{ type: "text", text: `Lỗi: ${err.message}` }], isError: true };
+      }
+    }
+  );
+
+  // Tool 5: check_daily_report
+  server.registerTool(
+    "check_daily_report",
+    {
+      description: "Kiểm tra xem đã đến 22:00 chưa để gửi Báo cáo kinh doanh tổng hợp trong ngày (dành cho Heartbeat).",
+      inputSchema: z.object({})
+    },
+    async () => {
+      try {
+        const stateFile = path.resolve(__dirname, '..', 'my-brain', 'alert_state.json');
+        
+        let state = { last_event_check: new Date(Date.now() - 24*60*60*1000).toISOString(), last_daily_report: "" };
+        if (fs.existsSync(stateFile)) {
+          try { state = JSON.parse(fs.readFileSync(stateFile, 'utf8')); } catch (e) {}
+        }
+        
+        const now = new Date();
+        // Convert to Vietnam time
+        const vnTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
+        const todayStr = vnTime.toLocaleDateString("vi-VN"); // e.g. 25/5/2026
+        const currentHour = vnTime.getHours();
+
+        if (currentHour < 22) {
+          return { content: [{ type: "text", text: "Chưa đến 22:00, không cần gửi báo cáo." }] };
+        }
+
+        if (state.last_daily_report === todayStr) {
+          return { content: [{ type: "text", text: "Đã gửi báo cáo cho ngày hôm nay rồi, không cần gửi lại." }] };
+        }
+
+        // Generate report by calling get_business_dashboard logic directly or rewriting a quick fetch
+        const { supabase } = require('../lib/supabase');
+        const startDate = new Date();
+        startDate.setHours(0,0,0,0);
+        const startISO = startDate.toISOString();
+
+        // 1. Fetch Customers
+        const { data: customers } = await supabase.from('customers').select('id, full_name, registered_at').gte('registered_at', startISO);
+        // 2. Fetch Orders
+        const { data: orders } = await supabase.from('orders').select('id, amount, status, order_date, product_id, customer_id').gte('order_date', startISO);
+        
+        const newCustomersCount = (customers || []).length;
+        const completedOrders = (orders || []).filter(o => o.status === 'completed');
+        const pendingOrders = (orders || []).filter(o => o.status === 'pending');
+        const totalCompletedAmount = completedOrders.reduce((sum, o) => sum + (o.amount || 0), 0);
+        const totalPendingAmount = pendingOrders.reduce((sum, o) => sum + (o.amount || 0), 0);
+
+        const reportMarkdown = `📈 **BÁO CÁO KINH DOANH CUỐI NGÀY (Lúc 22:00)**\n\n` +
+          `👥 Khách hàng mới hôm nay: **${newCustomersCount}** người\n` +
+          `💰 Giao dịch hoàn thành: **${completedOrders.length}** lượt (Doanh thu: **${formatCurrency(totalCompletedAmount)}**)\n` +
+          `⏳ Giao dịch chờ xử lý: **${pendingOrders.length}** lượt (Số tiền: **${formatCurrency(totalPendingAmount)}**)\n\n` +
+          `Yêu cầu Agent: Hãy tóm tắt và gửi ngay báo cáo tổng hợp này cho user (Gấu) chúc ngủ ngon.`;
+
+        // Update state
+        state.last_daily_report = todayStr;
+        fs.writeFileSync(stateFile, JSON.stringify(state, null, 2), 'utf8');
+
+        return { content: [{ type: "text", text: reportMarkdown }] };
+
+      } catch (err) {
+        return { content: [{ type: "text", text: `Lỗi báo cáo hằng ngày: ${err.message}` }], isError: true };
+      }
+    }
+  );
 }
 
 module.exports = {
