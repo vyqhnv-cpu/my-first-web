@@ -13,10 +13,7 @@ async function initMcp() {
   }
 }
 
-// Keep a global transport reference (for a single gateway connection)
-// If you need multiple concurrent connections, you might need a Map of sessionId -> transport
-let globalTransport = null;
-let mcpServerInstance = null;
+const transports = new Map();
 
 async function setupMcpRouter(express) {
   await initMcp();
@@ -42,16 +39,24 @@ async function setupMcpRouter(express) {
       res.setHeader('X-Accel-Buffering', 'no');
 
       // Re-initialize the server to ensure a clean state per connection
-      mcpServerInstance = new McpServer({
+      const mcpServerInstance = new McpServer({
         name: "lifeskill-hub-mcp",
         version: "1.0.0",
       });
       registerTools(mcpServerInstance);
 
-      globalTransport = new SSEServerTransport("/api/mcp/message", res);
-      await mcpServerInstance.connect(globalTransport);
+      const transport = new SSEServerTransport("/api/mcp/message", res);
+      await mcpServerInstance.connect(transport);
       
-      console.log("[MCP] New SSE connection established");
+      transports.set(transport.sessionId, transport);
+      
+      console.log(`[MCP] New SSE connection established, sessionId: ${transport.sessionId}`);
+      
+      // Cleanup on close
+      res.on('close', () => {
+        console.log(`[MCP] SSE connection closed, sessionId: ${transport.sessionId}`);
+        transports.delete(transport.sessionId);
+      });
     } catch (err) {
       console.error("[MCP] SSE connection error:", err);
       res.status(500).end();
@@ -59,11 +64,16 @@ async function setupMcpRouter(express) {
   });
 
   router.post('/message', async (req, res) => {
-    if (!globalTransport) {
-      return res.status(400).json({ error: "No active SSE connection" });
+    const sessionId = req.query.sessionId;
+    const transport = transports.get(sessionId);
+    
+    if (!transport) {
+      console.warn(`[MCP] Message rejected: Session ${sessionId} not found.`);
+      return res.status(400).json({ error: "Session not found" });
     }
+    
     try {
-      await globalTransport.handlePostMessage(req, res);
+      await transport.handlePostMessage(req, res);
     } catch (err) {
       console.error("[MCP] Error handling message:", err);
       res.status(500).json({ error: err.message });
