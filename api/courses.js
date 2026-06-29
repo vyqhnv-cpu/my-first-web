@@ -71,11 +71,26 @@ module.exports = () => {
   // Helper to merge DB data with mock fallbacks
   function mergeCourse(dbRow) {
     const fallback = mockCourses.find(c => c.id == dbRow.id) || mockCourses[0];
+    
+    // Chuẩn hóa category_class về các class CSS hợp lệ (ui-ux, data-science, web-design)
+    let cleanClass = (dbRow.category_class || '').trim().toLowerCase();
+    if (cleanClass.includes('tư-duy') || cleanClass.includes('tu-duy') || cleanClass.includes('tư-duy')) {
+      cleanClass = 'ui-ux';
+    } else if (cleanClass.includes('thấu hiểu') || cleanClass.includes('thau-hieu')) {
+      cleanClass = 'data-science';
+    } else if (cleanClass.includes('định hướng') || cleanClass.includes('dinh-huong')) {
+      cleanClass = 'web-design';
+    }
+    
+    if (!['ui-ux', 'data-science', 'web-design'].includes(cleanClass)) {
+      cleanClass = fallback.category_class || 'ui-ux';
+    }
+
     return {
       id: dbRow.id,
       title: dbRow.title || fallback.title,
       category: dbRow.category || fallback.category,
-      category_class: dbRow.category_class || fallback.category_class || 'ui-ux',
+      category_class: cleanClass,
       price: dbRow.price !== undefined ? dbRow.price : fallback.price,
       original_price: dbRow.original_price !== undefined ? dbRow.original_price : fallback.original_price,
       sessions: dbRow.sessions || fallback.sessions,
