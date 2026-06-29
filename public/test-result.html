@@ -70,6 +70,42 @@
         margin-bottom: 1rem;
       }
       
+      .custom-roadmap {
+        background: #F9FAFB;
+        border: 1px solid #E5E7EB;
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        margin: 2rem 0;
+        text-align: left;
+      }
+      .custom-roadmap h4 {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        color: var(--color-primary);
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px dashed var(--color-primary-light);
+        padding-bottom: 0.5rem;
+      }
+      .custom-roadmap ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .custom-roadmap li {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #F3F4F6;
+        line-height: 1.6;
+        font-size: 1rem;
+        color: var(--color-neutral);
+      }
+      .custom-roadmap li:last-child {
+        border-bottom: none;
+      }
+      .custom-roadmap li strong {
+        color: var(--color-primary);
+      }
+
       .cta-section {
         background: var(--color-dark);
         color: white;
@@ -256,43 +292,127 @@
                   title: 'The Emotional Thinker',
                   sub: 'Người Tư Duy Cảm Xúc',
                   traits: ['Cảm xúc', 'Trực giác', 'Thiếu dữ kiện'],
-                  desc: '<p><strong>Tổng quan:</strong> Bạn là người giàu cảm xúc, có trực giác tốt và sự nhạy cảm. Tuy nhiên, rào cản lớn nhất của bạn là đôi khi để cảm xúc và nhận định chủ quan lấn át dữ liệu thực tế (Fact).</p><p><strong>Góc khuất:</strong> Trong các cuộc tranh luận hay ra quyết định, bạn dễ bị rối trí bởi những luồng ý kiến cá nhân. Hãy đặt lịch tư vấn 1-1 ngay. Trong Buổi 1, chúng ta sẽ thực hành công cụ bóc tách Sự Thật & Quan Điểm để giúp bạn giữ một cái đầu lạnh trong mọi tình huống.</p>'
+                  desc: `<p><strong>Tổng quan:</strong> Bạn là người giàu cảm xúc, có trực giác tốt và sự nhạy cảm. Tuy nhiên, rào cản lớn nhất của bạn là đôi khi để cảm xúc và nhận định chủ quan lấn át dữ liệu thực tế (Fact).</p>
+                         <p><strong>Góc khuất:</strong> Trong các cuộc tranh luận hay khi cái tôi bị chạm đến, bạn dễ bị phản ứng tự vệ (xù lông), phản ứng dựa trên tổn thương thay vì phân tích sự thật khách quan.</p>
+                         <div class="custom-roadmap">
+                           <h4>🎯 Lộ trình 6 buổi Đồng hành cá nhân hóa (đề xuất):</h4>
+                           <ul>
+                             <li><strong>Buổi 1:</strong> Nhận diện cảm xúc đang điều khiển mình & Cơ chế phòng vệ tự vệ.</li>
+                             <li><strong>Buổi 2:</strong> Tách bạch Sự thật (Fact) khỏi Cảm xúc (Feeling) cho chính nỗi đau của mình.</li>
+                             <li><strong>Buổi 3:</strong> Nhận diện các ngụy biện do nỗi sợ/sự tức giận thêu dệt nên.</li>
+                             <li><strong>Buổi 4:</strong> Dùng kỹ thuật 5-Whys để đào sâu nguyên nhân gốc rễ của phản ứng cảm xúc.</li>
+                             <li><strong>Buổi 5:</strong> Xây dựng lập luận thuyết phục bằng cấu trúc dữ liệu A-R-E.</li>
+                             <li><strong>Buổi 6:</strong> Thực hành tự bóc tách & giải quyết 1 vấn đề thực tế trong cuộc sống.</li>
+                           </ul>
+                         </div>`
                 },
                 'fast': {
                   title: 'The Fast Jumper',
-                  sub: 'Người Nhảy Cóc Logic',
-                  traits: ['Nhanh nhạy', 'Nắm bắt', 'Ngụy biện'],
-                  desc: '<p><strong>Tổng quan:</strong> Bạn tư duy rất nhanh nhạy và nắm bắt vấn đề tốt. Tuy nhiên, tốc độ làm bạn vô tình bỏ qua các bước logic nền tảng.</p><p><strong>Góc khuất:</strong> Bạn dễ rơi vào bẫy của các ngụy biện (Logical fallacies) khi tiêu thụ thông tin hoặc dễ bị đuối lý khi bị người khác tấn công cá nhân. Book lịch nói chuyện với chúng tôi nhé! Bạn chỉ thiếu một vài Framework nhận diện ngụy biện để lập luận của bạn trở nên sắc bén hơn.</p>'
+                  sub: 'Người Nhảy Cóc Kết Luận',
+                  traits: ['Nhanh nhạy', 'Nắm bắt', 'Dễ ngụy biện'],
+                  desc: `<p><strong>Tổng quan:</strong> Bạn tư duy rất nhanh nhạy và nắm bắt vấn đề tốt. Tuy nhiên, tốc độ suy nghĩ quá nhanh làm bạn vô tình nhảy cóc kết luận và bỏ qua logic nền tảng.</p>
+                         <p><strong>Góc khuất:</strong> Bạn dễ mắc bẫy ngụy biện và có thể phản ứng vội vã để "chữa cháy" tạm thời thay vì giải quyết bền vững.</p>
+                         <div class="custom-roadmap">
+                           <h4>🎯 Lộ trình 6 buổi Đồng hành cá nhân hóa (đề xuất):</h4>
+                           <ul>
+                             <li><strong>Buổi 1:</strong> Nền tảng: Phân biệt Sự thật (Fact) và Cảm xúc (Feeling) ở mức cơ bản.</li>
+                             <li><strong>Buổi 2:</strong> Nhận diện 5-7 ngụy biện phổ biến nhất trong đời sống và công việc.</li>
+                             <li><strong>Buổi 3:</strong> Học cách "phanh tư duy" chậm lại với kỹ thuật đào sâu 5 Whys.</li>
+                             <li><strong>Buổi 4:</strong> Nhận diện Thiên kiến xác nhận (chỉ tin những gì ủng hộ niềm tin cũ).</li>
+                             <li><strong>Buổi 5:</strong> Trình bày quan điểm có cấu trúc rõ ràng theo Framework A-R-E.</li>
+                             <li><strong>Buổi 6:</strong> Thực hành: Tự giải quyết 1 tình huống phức tạp từng bước một.</li>
+                           </ul>
+                         </div>`
                 },
                 'believer': {
                   title: 'The Believer',
                   sub: 'Người Dễ Bị Thuyết Phục',
-                  traits: ['Tư duy mở', 'Cả tin', 'Thiên kiến'],
-                  desc: '<p><strong>Tổng quan:</strong> Bạn mang trong mình một tư duy mở, sẵn sàng tiếp thu cái mới. Nhưng mặt trái là bạn đang thiếu một lớp "màng lọc" thông tin.</p><p><strong>Góc khuất:</strong> Bạn thường rơi vào bẫy Thiên kiến xác nhận (chỉ tin những gì mình muốn tin) hoặc dễ tin vào những bằng chứng thiếu độ xác tín. Sự thật trên mạng xã hội chỉ có 50%. Hãy để tôi hướng dẫn bạn các bộ công cụ kiểm chứng thông tin chuyên sâu trong buổi nói chuyện sắp tới nhé.</p>'
+                  traits: ['Tư duy mở', 'Cả tin', 'Dễ bị dẫn dắt'],
+                  desc: `<p><strong>Tổng quan:</strong> Bạn mang một tư duy mở, rất sẵn sàng tiếp thu cái mới. Nhưng mặt trái là bạn đang thiếu một bộ màng lọc thông tin vững chắc.</p>
+                         <p><strong>Góc khuất:</strong> Bạn dễ bị người khác dẫn dắt, cả tin vào các thông tin thiếu kiểm chứng hoặc tin theo thói quen/cảm tính cũ.</p>
+                         <div class="custom-roadmap">
+                           <h4>🎯 Lộ trình 6 buổi Đồng hành cá nhân hóa (đề xuất):</h4>
+                           <ul>
+                             <li><strong>Buổi 1:</strong> Phân biệt Sự thật (Fact) khách quan với Cảm xúc (Feeling) câu chuyện.</li>
+                             <li><strong>Buổi 2:</strong> Nhận diện thiên kiến xác nhận - thói quen chỉ tin điều mình muốn tin.</li>
+                             <li><strong>Buổi 3:</strong> Nhận diện ngụy biện và các bẫy thao túng tâm lý của truyền thông.</li>
+                             <li><strong>Buổi 4:</strong> Phân biệt Tương quan (trùng hợp xảy ra cùng lúc) và Nhân quả (gây ra nhau).</li>
+                             <li><strong>Buổi 5:</strong> Rèn luyện kỹ năng tự phản biện (Socratic Questioning) trước khi tin/chia sẻ.</li>
+                             <li><strong>Buổi 6:</strong> Thực hành: Đọc phân tích 1 thông tin viral để lọc thật giả.</li>
+                           </ul>
+                         </div>`
                 },
                 'surface': {
                   title: 'The Surface Skimmer',
                   sub: 'Người Lướt Trên Bề Mặt',
-                  traits: ['Tương quan', 'Nhân quả', 'Xử lý tình huống'],
-                  desc: '<p><strong>Tổng quan:</strong> Bạn giỏi xử lý các vấn đề hiện hữu, nhưng bạn đang gặp khó khăn trong việc tìm ra Nguyên nhân gốc rễ (Root Cause).</p><p><strong>Góc khuất:</strong> Việc đánh đồng "Tương quan" và "Nhân quả" dễ khiến bạn đưa ra những giải pháp ngọn ngành mà không giải quyết được triệt để vấn đề. Đừng giải quyết vấn đề ở bề nổi nữa. Hẹn gặp bạn ở buổi tư vấn, tôi sẽ chỉ cho bạn sức mạnh của kỹ thuật 5-Whys và chuỗi phân tích nhân quả.</p>'
+                  traits: ['Tập trung ngọn', 'Mơ hồ nhân quả', 'Giải pháp tạm thời'],
+                  desc: `<p><strong>Tổng quan:</strong> Bạn rất nhạy bén giải quyết các công việc hiện hữu ngay lập tức, nhưng bạn lại có xu hướng chỉ xử lý ở "phần ngọn" bề nổi của vấn đề.</p>
+                         <p><strong>Góc khuất:</strong> Việc nhầm lẫn giữa Tương quan và Nhân quả khiến các giải pháp của bạn thường chỉ có tác dụng tạm thời và vấn đề cũ dễ bị lặp lại.</p>
+                         <div class="custom-roadmap">
+                           <h4>🎯 Lộ trình 6 buổi Đồng hành cá nhân hóa (đề xuất):</h4>
+                           <ul>
+                             <li><strong>Buổi 1:</strong> Nhận diện Sự thật vs Cảm xúc & Định vị vấn đề qua Vòng tròn kiểm soát.</li>
+                             <li><strong>Buổi 2:</strong> Phân biệt Tương quan vs Nhân quả để ngừng đánh đồng sự trùng hợp.</li>
+                             <li><strong>Buổi 3:</strong> Kỹ thuật 5-Whys: Công cụ cốt lõi để đào tận gốc rễ vấn đề.</li>
+                             <li><strong>Buổi 4:</strong> Nhận diện các bẫy tư duy khiến bản thân dễ dừng lại ở bề mặt.</li>
+                             <li><strong>Buổi 5:</strong> Trình bày ý tưởng sâu sắc và thuyết phục có bằng chứng (A-R-E).</li>
+                             <li><strong>Buổi 6:</strong> Thực hành: Phân tích và giải quyết triệt để 1 case study thực tế của bạn.</li>
+                           </ul>
+                         </div>`
                 },
                 'average': {
                   title: 'The Average Thinker',
                   sub: 'Người Tư Duy Bản Năng Ổn Định',
                   traits: ['Bản năng', 'Ổn định', 'Thiếu framework'],
-                  desc: '<p><strong>Tổng quan:</strong> Nền tảng tư duy của bạn không tệ. Bạn hoạt động dựa trên bản năng tốt và giải quyết được 80% vấn đề thông thường.</p><p><strong>Góc khuất:</strong> Tuy nhiên, vì thiếu một Framework phản biện chuẩn mực, bạn vẫn có nguy cơ mắc kẹt và mất điểm ở những tình huống khó, mập mờ. Bạn cần học để biến bản năng thành một hệ thống vũ khí sắc bén. Đặt lịch tư vấn ngay.</p>'
+                  desc: `<p><strong>Tổng quan:</strong> Nền tảng tư duy của bạn ở mức khá tốt. Bạn phản ứng bằng bản năng tự nhiên ổn định và xử lý được phần lớn các tình huống.</p>
+                         <p><strong>Góc khuất:</strong> Dù vậy, vì thiếu một hệ thống Framework chuẩn mực, bạn vẫn có nguy cơ mắc kẹt khi đối diện với các quyết định mập mờ, phức tạp.</p>
+                         <div class="custom-roadmap">
+                           <h4>🎯 Lộ trình 6 buổi Đồng hành cá nhân hóa (đề xuất):</h4>
+                           <ul>
+                             <li><strong>Buổi 1:</strong> Ôn tập & Nâng cao: Tách bạch Sự thật (Fact) và Cảm xúc (Feeling).</li>
+                             <li><strong>Buổi 2:</strong> Hệ thống hóa: Nhận diện 5-7 ngụy biện lớn nhất trong đời sống.</li>
+                             <li><strong>Buổi 3:</strong> Rèn luyện kỹ thuật hỏi sâu 5 Whys để tìm nguyên nhân gốc rễ.</li>
+                             <li><strong>Buổi 4:</strong> Làm chủ thiên kiến xác nhận và các lỗi logic do thói quen.</li>
+                             <li><strong>Buổi 5:</strong> Chuyển hóa lập luận từ bản năng sang cấu trúc dữ liệu A-R-E vững chắc.</li>
+                             <li><strong>Buổi 6:</strong> Thực hành: Giải quyết một bài toán tư duy cá nhân có độ khó cao.</li>
+                           </ul>
+                         </div>`
                 },
                 'blank': {
                   title: 'The Blank Canvas',
-                  sub: 'Lối Mòn Cảm Tính',
-                  traits: ['Cảm tính', 'Thói quen', 'Cần mentor'],
-                  desc: '<p><strong>Tổng quan:</strong> Hiện tại, bạn đang hành động và đưa ra quyết định gần như 100% dựa trên cảm tính và thói quen cũ. Lỗ hổng tư duy của bạn xuất hiện ở cả mặt kiểm soát cảm xúc lẫn phân tích nguyên nhân.</p><p><strong>Góc khuất:</strong> Đừng vội đưa ra các quyết định lớn trong sự nghiệp/cuộc sống lúc này. Lời khuyên chân thành là bạn cần một Mentor để xây dựng lại móng tư duy từ con số 0. Hẹn gặp bạn ở Buổi 1.</p>'
+                  sub: 'Người Lối Mòn Cảm Tính',
+                  traits: ['Cảm tính', 'Thói quen cũ', 'Thiếu màng lọc'],
+                  desc: `<p><strong>Tổng quan:</strong> Hiện tại, bạn đang đưa ra phần lớn quyết định dựa hoàn toàn trên cảm tính và thói quen cũ. Bạn đang thiếu màng lọc tư duy phản biện cơ bản.</p>
+                         <p><strong>Góc khuất:</strong> Bạn rất dễ bị dao động trước áp lực bên ngoài, dễ trì hoãn do nỗi sợ và cần một người đồng hành dìu dắt từ số 0.</p>
+                         <div class="custom-roadmap">
+                           <h4>🎯 Lộ trình 6 buổi Đồng hành cá nhân hóa (đề xuất):</h4>
+                           <ul>
+                             <li><strong>Buổi 1:</strong> Xây dựng nền tảng: Phân biệt Sự thật khách quan vs Cảm xúc chủ quan.</li>
+                             <li><strong>Buổi 2:</strong> Nhận diện và tháo gỡ thiên kiến xác nhận trong suy nghĩ hàng ngày.</li>
+                             <li><strong>Buổi 3:</strong> Nhận diện các ngụy biện cơ bản và các tác động thao túng bên ngoài.</li>
+                             <li><strong>Buổi 4:</strong> Tìm hiểu cơ chế Amygdala Hijack (Cơn bão cảm xúc cướp não logic).</li>
+                             <li><strong>Buổi 5:</strong> Tập viết lập luận ngắn có lý do và bằng chứng theo cấu trúc A-R-E.</li>
+                             <li><strong>Buổi 6:</strong> Thực hành: Tự kiểm chứng thông tin trước khi đưa ra quyết định.</li>
+                           </ul>
+                         </div>`
                 },
                 'solid': {
                   title: 'The Solid Thinker',
                   sub: 'Người Tư Duy Vững Vàng',
-                  traits: ['Vững vàng', 'Phân tích', 'Kiểm chứng'],
-                  desc: '<p><strong>Tổng quan:</strong> Chúc mừng! Nền tảng tư duy phản biện của bạn cực kỳ vững chắc. Bạn không dễ bị dắt mũi bởi tin giả và luôn biết cách lập luận.</p><p><strong>Góc khuất:</strong> Khóa học cơ bản không dành cho bạn. Để nâng cấp kỹ năng ứng dụng tư duy phản biện vào các Case Study kinh doanh phức tạp hoặc nghệ thuật thuyết phục lãnh đạo cấp cao, bạn cần một lộ trình nâng cao hơn. Đặt lịch tư vấn ngay để chúng ta bàn chiến lược.</p>'
+                  traits: ['Vững vàng', 'Logic tốt', 'Có góc khuất cảm xúc'],
+                  desc: `<p><strong>Tổng quan:</strong> Chúc mừng! Nền tảng tư duy phản biện lý thuyết của bạn rất tốt. Bạn có khả năng phân tích đa chiều và không dễ bị dắt mũi.</p>
+                         <p><strong>Góc khuất:</strong> Dù logic tốt, bạn vẫn có những "điểm mù" về cảm xúc (như nỗi sợ tự ti ngầm, xu hướng khinh sếp nam hoặc đòi hỏi sự công nhận từ sếp nữ) ảnh hưởng âm thầm đến hành động.</p>
+                         <div class="custom-roadmap">
+                           <h4>🎯 Lộ trình 6 buổi Đồng hành cá nhân hóa (đề xuất):</h4>
+                           <ul>
+                             <li><strong>Buổi 1:</strong> Giải mã cơ chế phòng vệ tâm lý và nhận diện Pattern hành vi quá khứ.</li>
+                             <li><strong>Buổi 2:</strong> Sử dụng công cụ Fact/Feeling nâng cao để tự phẫu thuật nội tâm.</li>
+                             <li><strong>Buổi 3:</strong> Sử dụng kỹ thuật 5-Whys đào sâu vào chính nỗi sợ / sự tự ti của mình.</li>
+                             <li><strong>Buổi 4:</strong> Chỉ ra những ngụy biện mà cái tôi của bạn đang tự đánh lừa bản thân.</li>
+                             <li><strong>Buổi 5:</strong> Ứng dụng Tư duy phản biện vào các quyết định sự nghiệp lớn/thương lượng sếp.</li>
+                             <li><strong>Buổi 6:</strong> Capstone: Thiết kế Bản đồ hành động dài hạn và cơ chế tự kiểm soát.</li>
+                           </ul>
+                         </div>`
                 }
               };
 

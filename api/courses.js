@@ -11,40 +11,59 @@ module.exports = () => {
   const mockCourses = [
     {
       id: 1,
-      title: 'Wireframing & Prototyping chuyên nghiệp',
-      category: 'UX/UI DESIGN',
-      category_class: 'ui-ux',
-      price: 499000,
-      original_price: 800000,
-      sessions: '16 Buổi Zoom',
-      size_limit: '20 Học viên/Lớp',
-      badge: 'Đăng ký nhiều',
-      image_url: 'asset/teacher_female.png',
-      description: 'Khóa học Wireframing & Prototyping chuyên nghiệp được thiết kế đặc biệt cho những bạn muốn nắm vững các công cụ và tư duy thiết kế UX/UI. Tham gia lớp học trực tiếp qua Zoom, bạn sẽ được tương tác 1:1 với giảng viên, chữa bài thực hành ngay tại lớp. Bạn không chỉ học cách sử dụng công cụ (như Figma), mà còn học cách tư duy logic đằng sau mỗi quyết định thiết kế, từ đó tự tin tạo ra các sản phẩm thực tế để đưa vào Portfolio xin việc.',
+      title: 'Chương trình Đồng hành 1:1: Thinking Framework',
+      category: 'TƯ DUY PHẢN BIỆN',
+      category_class: 'ui-ux', // Keep class for purple badge styling
+      price: 1500000,
+      original_price: 2500000,
+      sessions: '6 Buổi học 1:1',
+      size_limit: 'Sĩ số 1 Học viên',
+      badge: 'Khuyên dùng',
+      image_url: 'asset/hero_student.png',
+      description: 'Chương trình đồng hành cá nhân hóa giúp bạn bóc tách Sự thật (Fact) khỏi Cảm xúc (Feeling), nhận diện các ngụy biện, cơ chế phòng vệ tự xù lông và xây dựng Framework lập luận vững chắc để vượt qua hội chứng kẻ mạo danh và sự trì hoãn.',
       curriculum: [
-        { title: 'Buổi 1-4: Nền tảng tư duy UX và Wireframing', duration: '4 Buổi' },
-        { title: 'Buổi 5-8: Làm chủ công cụ Figma & Hệ thống UI Component', duration: '4 Buổi' },
-        { title: 'Buổi 9-12: Prototyping cơ bản đến nâng cao (Animation/Micro-interactions)', duration: '4 Buổi' },
-        { title: 'Buổi 13-16: Đồ án cuối khóa & Chữa Portfolio', duration: '4 Buổi' }
+        { title: 'Buổi 1: Nhận diện cảm xúc và Cơ chế phòng vệ tự xù lông', duration: '90 Phút' },
+        { title: 'Buổi 2: Tách bạch Sự thật (Fact) khỏi Cảm xúc/Suy diễn', duration: '90 Phút' },
+        { title: 'Buổi 3: Bẫy tư duy, Thiên kiến xác nhận và Nhận diện ngụy biện', duration: '90 Phút' },
+        { title: 'Buổi 4: Đào sâu nguyên nhân gốc rễ (Root Cause Analysis - 5 Whys)', duration: '90 Phút' },
+        { title: 'Buổi 5: Xây dựng lập luận có cấu trúc vững chắc (A-R-E)', duration: '90 Phút' },
+        { title: 'Buổi 6: Capstone Project: Giải quyết một case study thực tế từ cuộc sống của bạn', duration: '90 Phút' }
       ]
     },
     {
       id: 2,
-      title: 'Python Cho Khoa Học Dữ Liệu Cơ Bản',
-      category: 'DATA SCIENCE',
-      category_class: 'data-science',
-      price: 599000,
-      original_price: null,
-      sessions: '22 Buổi Zoom',
-      size_limit: '15 Học viên/Lớp',
-      badge: '',
-      image_url: 'asset/hero_student.png',
-      description: 'Khóa học Python Cho Khoa Học Dữ Liệu Cơ Bản cung cấp nền tảng lập trình và phân tích dữ liệu thực tế bằng Python. Bạn sẽ làm quen với cú pháp, xử lý mảng, vẽ biểu đồ và trực quan hoá dữ liệu, giúp bạn tự tin ứng dụng vào công việc phân tích báo cáo.',
+      title: 'Khai vấn 1:1: Giải mã bản thân (MBTI & Self-Awareness)',
+      category: 'THẤU HIỂU NỘI TÂM',
+      category_class: 'data-science', // Blue badge styling
+      price: 500000,
+      original_price: 800000,
+      sessions: '1 Buổi Zoom 1:1',
+      size_limit: 'Sĩ số 1 Học viên',
+      badge: 'Hot',
+      image_url: 'asset/teacher_female.png',
+      description: 'Buổi nói chuyện giải mã chuyên sâu kết quả MBTI cá nhân của bạn. Nhận diện các nỗi sợ thầm kín, cơ chế đối phó khi căng thẳng và tìm kiếm sự công nhận phù hợp trong công việc và các mối quan hệ.',
       curriculum: [
-        { title: 'Buổi 1-6: Cú pháp Python cơ bản & Biến số', duration: '6 Buổi' },
-        { title: 'Buổi 7-12: Xử lý dữ liệu với Pandas & Numpy', duration: '6 Buổi' },
-        { title: 'Buổi 13-18: Trực quan hóa dữ liệu với Matplotlib & Seaborn', duration: '6 Buổi' },
-        { title: 'Buổi 19-22: Bài tập lớn & Ứng dụng thực tế', duration: '4 Buổi' }
+        { title: 'Phần 1: Đối chiếu kết quả trắc nghiệm và hành vi thực tế hàng ngày', duration: '30 Phút' },
+        { title: 'Phần 2: Chỉ ra các điểm mù trong giao tiếp và cơ chế phòng vệ ẩn', duration: '30 Phút' },
+        { title: 'Phần 3: Xây dựng kế hoạch định vị giá trị cá nhân', duration: '30 Phút' }
+      ]
+    },
+    {
+      id: 3,
+      title: 'Khai vấn 1:1: Định hướng sự nghiệp (Holland Career Match)',
+      category: 'ĐỊNH HƯỚNG NGHỀ NGHIỆP',
+      category_class: 'web-design', // Green badge styling
+      price: 500000,
+      original_price: 800000,
+      sessions: '1 Buổi Zoom 1:1',
+      size_limit: 'Sĩ số 1 Học viên',
+      badge: 'Mới',
+      image_url: 'asset/mbti_sentinel.png',
+      description: 'Giải mã mật mã Holland để tìm ra sự giao thoa giữa sở thích tự nhiên và năng lực thực tế. Tháo gỡ trạng thái chênh vênh, đứng núi này trông núi nọ để chọn lựa ngành nghề phù hợp.',
+      curriculum: [
+        { title: 'Phần 1: Phân tích 3 nhóm mật mã Holland trội nhất của bạn', duration: '30 Phút' },
+        { title: 'Phần 2: Khảo sát danh mục công việc thực tế tương thích trên thị trường', duration: '30 Phút' },
+        { title: 'Phần 3: Lập kế hoạch rèn luyện các kỹ năng lõi để thăng tiến', duration: '30 Phút' }
       ]
     }
   ];
