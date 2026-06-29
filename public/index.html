@@ -74,7 +74,7 @@
               <div class="hero-circle-bg"></div>
               <img
                 class="hero-student-img"
-                src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=800&q=80"
+                src="asset/hero_student.png"
                 alt="The LifeSkill Hub Student"
                 loading="eager"
                 decoding="async"
@@ -572,6 +572,38 @@
         <p>&copy; 2026 LifeSkill Hub. All rights reserved. Powered by Antigravity.</p>
       </div>
     </footer>
+
+    <!-- CHATBOT WIDGET -->
+    <div class="chatbot-widget" id="chatbot-widget" style="display: none;">
+      <!-- Toggle button -->
+      <button class="chatbot-toggle" id="chatbot-toggle" aria-label="Mở khung chat">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      </button>
+
+      <!-- Chat window -->
+      <div class="chatbot-window" id="chatbot-window">
+        <header class="chatbot-header">
+          <div class="chatbot-header-info">
+            <span class="chatbot-avatar">🐼</span>
+            <div>
+              <h3>The Lifeskill Hub</h3>
+              <span class="chatbot-status">Đang trực tuyến</span>
+            </div>
+          </div>
+          <button class="chatbot-close" id="chatbot-close" aria-label="Đóng khung chat">&times;</button>
+        </header>
+
+        <div class="chatbot-body" id="chatbot-body">
+          <div class="chatbot-messages" id="chatbot-messages">
+            <!-- Messages will be dynamically inserted here -->
+          </div>
+        </div>
+
+        <div class="chatbot-options" id="chatbot-options">
+          <p class="options-title">Chọn câu hỏi của bạn:</p>
+        </div>
+      </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
