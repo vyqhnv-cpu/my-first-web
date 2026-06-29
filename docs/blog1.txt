@@ -1,0 +1,43 @@
+# Giới thiệu chuỗi "Think Clear" – Khám phá 13 định kiến trong 14 ngày
+
+**Tóm tắt**
+Chuỗi bài viết "Think Clear" nhằm mục tiêu cung cấp cho độc giả những kiến thức nền tảng về các định kiến nhận thức (cognitive biases) thường gặp trong quá trình ra quyết định, đồng thời giới thiệu các phương pháp thực tiễn giúp tư duy một cách rõ ràng, logic và khách quan. 13 định kiến sẽ được trình bày trong suốt 14 ngày, mỗi ngày một insight ngắn gọn, có tính ứng dụng cao.
+
+**1. Định nghĩa và tầm quan trọng của tư duy rõ ràng**
+Tư duy rõ ràng (clear thinking) là khả năng suy luận một cách hợp lý, dựa trên dữ liệu và lý luận, đồng thời tránh các yếu tố gây sai lệch như cảm xúc, thành kiến cá nhân hay quan niệm sai lầm. Trong môi trường xã hội hiện đại, khi thông tin tràn ngập và đa dạng, việc nhận diện và khắc phục các định kiến nhận thức trở thành yếu tố then chốt để đưa ra quyết định tối ưu.
+
+**2. Khái quát về 13 định kiến (biases) sẽ được khai thác**
+Chuỗi này sẽ bao gồm các định kiến tiêu biểu như:
+- **Confirmation Bias** – xu hướng tìm kiếm và ưu ái thông tin xác nhận quan điểm hiện có;
+- **Sunk‑Cost Fallacy** – tiếp tục đầu tư vào dự án dù đã mất lợi nhuận vì đã đầu tư quá nhiều thời gian, tiền bạc;
+- **Anchoring Bias** – dựa quá mức vào thông tin ban đầu khi đánh giá một vấn đề;
+- **Availability Heuristic** – đánh giá tần suất hoặc khả năng xảy ra dựa trên những ví dụ dễ nhớ nhất.
+Mỗi định kiến sẽ được giải thích ngắn gọn, kèm theo ví dụ thực tiễn và câu hỏi phản chiếu để người đọc tự kiểm tra mức độ ảnh hưởng của chúng trong đời sống cá nhân và công việc.
+
+**3. Cấu trúc bài viết**
+Mỗi bài viết sẽ gồm các phần sau:
+- **Tiêu đề**: Đặt tên ngắn gọn, phản ánh nội dung định kiến.
+- **Mô tả ngắn gọn (Definition)**: Định nghĩa học thuật, trích dẫn nguồn tham khảo uy tín (ví dụ: Kahneman, 2011).
+- **Ví dụ thực tiễn (Illustrative Example)**: Minh họa bằng một tình huống đời thực hoặc công việc.
+- **Câu hỏi phản chiếu (Reflective Question)**: Gợi mở cho độc giả suy nghĩ về việc mình có bị ảnh hưởng như thế nào.
+- **Kết luận ngắn gọn (Take‑away)**: Đưa ra lời khuyên thực tiễn để giảm thiểu ảnh hưởng của định kiến.
+
+**4. Phong cách viết**
+- **Ngôn ngữ**: Trang trọng, học thuật, tránh cách diễn đạt thân mật, sử dụng các thuật ngữ chuyên môn một cách hợp lý.
+- **Cấu trúc câu**: Độ dài câu trung bình, câu phức kết hợp với câu đơn để duy trì tính logic.
+- **Trích dẫn**: Khi cần, sẽ ghi chú nguồn tham khảo theo chuẩn APA (ví dụ: (Kahneman, 2011)).
+
+**5. Kêu gọi hành động (CTA)**
+Mỗi bài sẽ kết thúc bằng một lời kêu gọi ngắn gọn, mang tính hướng dẫn: "Để tiếp cận toàn bộ chuỗi bài, vui lòng truy cập website https://lifeskillhub.com và đăng ký nhận bản tin." CTA được đặt ở cuối nội dung, không quá nổi bật để duy trì tính trang trọng của bài viết.
+
+**6. Lợi ích cho độc giả**
+Sau khi hoàn thành chuỗi 14 ngày, độc giả sẽ:
+- Nắm bắt được các định kiến phổ biến và cách nhận diện chúng.
+- Áp dụng các chiến lược giảm thiểu định kiến vào quyết định cá nhân và chuyên môn.
+- Cải thiện khả năng tư duy phản biện, nâng cao chất lượng quyết định và hiệu suất làm việc.
+
+**Kết luận**
+Chuỗi "Think Clear" không chỉ là một loạt bài viết ngắn gọn mà còn là một công cụ giáo dục thiết thực, dựa trên nghiên cứu khoa học trong lĩnh vực tâm lý học nhận thức. Thông qua việc tiếp cận kiến thức một cách có hệ thống và thực tiễn, độc giả sẽ được trang bị những kỹ năng cần thiết để suy nghĩ một cách rõ ràng, khách quan và hiệu quả hơn trong mọi khía cạnh của cuộc sống.
+
+---
+*Bài viết được biên soạn dựa trên tài liệu gốc "Critical_content_plan.txt" và các nguồn tham khảo khoa học uy tín.*

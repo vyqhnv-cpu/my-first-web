@@ -1,0 +1,31 @@
+const { Client } = require('ssh2');
+
+const conn = new Client();
+conn.on('ready', () => {
+  console.log('Client :: ready');
+  const commands = `
+    cd /opt/goclaw
+    echo "Cleaning up dummy tenants..."
+    docker compose -f docker-compose.yml -f docker-compose.postgres.yml exec -T postgres psql -U goclaw -d goclaw -c "DELETE FROM tenant_users WHERE tenant_id = '00000000-0000-0000-0000-000000000001';"
+    docker compose -f docker-compose.yml -f docker-compose.postgres.yml exec -T postgres psql -U goclaw -d goclaw -c "DELETE FROM tenants WHERE id = '00000000-0000-0000-0000-000000000001';"
+    
+    echo "Restarting service to clear cache..."
+    docker compose -f docker-compose.yml -f docker-compose.postgres.yml restart goclaw
+  `;
+  
+  conn.exec(commands, (err, stream) => {
+    if (err) throw err;
+    stream.on('close', (code, signal) => {
+      conn.end();
+    }).on('data', (data) => {
+      process.stdout.write(data);
+    }).stderr.on('data', (data) => {
+      process.stderr.write(data);
+    });
+  });
+}).connect({
+  host: '149.28.133.221',
+  port: 22,
+  username: 'root',
+  password: '6s(Eq%rW.Y4Xo7}d'
+});

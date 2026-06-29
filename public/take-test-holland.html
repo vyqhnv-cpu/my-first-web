@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Định hướng nghề nghiệp Holland — The LifeSkill Hub</title>
+    <link rel="icon" href="asset/favicon.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .test-container {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 0 1rem;
+      }
+      .test-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .progress-container {
+        width: 100%;
+        background-color: #E5E7EB;
+        border-radius: 9999px;
+        height: 12px;
+        margin-bottom: 2rem;
+        overflow: hidden;
+      }
+      .progress-bar {
+        height: 100%;
+        background-color: var(--color-blue);
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+      .question-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 3rem;
+        box-shadow: var(--shadow-card);
+        text-align: center;
+      }
+      .question-text {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 2.5rem;
+        color: var(--color-dark);
+        line-height: 1.4;
+      }
+      .options-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .option-btn {
+        background: #F9FAFB;
+        border: 2px solid #E5E7EB;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: inherit;
+        color: var(--color-dark);
+        flex: 1;
+        min-width: 120px;
+      }
+      .option-btn:hover {
+        border-color: var(--color-blue);
+        background: #EFF6FF;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="nav-logo" aria-label="The LifeSkill Hub">
+          <span class="brand-text">The LifeSkill <span class="brand-accent">Hub</span></span>
+        </a>
+      </div>
+    </header>
+
+    <main class="test-container">
+      <div class="test-header">
+        <h1 style="font-family: var(--font-display); color: var(--color-dark); margin-bottom: 0.5rem;">Định hướng nghề nghiệp Holland</h1>
+        <p style="color: var(--color-muted);">Đánh giá mức độ yêu thích của bạn với các hoạt động sau.</p>
+        <p style="color: var(--color-muted); font-weight: 500;" id="progressText">Câu hỏi 1 / 12</p>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <div class="question-card" id="questionCard">
+        <h2 class="question-text" id="questionText">Đang tải câu hỏi...</h2>
+        <div class="options-container" id="optionsContainer">
+          <!-- Nút sẽ render ở đây -->
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const questions = [
+        { text: "Sửa chữa các thiết bị điện tử, máy móc hoặc đồ đạc trong nhà.", type: "R" },
+        { text: "Tham gia các hoạt động thể thao, làm việc ngoài trời hoặc với công cụ cơ khí.", type: "R" },
+        
+        { text: "Nghiên cứu các hiện tượng khoa học, giải bài toán khó hoặc lập trình.", type: "I" },
+        { text: "Phân tích số liệu, tìm ra quy luật từ các biểu đồ, báo cáo.", type: "I" },
+        
+        { text: "Thiết kế, vẽ tranh, chụp ảnh hoặc sáng tạo nội dung nghệ thuật.", type: "A" },
+        { text: "Thể hiện bản thân qua âm nhạc, diễn xuất hoặc viết lách sáng tạo.", type: "A" },
+        
+        { text: "Lắng nghe, tư vấn và giúp đỡ người khác giải quyết vấn đề tâm lý.", type: "S" },
+        { text: "Tham gia các hoạt động tình nguyện, giảng dạy hoặc chăm sóc sức khỏe.", type: "S" },
+        
+        { text: "Thuyết phục người khác, đàm phán hoặc tham gia các hoạt động kinh doanh.", type: "E" },
+        { text: "Lãnh đạo một nhóm, tổ chức sự kiện hoặc quản lý một dự án.", type: "E" },
+        
+        { text: "Sắp xếp hồ sơ, nhập liệu hoặc quản lý thu chi một cách chính xác.", type: "C" },
+        { text: "Làm việc theo các quy trình rõ ràng, chú trọng đến từng chi tiết nhỏ.", type: "C" }
+      ];
+
+      const options = [
+        { label: "1. Rất ghét", score: 1 },
+        { label: "2. Không thích", score: 2 },
+        { label: "3. Bình thường", score: 3 },
+        { label: "4. Thích", score: 4 },
+        { label: "5. Rất thích", score: 5 }
+      ];
+
+      let currentIndex = 0;
+      const scores = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+
+      const qText = document.getElementById('questionText');
+      const optContainer = document.getElementById('optionsContainer');
+      const progBar = document.getElementById('progressBar');
+      const progText = document.getElementById('progressText');
+
+      function renderQuestion() {
+        if (currentIndex >= questions.length) {
+          calculateResult();
+          return;
+        }
+
+        const q = questions[currentIndex];
+        qText.textContent = q.text;
+        
+        optContainer.innerHTML = '';
+        
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.textContent = opt.label;
+          btn.onclick = () => selectOption(q.type, opt.score);
+          optContainer.appendChild(btn);
+        });
+
+        // Update progress
+        const percent = ((currentIndex) / questions.length) * 100;
+        progBar.style.width = percent + '%';
+        progText.textContent = `Câu hỏi ${currentIndex + 1} / ${questions.length}`;
+      }
+
+      function selectOption(type, score) {
+        scores[type] += score;
+        currentIndex++;
+        renderQuestion();
+      }
+
+      function calculateResult() {
+        progBar.style.width = '100%';
+        progText.textContent = 'Đang phân tích kết quả...';
+        qText.textContent = 'Đang phân tích kết quả...';
+        optContainer.innerHTML = '';
+
+        // Sắp xếp các nhóm theo điểm số giảm dần
+        const sortedTypes = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+        
+        // Lấy 3 nhóm cao điểm nhất tạo thành mã Holland (VD: SAE, RIA)
+        const hollandCode = sortedTypes.slice(0, 3).join('');
+        
+        // Chuyển hướng
+        window.location.href = `/test-result.html?test=holland&res=${hollandCode}`;
+      }
+
+      renderQuestion();
+    </script>
+  </body>
+</html>

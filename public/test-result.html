@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kết quả bài test — The LifeSkill Hub</title>
+    <link rel="icon" href="asset/favicon.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,400;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        background-color: var(--color-bg);
+      }
+      .result-hero {
+        background: linear-gradient(135deg, #F3E8FF 0%, #E0E7FF 100%);
+        padding: 4rem 1rem;
+        text-align: center;
+      }
+      .result-card {
+        background: white;
+        max-width: 800px;
+        margin: -4rem auto 4rem;
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-card);
+        overflow: hidden;
+      }
+      .result-header {
+        padding: 3rem 2rem;
+        text-align: center;
+        border-bottom: 1px solid #F3F4F6;
+      }
+      .result-type {
+        font-family: var(--font-display);
+        font-size: 2.5rem;
+        color: var(--color-primary);
+        margin: 1rem 0;
+      }
+      .result-subtitle {
+        color: var(--color-muted);
+        font-size: 1.1rem;
+      }
+      .result-body {
+        padding: 3rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .result-traits {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .trait-badge {
+        background: var(--color-primary-light);
+        color: var(--color-primary);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      .result-description p {
+        color: var(--color-neutral);
+        line-height: 1.8;
+        margin-bottom: 1rem;
+      }
+      
+      .cta-section {
+        background: var(--color-dark);
+        color: white;
+        padding: 3rem;
+        text-align: center;
+        border-radius: var(--radius-lg);
+        margin-top: 2rem;
+      }
+      .cta-section h3 {
+        font-family: var(--font-display);
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+      }
+      .cta-section p {
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+      
+      /* Form Layout inside CTA */
+      .consultation-form {
+        max-width: 500px;
+        margin: 0 auto;
+        background: white;
+        padding: 2rem;
+        border-radius: var(--radius-md);
+        text-align: left;
+      }
+      .form-group {
+        margin-bottom: 1rem;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: var(--color-dark);
+      }
+      .form-group input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: var(--radius-sm);
+        font-family: inherit;
+        font-size: 1rem;
+      }
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px var(--color-primary-light);
+      }
+      
+      @media (max-width: 768px) {
+        .result-body {
+          padding: 2rem;
+        }
+        .cta-section {
+          padding: 2rem 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="nav-logo" aria-label="The LifeSkill Hub">
+          <span class="brand-text">The LifeSkill <span class="brand-accent">Hub</span></span>
+        </a>
+        <nav class="nav" id="site-nav">
+          <a href="index.html">Trang chủ</a>
+          <a href="courses.html">Khóa học</a>
+          <a href="tests.html" class="active">Bài test</a>
+          <a href="/blog">Blog</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- HERO BACKGROUND -->
+    <section class="result-hero">
+      <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+        <img src="asset/hero_student.png" alt="Chúc mừng" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 1.5rem; border: 4px solid white; box-shadow: var(--shadow-soft);" />
+        <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-dark);">Tuyệt vời, bạn đã hoàn thành bài test!</h1>
+        <p style="color: var(--color-muted);">Dưới đây là kết quả tổng quan về bài kiểm tra của bạn.</p>
+      </div>
+    </section>
+
+    <!-- RESULT CARD -->
+    <main class="container">
+      <div class="result-card">
+        <div class="result-header">
+          <div style="width: 100px; height: 100px; margin: 0 auto 1.5rem auto; border-radius: 50%; overflow: hidden; background: var(--color-primary-light); display: flex; align-items: center; justify-content: center; color: var(--color-primary);" id="resIconContainer">
+            <svg id="resIconSvg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12 18v-6"></path><path d="M8 15h8"></path></svg>
+            <img id="resIconImg" src="" alt="Avatar" style="display: none; width: 100%; height: 100%; object-fit: cover;" />
+          </div>
+          <h2 class="result-type" id="resTitle">Đang tính toán kết quả...</h2>
+          <p class="result-subtitle" id="resSubtitle"></p>
+        </div>
+        
+        <div class="result-body">
+          <div class="result-traits" id="resTraits">
+          </div>
+          <div class="result-description" id="resDesc">
+          </div>
+
+          <!-- CALL TO ACTION: 1:1 Consultation -->
+          <div class="cta-section">
+            <h3>Bạn muốn hiểu sâu hơn về bản thân?</h3>
+            <p>Kết quả trên chỉ là bức tranh tổng quan. Để biết chính xác kết quả này ảnh hưởng thế nào đến định hướng cụ thể của bạn, hãy đăng ký <strong>Giải mã chuyên sâu 1:1</strong> cùng chuyên gia của chúng tôi.</p>
+            
+            <div class="consultation-form">
+              <h4 style="color: var(--color-dark); margin-bottom: 1.5rem; text-align: center;">Đăng ký nhận tư vấn 1:1</h4>
+              <form id="leadForm">
+                <div class="form-group">
+                  <label for="fullName">Họ và tên</label>
+                  <input type="text" id="fullName" name="full_name" placeholder="VD: Nguyễn Văn A" required minlength="2" title="Vui lòng nhập tên hợp lệ" />
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                  <div class="form-group" style="flex: 1;">
+                    <label for="age">Độ tuổi</label>
+                    <input type="number" id="age" name="age" placeholder="VD: 22" required min="10" max="99" title="Độ tuổi từ 10 đến 99" />
+                  </div>
+                  <div class="form-group" style="flex: 2;">
+                    <label for="phone">Số điện thoại (Zalo)</label>
+                    <input type="tel" id="phone" name="phone" placeholder="VD: 0901234567" required pattern="^0[0-9]{9}$" title="Số điện thoại phải bắt đầu bằng 0 và có 10 chữ số" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" placeholder="example@gmail.com" required title="Vui lòng nhập email hợp lệ" />
+                </div>
+                <div class="form-group">
+                  <label for="aspect">Khía cạnh bạn muốn tư vấn?</label>
+                  <input type="text" id="aspect" name="aspect" placeholder="VD: Định hướng nghề nghiệp, gỡ rối MQH..." required minlength="5" title="Vui lòng cho biết một vài từ khoá mà bạn đang quan tâm" />
+                </div>
+                <button type="submit" id="btnSubmitLead" class="btn-primary-purple" style="width: 100%; justify-content: center; margin-top: 1rem; border: none; cursor: pointer;">
+                  Đăng ký tư vấn ngay
+                </button>
+                <div id="leadFormMessage" style="margin-top: 1rem; font-size: 0.9rem; text-align: center; font-weight: 500;"></div>
+              </form>
+            </div>
+            
+            <script>
+              const urlParams = new URLSearchParams(window.location.search);
+              const testType = urlParams.get('test');
+              const resCode = urlParams.get('res') || 'Chưa rõ';
+              const scores = urlParams.get('scores') || '';
+              
+              const mbtiData = {
+                // Analysts
+                'INTJ': { img: 'asset/mbti_analyst.png', title: 'Nhà Kiến Tạo (INTJ)', sub: 'Chiến lược gia bẩm sinh với tư duy logic vượt trội.', traits: ['Phân tích', 'Độc lập', 'Tầm nhìn'], desc: '<p><strong>Tổng quan:</strong> Bạn sở hữu một bộ óc chiến lược hiếm có và luôn tìm kiếm sự tối ưu.</p><p><strong>Góc khuất:</strong> Đằng sau vẻ ngoài lạnh lùng là những hoài bão cực kỳ lớn lao đang chờ được khai phá. Tuy nhiên, đôi khi bạn gặp khó khăn trong việc thấu hiểu và thể hiện cảm xúc với người khác.</p>' },
+                'INTP': { img: 'asset/mbti_analyst.png', title: 'Nhà Tư Duy (INTP)', sub: 'Sáng tạo, đam mê tri thức và luôn tò mò về cách thế giới vận hành.', traits: ['Tò mò', 'Sáng tạo', 'Logic'], desc: '<p><strong>Tổng quan:</strong> Bạn là một nhà phát minh không ngừng nghỉ với vô vàn ý tưởng táo bạo.</p><p><strong>Góc khuất:</strong> Bạn có khả năng nhìn thấu những quy luật phức tạp. Dù vậy, việc đưa ý tưởng vào thực tế thường bị trì hoãn bởi sự phân tâm và cầu toàn quá mức.</p>' },
+                'ENTJ': { img: 'asset/mbti_analyst.png', title: 'Người Chỉ Huy (ENTJ)', sub: 'Lãnh đạo quyết đoán, mạnh mẽ và luôn hướng tới mục tiêu.', traits: ['Lãnh đạo', 'Quyết đoán', 'Tự tin'], desc: '<p><strong>Tổng quan:</strong> Bạn sinh ra để dẫn dắt. Với tầm nhìn xa và sự quả quyết, dường như không có rào cản nào ngăn cản được bạn.</p><p><strong>Góc khuất:</strong> Sự quyết liệt đôi khi khiến bạn trở nên quá cứng nhắc, tàn nhẫn và thiếu đi sự cảm thông cần thiết trong các mối quan hệ.</p>' },
+                'ENTP': { img: 'asset/mbti_analyst.png', title: 'Người Thách Thức (ENTP)', sub: 'Thông minh, nhạy bén và đam mê những cuộc tranh luận.', traits: ['Nhạy bén', 'Linh hoạt', 'Tranh luận'], desc: '<p><strong>Tổng quan:</strong> Bạn có tư duy phản biện xuất sắc và luôn thích thử thách các giới hạn hay bẻ gãy luật lệ.</p><p><strong>Góc khuất:</strong> Khả năng nhìn nhận vấn đề từ nhiều góc độ là vũ khí sắc bén của bạn, nhưng nó dễ làm bạn mau chán và hay bỏ dở dự án giữa chừng.</p>' },
+                
+                // Diplomats
+                'INFJ': { img: 'asset/mbti_diplomat.png', title: 'Người Che Chở (INFJ)', sub: 'Sâu sắc, lý tưởng hóa và luôn mang trong mình một sứ mệnh.', traits: ['Trực giác', 'Lý tưởng', 'Cảm thông'], desc: '<p><strong>Tổng quan:</strong> Thuộc nhóm tính cách hiếm nhất thế giới. Dưới vẻ ngoài trầm tĩnh của bạn là một thế giới nội tâm mãnh liệt.</p><p><strong>Góc khuất:</strong> Khát khao tạo ra giá trị tốt đẹp đôi khi khiến bạn tự gánh vác quá nhiều, khép kín và dễ dẫn đến sự kiệt sức.</p>' },
+                'INFP': { img: 'asset/mbti_diplomat.png', title: 'Người Hòa Giải (INFP)', sub: 'Tốt bụng, vị tha và luôn sống vì những giá trị đích thực.', traits: ['Vị tha', 'Mơ mộng', 'Đam mê'], desc: '<p><strong>Tổng quan:</strong> Bạn là một tâm hồn thơ mộng, luôn tìm kiếm cái đẹp và sự tử tế trong mọi thứ.</p><p><strong>Góc khuất:</strong> Sự chân thành của bạn truyền cảm hứng rất lớn, nhưng sự nhạy cảm thái quá dễ làm bạn bị tổn thương và xa lánh thực tại khốc liệt.</p>' },
+                'ENFJ': { img: 'asset/mbti_diplomat.png', title: 'Người Truyền Lửa (ENFJ)', sub: 'Ấm áp, đồng cảm và có khả năng kết nối tuyệt vời.', traits: ['Truyền cảm hứng', 'Lôi cuốn', 'Quan tâm'], desc: '<p><strong>Tổng quan:</strong> Bạn là một nhà lãnh đạo tinh thần đích thực, luôn biết cách khơi dậy tiềm năng của người khác.</p><p><strong>Góc khuất:</strong> Bạn luôn mang lại cảm giác an toàn cho mọi người, nhưng lại thường xuyên bỏ quên nhu cầu và sức khoẻ tinh thần của chính mình.</p>' },
+                'ENFP': { img: 'asset/mbti_diplomat.png', title: 'Người Truyền Cảm Hứng (ENFP)', sub: 'Nhiệt huyết, sáng tạo và luôn tìm kiếm ý nghĩa sâu sắc.', traits: ['Nhiệt huyết', 'Sáng tạo', 'Hòa đồng'], desc: '<p><strong>Tổng quan:</strong> Bạn là một tinh thần tự do thực thụ, luôn tràn đầy ý tưởng và năng lượng để kết nối với mọi người.</p><p><strong>Góc khuất:</strong> Khả năng đồng cảm giúp bạn dễ chạm đến trái tim người khác. Tuy vậy, sự cả thèm chóng chán và thiếu kỷ luật có thể làm chệch hướng những mục tiêu to lớn.</p>' },
+
+                // Sentinels
+                'ISTJ': { img: 'asset/mbti_sentinel.png', title: 'Người Trách Nhiệm (ISTJ)', sub: 'Thực tế, logic và vô cùng đáng tin cậy.', traits: ['Trách nhiệm', 'Kỷ luật', 'Trung thực'], desc: '<p><strong>Tổng quan:</strong> Bạn là trụ cột vững chắc trong bất kỳ tổ chức nào. Bạn thích sự trật tự, tính thực dụng và rõ ràng.</p><p><strong>Góc khuất:</strong> Kỷ luật giúp bạn làm việc hiệu quả, nhưng đổi lại, bạn thường bảo thủ, khó chấp nhận sự thay đổi và những ý tưởng khác người.</p>' },
+                'ISFJ': { img: 'asset/mbti_sentinel.png', title: 'Người Nuôi Dưỡng (ISFJ)', sub: 'Ấm áp, tận tụy và luôn sẵn sàng bảo vệ những người yêu thương.', traits: ['Tận tụy', 'Ấm áp', 'Quan tâm'], desc: '<p><strong>Tổng quan:</strong> Bạn sở hữu một trái tim nhân hậu và trí nhớ tuyệt vời về những chi tiết, thói quen nhỏ của người khác.</p><p><strong>Góc khuất:</strong> Vì luôn hi sinh âm thầm, bạn rất dễ bị người khác lợi dụng lòng tốt mà không có dũng khí để nói từ chối.</p>' },
+                'ESTJ': { img: 'asset/mbti_sentinel.png', title: 'Người Điều Hành (ESTJ)', sub: 'Thực tế, thẳng thắn và xuất sắc trong việc quản lý.', traits: ['Tổ chức', 'Lãnh đạo', 'Thực tế'], desc: '<p><strong>Tổng quan:</strong> Bạn là bậc thầy của sự quy củ. Bạn tin vào luật lệ, truyền thống và những giá trị chuẩn mực.</p><p><strong>Góc khuất:</strong> Khả năng dẫn dắt tập thể là xuất sắc, nhưng đôi khi bạn lại đánh giá mọi thứ quá khắt khe, áp đặt và thiếu sự linh hoạt.</p>' },
+                'ESFJ': { img: 'asset/mbti_sentinel.png', title: 'Người Quan Tâm (ESFJ)', sub: 'Hòa đồng, chu đáo và luôn đặt nhu cầu của tập thể lên trên.', traits: ['Hòa đồng', 'Chu đáo', 'Trung thành'], desc: '<p><strong>Tổng quan:</strong> Bạn là chất keo gắn kết mọi người. Sự nhạy cảm với người khác khiến bạn luôn được yêu mến ở bất cứ đâu.</p><p><strong>Góc khuất:</strong> Bạn rất cần sự công nhận từ xã hội. Khát khao làm hài lòng người khác đôi khi biến bạn thành người thiếu chính kiến.</p>' },
+
+                // Explorers
+                'ISTP': { img: 'asset/mbti_explorer.png', title: 'Nhà Chế Tạo (ISTP)', sub: 'Táo bạo, thực tế và luôn tò mò muốn khám phá thế giới bằng đôi tay.', traits: ['Linh hoạt', 'Thực tế', 'Độc lập'], desc: '<p><strong>Tổng quan:</strong> Bạn có một tư duy logic nhạy bén ẩn sau vẻ ngoài điềm tĩnh. Bạn thích nhảy vào trải nghiệm thực tế hơn là lý thuyết suông.</p><p><strong>Góc khuất:</strong> Khả năng xử lý khủng hoảng của bạn cực kỳ tốt. Nhưng tính cách có phần nổi loạn, khó đoán khiến người khác khó mà nắm bắt được bạn.</p>' },
+                'ISFP': { img: 'asset/mbti_explorer.png', title: 'Người Nghệ Sĩ (ISFP)', sub: 'Linh hoạt, quyến rũ và luôn sống trọn vẹn từng khoảnh khắc.', traits: ['Nghệ sĩ', 'Tự do', 'Quyến rũ'], desc: '<p><strong>Tổng quan:</strong> Bạn là một tâm hồn tự do, thích phá vỡ quy chuẩn truyền thống và cảm nhận thế giới qua lăng kính rất riêng.</p><p><strong>Góc khuất:</strong> Bạn luôn biến những điều bình dị thành nghệ thuật. Dù vậy, sự nhạy cảm thái quá đôi khi đẩy bạn vào trạng thái chênh vênh khó kiểm soát.</p>' },
+                'ESTP': { img: 'asset/mbti_explorer.png', title: 'Người Khởi Xướng (ESTP)', sub: 'Năng động, nhạy bén và luôn thích ở trung tâm của sự chú ý.', traits: ['Năng động', 'Thực tế', 'Mạo hiểm'], desc: '<p><strong>Tổng quan:</strong> Bạn sống hết mình cho hiện tại. Đối với bạn, quy tắc sinh ra là để bị phá vỡ và mọi thứ đều phải thật kích thích.</p><p><strong>Góc khuất:</strong> Khả năng đọc vị và phản xạ nhanh giúp bạn nắm bắt cơ hội tốt. Nhưng sự liều lĩnh đôi khi ném bạn vào những rắc rối tồi tệ.</p>' },
+                'ESFP': { img: 'asset/mbti_explorer.png', title: 'Người Trình Diễn (ESFP)', sub: 'Nhiệt tình, năng lượng và luôn biết cách làm cho cuộc sống thú vị.', traits: ['Nhiệt huyết', 'Vui vẻ', 'Giao tiếp'], desc: '<p><strong>Tổng quan:</strong> Bạn là linh hồn của mọi bữa tiệc. Năng lượng lan tỏa của bạn có thể làm bừng sáng cả một căn phòng.</p><p><strong>Góc khuất:</strong> Rất ít ai có thể buồn bã khi ở cạnh bạn. Nhưng bạn lại thường xuyên chạy theo những niềm vui nhất thời mà né tránh các vấn đề nghiêm túc.</p>' }
+              };
+              
+              const hollandData = {
+                title: 'Mã Holland của bạn: ' + resCode,
+                sub: 'Sự kết hợp các đặc điểm nghề nghiệp nổi bật nhất của bạn.',
+                traits: resCode.split(''),
+                desc: '<p><strong>Tổng quan:</strong> Kết quả Holland cho thấy bạn có thiên hướng mạnh mẽ ở các nhóm: <strong>' + resCode + '</strong>. Bạn sẽ phát huy tốt nhất khả năng của mình khi làm việc trong môi trường đáp ứng được những sở thích này.</p>'
+              };
+
+              const criticalData = {
+                'emotional': {
+                  title: 'The Emotional Thinker',
+                  sub: 'Người Tư Duy Cảm Xúc',
+                  traits: ['Cảm xúc', 'Trực giác', 'Thiếu dữ kiện'],
+                  desc: '<p><strong>Tổng quan:</strong> Bạn là người giàu cảm xúc, có trực giác tốt và sự nhạy cảm. Tuy nhiên, rào cản lớn nhất của bạn là đôi khi để cảm xúc và nhận định chủ quan lấn át dữ liệu thực tế (Fact).</p><p><strong>Góc khuất:</strong> Trong các cuộc tranh luận hay ra quyết định, bạn dễ bị rối trí bởi những luồng ý kiến cá nhân. Hãy đặt lịch tư vấn 1-1 ngay. Trong Buổi 1, chúng ta sẽ thực hành công cụ bóc tách Sự Thật & Quan Điểm để giúp bạn giữ một cái đầu lạnh trong mọi tình huống.</p>'
+                },
+                'fast': {
+                  title: 'The Fast Jumper',
+                  sub: 'Người Nhảy Cóc Logic',
+                  traits: ['Nhanh nhạy', 'Nắm bắt', 'Ngụy biện'],
+                  desc: '<p><strong>Tổng quan:</strong> Bạn tư duy rất nhanh nhạy và nắm bắt vấn đề tốt. Tuy nhiên, tốc độ làm bạn vô tình bỏ qua các bước logic nền tảng.</p><p><strong>Góc khuất:</strong> Bạn dễ rơi vào bẫy của các ngụy biện (Logical fallacies) khi tiêu thụ thông tin hoặc dễ bị đuối lý khi bị người khác tấn công cá nhân. Book lịch nói chuyện với chúng tôi nhé! Bạn chỉ thiếu một vài Framework nhận diện ngụy biện để lập luận của bạn trở nên sắc bén hơn.</p>'
+                },
+                'believer': {
+                  title: 'The Believer',
+                  sub: 'Người Dễ Bị Thuyết Phục',
+                  traits: ['Tư duy mở', 'Cả tin', 'Thiên kiến'],
+                  desc: '<p><strong>Tổng quan:</strong> Bạn mang trong mình một tư duy mở, sẵn sàng tiếp thu cái mới. Nhưng mặt trái là bạn đang thiếu một lớp "màng lọc" thông tin.</p><p><strong>Góc khuất:</strong> Bạn thường rơi vào bẫy Thiên kiến xác nhận (chỉ tin những gì mình muốn tin) hoặc dễ tin vào những bằng chứng thiếu độ xác tín. Sự thật trên mạng xã hội chỉ có 50%. Hãy để tôi hướng dẫn bạn các bộ công cụ kiểm chứng thông tin chuyên sâu trong buổi nói chuyện sắp tới nhé.</p>'
+                },
+                'surface': {
+                  title: 'The Surface Skimmer',
+                  sub: 'Người Lướt Trên Bề Mặt',
+                  traits: ['Tương quan', 'Nhân quả', 'Xử lý tình huống'],
+                  desc: '<p><strong>Tổng quan:</strong> Bạn giỏi xử lý các vấn đề hiện hữu, nhưng bạn đang gặp khó khăn trong việc tìm ra Nguyên nhân gốc rễ (Root Cause).</p><p><strong>Góc khuất:</strong> Việc đánh đồng "Tương quan" và "Nhân quả" dễ khiến bạn đưa ra những giải pháp ngọn ngành mà không giải quyết được triệt để vấn đề. Đừng giải quyết vấn đề ở bề nổi nữa. Hẹn gặp bạn ở buổi tư vấn, tôi sẽ chỉ cho bạn sức mạnh của kỹ thuật 5-Whys và chuỗi phân tích nhân quả.</p>'
+                },
+                'average': {
+                  title: 'The Average Thinker',
+                  sub: 'Người Tư Duy Bản Năng Ổn Định',
+                  traits: ['Bản năng', 'Ổn định', 'Thiếu framework'],
+                  desc: '<p><strong>Tổng quan:</strong> Nền tảng tư duy của bạn không tệ. Bạn hoạt động dựa trên bản năng tốt và giải quyết được 80% vấn đề thông thường.</p><p><strong>Góc khuất:</strong> Tuy nhiên, vì thiếu một Framework phản biện chuẩn mực, bạn vẫn có nguy cơ mắc kẹt và mất điểm ở những tình huống khó, mập mờ. Bạn cần học để biến bản năng thành một hệ thống vũ khí sắc bén. Đặt lịch tư vấn ngay.</p>'
+                },
+                'blank': {
+                  title: 'The Blank Canvas',
+                  sub: 'Lối Mòn Cảm Tính',
+                  traits: ['Cảm tính', 'Thói quen', 'Cần mentor'],
+                  desc: '<p><strong>Tổng quan:</strong> Hiện tại, bạn đang hành động và đưa ra quyết định gần như 100% dựa trên cảm tính và thói quen cũ. Lỗ hổng tư duy của bạn xuất hiện ở cả mặt kiểm soát cảm xúc lẫn phân tích nguyên nhân.</p><p><strong>Góc khuất:</strong> Đừng vội đưa ra các quyết định lớn trong sự nghiệp/cuộc sống lúc này. Lời khuyên chân thành là bạn cần một Mentor để xây dựng lại móng tư duy từ con số 0. Hẹn gặp bạn ở Buổi 1.</p>'
+                },
+                'solid': {
+                  title: 'The Solid Thinker',
+                  sub: 'Người Tư Duy Vững Vàng',
+                  traits: ['Vững vàng', 'Phân tích', 'Kiểm chứng'],
+                  desc: '<p><strong>Tổng quan:</strong> Chúc mừng! Nền tảng tư duy phản biện của bạn cực kỳ vững chắc. Bạn không dễ bị dắt mũi bởi tin giả và luôn biết cách lập luận.</p><p><strong>Góc khuất:</strong> Khóa học cơ bản không dành cho bạn. Để nâng cấp kỹ năng ứng dụng tư duy phản biện vào các Case Study kinh doanh phức tạp hoặc nghệ thuật thuyết phục lãnh đạo cấp cao, bạn cần một lộ trình nâng cao hơn. Đặt lịch tư vấn ngay để chúng ta bàn chiến lược.</p>'
+                }
+              };
+
+              if (testType === 'mbti') {
+                const d = mbtiData[resCode] || { title: 'Nhóm tính cách: ' + resCode, sub: 'Nhóm tính cách độc đáo.', traits: ['Đặc biệt'], desc: '<p>Đây là nhóm tính cách rất thú vị và có nhiều tiềm năng phát triển.</p>' };
+                document.getElementById('resTitle').textContent = d.title;
+                document.getElementById('resSubtitle').textContent = d.sub;
+                document.getElementById('resTraits').innerHTML = d.traits.map(t => `<span class="trait-badge">${t}</span>`).join('');
+                document.getElementById('resDesc').innerHTML = d.desc;
+                
+                if (d.img) {
+                  document.getElementById('resIconSvg').style.display = 'none';
+                  const imgEl = document.getElementById('resIconImg');
+                  imgEl.src = d.img;
+                  imgEl.style.display = 'block';
+                }
+              } else if (testType === 'holland') {
+                document.getElementById('resTitle').textContent = hollandData.title;
+                document.getElementById('resSubtitle').textContent = hollandData.sub;
+                document.getElementById('resTraits').innerHTML = hollandData.traits.map(t => `<span class="trait-badge">Nhóm ${t}</span>`).join('');
+                document.getElementById('resDesc').innerHTML = hollandData.desc;
+              } else if (testType === 'critical') {
+                const d = criticalData[resCode] || { title: 'Người Khám Phá', sub: 'Tư duy độc đáo.', traits: ['Đặc biệt'], desc: '<p>Đang xử lý kết quả.</p>' };
+                document.getElementById('resTitle').textContent = d.title;
+                document.getElementById('resSubtitle').textContent = d.sub;
+                document.getElementById('resTraits').innerHTML = d.traits.map(t => `<span class="trait-badge">${t}</span>`).join('');
+                document.getElementById('resDesc').innerHTML = d.desc;
+              }
+
+              document.getElementById('leadForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const btn = document.getElementById('btnSubmitLead');
+                const msgBox = document.getElementById('leadFormMessage');
+                
+                const payload = {
+                  test_id: testType === 'holland' ? 2 : (testType === 'critical' ? 3 : 1),
+                  result: resCode,
+                  details: scores, // Lấy chuỗi điểm từ URL
+                  full_name: document.getElementById('fullName').value,
+                  age: parseInt(document.getElementById('age').value),
+                  phone: document.getElementById('phone').value,
+                  email: document.getElementById('email').value,
+                  aspect: document.getElementById('aspect').value
+                };
+                
+                btn.textContent = 'Đang gửi...';
+                btn.disabled = true;
+                msgBox.textContent = '';
+                
+                try {
+                  const response = await fetch('/api/tests/lead', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                  });
+                  
+                  const data = await response.json();
+                  if (data.success) {
+                    msgBox.style.color = '#10B981'; // Green
+                    msgBox.textContent = 'Đăng ký thành công! Chuyên gia sẽ sớm liên hệ với bạn qua Zalo.';
+                    this.reset();
+                  } else {
+                    throw new Error(data.error || 'Có lỗi xảy ra, vui lòng thử lại.');
+                  }
+                } catch (error) {
+                  msgBox.style.color = '#EF4444'; // Red
+                  msgBox.textContent = error.message;
+                } finally {
+                  btn.textContent = 'Đăng ký tư vấn ngay';
+                  btn.disabled = false;
+                }
+              });
+            </script>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer" style="padding: 4rem 0; background: var(--color-dark); color: white; text-align: center;">
+      <div class="container">
+        <h2 style="font-family: var(--font-display); margin-bottom: 1rem;">The LifeSkill Hub</h2>
+        <p style="color: var(--color-muted); font-size: 0.9rem;">&copy; 2024 The LifeSkill Hub. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

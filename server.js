@@ -29,6 +29,17 @@ const authMiddleware = basicAuth({
   realm: 'Admin Area',
 });
 
+// Load MCP routes (async setup) BEFORE express.json() to prevent stream consumption
+const mcpWrapper = express.Router();
+app.use('/api/mcp', mcpWrapper);
+const { setupMcpRouter } = require('./mcp/mcp_server');
+setupMcpRouter(express).then(mcpRouter => {
+  mcpWrapper.use(mcpRouter);
+  console.log('[MCP] Routes mounted at /api/mcp');
+}).catch(err => {
+  console.error("[MCP] Failed to setup routes:", err);
+});
+
 app.use(express.json());
 
 // Log requests
@@ -215,33 +226,18 @@ app.use('/api/products', require('./api/products')());
 app.use('/api/customers', require('./api/customers')());
 app.use('/api/orders', require('./api/orders')());
 app.use('/api/transactions', require('./api/transactions'));
+app.use('/api/courses', require('./api/courses')());
+app.use('/api/tests', require('./api/tests')());
 
-// Load MCP routes (async setup)
-const mcpWrapper = express.Router();
-app.use('/api/mcp', mcpWrapper);
-const { setupMcpRouter } = require('./mcp/mcp_server');
-setupMcpRouter(express).then(mcpRouter => {
-  mcpWrapper.use(mcpRouter);
-  console.log('[MCP] Routes mounted at /api/mcp');
-}).catch(err => {
-  console.error("[MCP] Failed to setup routes:", err);
-});
 
-// Static assets
-app.use('/asset', express.static(path.join(__dirname, 'asset')));
+
+// Serve static files from the public folder (auto-resolves .html and .css)
+app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
+
+// Keep data folder accessible if it contains json data
 app.use('/data', express.static(path.join(__dirname, 'data')));
-app.get('/style.css', (req, res) => res.sendFile(path.join(__dirname, 'style.css')));
-app.get('/blog.css', (req, res) => res.sendFile(path.join(__dirname, 'blog.css')));
-app.get('/thank-you.html', (req, res) => res.sendFile(path.join(__dirname, 'thank-you.html')));
-app.get('/waitlist.json', (req, res) => res.sendFile(path.join(__dirname, 'waitlist.json')));
 
-// Blog page
-app.get('/blog', (req, res) => res.sendFile(path.join(__dirname, 'blog.html')));
-
-// Home page
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-
-// Fallback
+// Fallback for any other route (404) -> redirect to home
 app.get('*', (req, res) => res.redirect('/'));
 
 // Start server only if run directly (local dev)

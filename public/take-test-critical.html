@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trắc nghiệm Tư duy phản biện — The LifeSkill Hub</title>
+    <link rel="icon" href="asset/favicon.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .test-container {
+        max-width: 800px;
+        margin: 4rem auto;
+        padding: 0 1rem;
+      }
+      .test-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+      }
+      .test-title {
+        font-family: var(--font-display);
+        color: var(--color-dark);
+        font-size: 2.2rem;
+        margin-bottom: 0.75rem;
+      }
+      .progress-container {
+        width: 100%;
+        background-color: #E5E7EB;
+        border-radius: 9999px;
+        height: 12px;
+        margin-bottom: 2rem;
+        overflow: hidden;
+      }
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+        width: 0%;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .question-card {
+        background: var(--color-white);
+        border-radius: var(--radius-xl);
+        padding: 3rem;
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
+        border: 1px solid rgba(110, 60, 188, 0.05);
+      }
+      .question-text {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 2.5rem;
+        color: var(--color-dark);
+        line-height: 1.6;
+      }
+      .options-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+      .option-btn {
+        background: var(--color-bg);
+        border: 2px solid #E2E8F0;
+        padding: 1.25rem 2rem;
+        border-radius: 16px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+        font-family: inherit;
+        color: var(--color-neutral);
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        line-height: 1.5;
+      }
+      .option-btn strong {
+        color: var(--color-primary);
+        font-weight: 700;
+        font-size: 1.2rem;
+        min-width: 24px;
+      }
+      .option-btn:hover {
+        border-color: var(--color-primary);
+        background: var(--color-primary-light);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(110, 60, 188, 0.08);
+      }
+      .option-btn.selected {
+        border-color: var(--color-secondary);
+        background: var(--color-secondary-light);
+        color: var(--color-dark);
+        box-shadow: 0 10px 20px rgba(236, 72, 153, 0.1);
+      }
+      .btn-next-wrapper {
+        text-align: right;
+        margin-top: 2.5rem;
+        min-height: 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+      <div class="container header-inner">
+        <div class="logo">The LifeSkill Hub</div>
+        <nav class="nav">
+          <a href="/">Trang chủ</a>
+          <a href="/courses.html">Khóa học</a>
+          <a href="/tests.html" class="active">Bài Test</a>
+          <a href="/blog">Blog</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- TEST INTERFACE -->
+    <main class="test-container">
+      <div class="test-header">
+        <h2 class="test-title">Đánh giá Năng lực Tư duy Phản biện</h2>
+        <p style="color: var(--color-muted); font-size: 1.1rem;" id="progText">Câu hỏi 1 / 12</p>
+      </div>
+      
+      <div class="progress-container">
+        <div class="progress-bar" id="progBar"></div>
+      </div>
+
+      <div class="question-card">
+        <h3 class="question-text" id="qText">Đang tải câu hỏi...</h3>
+        <div class="options-container" id="optionsGrid">
+          <!-- Options will be injected here -->
+        </div>
+        
+        <div class="btn-next-wrapper">
+          <button class="btn-primary-purple" id="btnNext" style="display: none; padding: 1rem 3rem; font-size: 1.1rem;">Khóa đáp án & Tiếp tục</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p>© 2026 The LifeSkill Hub. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const questions = [
+        // Nhóm 1: Fact vs Opinion
+        {
+          group: 1,
+          text: 'Trong một cuộc họp, sếp nói: "Dự án A vừa qua thất bại hoàn toàn. Khách hàng phàn nàn liên tục và chúng ta đã vượt ngân sách 20%". Đâu là SỰ THẬT (Fact) có thể kiểm chứng trong câu nói trên?',
+          options: [
+            { id: 'A', text: 'Dự án A là một thất bại.' },
+            { id: 'B', text: 'Ngân sách đã bị vượt mức 20%.' },
+            { id: 'C', text: 'Khách hàng rất không hài lòng với sản phẩm.' },
+            { id: 'D', text: 'Cả 3 ý trên đều là sự thật rõ ràng.' }
+          ],
+          correct: 'B'
+        },
+        {
+          group: 1,
+          text: 'Bạn đọc một bài confession của trường: "Trường mình vừa quyết định tăng học phí thêm 15%. Thật là một quyết định bóc lột sinh viên và cho thấy trường đang coi trọng lợi nhuận hơn chất lượng giáo dục." Đâu là dữ kiện khách quan (Fact) duy nhất?',
+          options: [
+            { id: 'A', text: 'Trường đang coi trọng lợi nhuận hơn giáo dục.' },
+            { id: 'B', text: 'Quyết định tăng học phí mang tính bóc lột.' },
+            { id: 'C', text: 'Học phí của trường vừa tăng thêm 15%.' },
+            { id: 'D', text: 'Sinh viên đang rất phẫn nộ với quyết định này.' }
+          ],
+          correct: 'C'
+        },
+        {
+          group: 1,
+          text: 'Một KOC review điện thoại: "Chiếc điện thoại này màu sắc bợt bạt, dùng lác, chắc chắn không một Gen Z nào muốn mua một sản phẩm như vậy với mức giá 20 triệu đồng." Đâu là nhận định chủ quan (Opinion)?',
+          options: [
+            { id: 'A', text: 'Chiếc điện thoại này có giá 20 triệu đồng.' },
+            { id: 'B', text: 'KOC này đang cầm trên tay chiếc điện thoại.' },
+            { id: 'C', text: 'Màu sắc bợt bạt, không một Gen Z nào muốn mua.' },
+            { id: 'D', text: 'Điện thoại này là phiên bản mới nhất của hãng.' }
+          ],
+          correct: 'C'
+        },
+
+        // Nhóm 2: Logical Fallacies
+        {
+          group: 2,
+          text: 'Khi làm bài tập nhóm, bạn năm nhất đề xuất dùng phần mềm X để vẽ biểu đồ. Nhóm trưởng gạt đi: "Em mới năm nhất thì biết gì về đồ án chuyên ngành mà đòi chọn tool." Lỗi logic của nhóm trưởng là gì?',
+          options: [
+            { id: 'A', text: 'Bảo thủ với kinh nghiệm cũ thay vì sẵn sàng thử cái mới.' },
+            { id: 'B', text: 'Bác bỏ ý kiến bằng cách công kích thâm niên/cá nhân thay vì phân tích ưu/nhược điểm của phần mềm đó.' },
+            { id: 'C', text: 'Ép buộc các thành viên khác phải nghe theo ý mình một cách độc đoán.' },
+            { id: 'D', text: 'Lập luận này rất thực tế, không có lỗi vì sinh viên năm nhất thiếu kinh nghiệm.' }
+          ],
+          correct: 'B'
+        },
+        {
+          group: 2,
+          text: 'Một quảng cáo viết: "90% bà mẹ Việt Nam đã tin dùng sữa Y cho con. Hãy là người mẹ thông thái tiếp theo!". Điểm yếu trong logic của quảng cáo này là gì?',
+          options: [
+            { id: 'A', text: 'Số liệu 90% chưa được kiểm chứng bởi bên thứ ba độc lập.' },
+            { id: 'B', text: 'Chất lượng thực sự của sản phẩm không được bảo chứng chỉ bằng số đông người sử dụng.' },
+            { id: 'C', text: 'Lời kêu gọi "thông thái" mang tính ép buộc và thao túng tâm lý.' },
+            { id: 'D', text: 'Quảng cáo chưa nhắc đến giá bán hay thành phần của sữa Y.' }
+          ],
+          correct: 'B'
+        },
+        {
+          group: 2,
+          text: 'Trước khi thi môn Triết, Nam đổi sang dùng bút mực xanh và trúng tủ được điểm A. Kỳ sau, Nam khuyên: "Bọn mày đi thi cứ mua bút xanh mà viết nhé, trộm vía qua môn hết đấy!". Nam mắc lỗi gì?',
+          options: [
+            { id: 'A', text: 'Quá phụ thuộc vào tâm linh thay vì nỗ lực tự thân.' },
+            { id: 'B', text: 'Bắt ép người khác phải làm theo thói quen cá nhân của mình.' },
+            { id: 'C', text: 'Nhầm lẫn giữa việc "xảy ra trước" với nguyên nhân thực sự gây ra kết quả.' },
+            { id: 'D', text: 'Phớt lờ việc mỗi người có một cách học tập và trí nhớ khác nhau.' }
+          ],
+          correct: 'C'
+        },
+
+        // Nhóm 3: Evidence & Biases
+        {
+          group: 3,
+          text: 'Đang làm tiểu luận "Tác hại của MXH", Hùng chỉ tìm các bài báo nói về gen Z bị trầm cảm do TikTok, và phớt lờ nghiên cứu nói về lợi ích kết nối cộng đồng. Đây là hiện tượng gì?',
+          options: [
+            { id: 'A', text: 'Kỹ năng bám sát vào trọng tâm đề tài rất tốt.' },
+            { id: 'B', text: 'Đi tìm bằng chứng chỉ để củng cố cho niềm tin có sẵn (Thiên kiến xác nhận).' },
+            { id: 'C', text: 'Lười biếng trong việc tổng hợp đa dạng tài liệu tham khảo.' },
+            { id: 'D', text: 'Góc nhìn phiến diện do thiếu trải nghiệm thực tế.' }
+          ],
+          correct: 'B'
+        },
+        {
+          group: 3,
+          text: 'Một diễn viên hài khẳng định trên livestream: "Đồng tiền ảo V-coin này chắc chắn sẽ tăng giá gấp 10 lần. Tôi đã mua và lãi to!". Lỗ hổng tư duy của đám đông mua theo là gì?',
+          options: [
+            { id: 'A', text: 'Quá tham lam, muốn làm giàu nhanh chóng mà không muốn lao động.' },
+            { id: 'B', text: 'Đánh đồng sự nổi tiếng trong giới nghệ thuật với chuyên môn trong lĩnh vực tài chính.' },
+            { id: 'C', text: 'Không đánh giá kỹ biểu đồ phân tích kỹ thuật của V-coin.' },
+            { id: 'D', text: 'Tin tưởng mù quáng vào tương lai của thị trường tiền ảo nói chung.' }
+          ],
+          correct: 'B'
+        },
+        {
+          group: 3,
+          text: 'Trong buổi họp CLB, Leader nói: "Nếu chúng ta không làm sự kiện này hoành tráng, CLB sẽ mất uy tín hoàn toàn và sẽ chẳng còn ai đăng ký tham gia nữa!". Lập luận này đang dùng thủ thuật nào?',
+          options: [
+            { id: 'A', text: 'Đe dọa các thành viên bằng một viễn cảnh tương lai tồi tệ nhất.' },
+            { id: 'B', text: 'Phóng đại sức mạnh của các Câu lạc bộ đối thủ trong trường.' },
+            { id: 'C', text: 'Ép người nghe vào 2 thái cực duy nhất và phớt lờ các giải pháp khác.' },
+            { id: 'D', text: 'Phân tích rủi ro dựa trên nỗi sợ hãi chủ quan chưa có căn cứ.' }
+          ],
+          correct: 'C'
+        },
+
+        // Nhóm 4: Correlation vs Causation
+        {
+          group: 4,
+          text: 'Một bài khảo sát kết luận: "Những sinh viên thường xuyên đi du lịch có điểm GPA cao hơn những bạn không đi. Vậy, đi du lịch giúp cải thiện điểm số!". Phản biện nào chỉ ra điểm mù lớn nhất?',
+          options: [
+            { id: 'A', text: 'Việc đi du lịch rất tốn thời gian, không thể nào làm điểm GPA cao lên được.' },
+            { id: 'B', text: 'Có thể có nguyên nhân thứ 3 (kinh tế tốt) giúp họ vừa đi chơi, vừa có môi trường học tốt.' },
+            { id: 'C', text: 'Điểm GPA cao hay thấp phụ thuộc vào sự nỗ lực cá nhân, không phải do ngoại cảnh.' },
+            { id: 'D', text: 'Khảo sát này chắc chắn lấy số liệu từ một nhóm nhỏ nên không mang tính đại diện.' }
+          ],
+          correct: 'B'
+        },
+        {
+          group: 4,
+          text: 'Sau khi đổi thiết kế bao bì, doanh số tăng gấp đôi. Marketing team kết luận: "Bao bì mới kích thích khách mua nhiều hơn!". Yếu tố nào dưới đây, nếu có thật, sẽ làm sụp đổ kết luận trên?',
+          options: [
+            { id: 'A', text: 'Bao bì mới tốn chi phí in ấn cao hơn bao bì cũ 20%.' },
+            { id: 'B', text: 'Đối thủ cạnh tranh trực tiếp cũng vừa đổi thiết kế bao bì giống vậy.' },
+            { id: 'C', text: 'Cùng thời điểm đổi bao bì, công ty đã chạy chương trình giảm giá 50% toàn quốc.' },
+            { id: 'D', text: 'Nhiều khách hàng phàn nàn trên fanpage rằng bao bì mới rất khó xé.' }
+          ],
+          correct: 'C'
+        },
+        {
+          group: 4,
+          text: 'Một core-member xin rút khỏi CLB với lý do: "Em bận học không sắp xếp được thời gian". Nếu Chủ nhiệm CLB chốt luôn lý do là "Bận học", họ đang hổng kỹ năng tư duy nào?',
+          options: [
+            { id: 'A', text: 'Kỹ năng thấu cảm với áp lực học hành của các thành viên.' },
+            { id: 'B', text: 'Khả năng đào sâu tìm "Nguyên nhân gốc rễ" (có thể do mâu thuẫn, chán hoạt động...).' },
+            { id: 'C', text: 'Kỹ năng thuyết phục và giữ chân nhân sự cốt cán của tổ chức.' },
+            { id: 'D', text: 'Khả năng phân chia công việc (Task delegation) hợp lý cho các thành viên.' }
+          ],
+          correct: 'B'
+        }
+      ];
+
+      let currentIndex = 0;
+      let scores = { 1: 0, 2: 0, 3: 0, 4: 0 };
+      let currentSelection = null;
+
+      const qText = document.getElementById('qText');
+      const optionsGrid = document.getElementById('optionsGrid');
+      const progBar = document.getElementById('progBar');
+      const progText = document.getElementById('progText');
+      const btnNext = document.getElementById('btnNext');
+
+      function renderQuestion() {
+        if (currentIndex >= questions.length) {
+          finishTest();
+          return;
+        }
+
+        const q = questions[currentIndex];
+        qText.textContent = `${currentIndex + 1}. ${q.text}`;
+        
+        // Cập nhật thanh tiến trình
+        const percent = ((currentIndex) / questions.length) * 100;
+        progBar.style.width = percent + '%';
+        progText.textContent = `Câu hỏi ${currentIndex + 1} / ${questions.length}`;
+
+        optionsGrid.innerHTML = '';
+        currentSelection = null;
+        btnNext.style.display = 'none';
+
+        q.options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.innerHTML = `<strong>${opt.id}.</strong> <span>${opt.text}</span>`;
+          btn.onclick = () => {
+            document.querySelectorAll('.option-btn').forEach(c => c.classList.remove('selected'));
+            btn.classList.add('selected');
+            currentSelection = opt.id;
+            btnNext.style.display = 'inline-block';
+          };
+          optionsGrid.appendChild(btn);
+        });
+      }
+
+      btnNext.addEventListener('click', () => {
+        if (!currentSelection) return;
+        
+        const q = questions[currentIndex];
+        if (currentSelection === q.correct) {
+          scores[q.group] += 1;
+        }
+
+        currentIndex++;
+        renderQuestion();
+      });
+
+      function finishTest() {
+        btnNext.style.display = 'none';
+        qText.textContent = 'Đang phân tích dữ liệu...';
+        optionsGrid.innerHTML = '<div style="text-align:center; padding: 2rem;"><p>Hệ thống đang trích xuất chân dung tư duy của bạn, vui lòng đợi giây lát!</p></div>';
+        
+        const s1 = scores[1];
+        const s2 = scores[2];
+        const s3 = scores[3];
+        const s4 = scores[4];
+        const total = s1 + s2 + s3 + s4;
+
+        let persona = '';
+
+        // Ngoại lệ 4 (The Master)
+        if ((s1 === 3 && s2 === 3 && s3 === 3 && s4 === 3) || total >= 11) {
+          persona = 'solid';
+        } 
+        // Ngoại lệ 3 (The Blank)
+        else if (total <= 4 || (s1 <= 1 && s2 <= 1 && s3 <= 1 && s4 <= 1)) {
+          persona = 'blank';
+        } 
+        // Ngoại lệ 2 (The Average)
+        else if (s1 === 2 && s2 === 2 && s3 === 2 && s4 === 2) {
+          persona = 'average';
+        } 
+        // Nguyên tắc gốc: Thấp nhất ở nhóm nào -> Persona nhóm đó
+        // Ngoại lệ 1 (Tie-breaker): Ưu tiên Nhóm 1 > Nhóm 2 > Nhóm 3 > Nhóm 4
+        else {
+          let minScore = Math.min(s1, s2, s3, s4);
+          if (s1 === minScore) persona = 'emotional';
+          else if (s2 === minScore) persona = 'fast';
+          else if (s3 === minScore) persona = 'believer';
+          else if (s4 === minScore) persona = 'surface';
+        }
+
+        const scoreDetail = `${s1}-${s2}-${s3}-${s4}`;
+
+        setTimeout(() => {
+          window.location.href = `test-result.html?test=critical&res=${persona}&scores=${scoreDetail}`;
+        }, 1500);
+      }
+
+      renderQuestion();
+    </script>
+  </body>
+</html>

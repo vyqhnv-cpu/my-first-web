@@ -1,0 +1,28 @@
+const { Client } = require('ssh2');
+
+const conn = new Client();
+conn.on('ready', () => {
+  console.log('🟢 SSH connection ready: Checking environment load...');
+
+  const commands = `
+    cat <<EOF > /opt/my-website/test-env.js
+require('dotenv').config();
+console.log("URL:", process.env.SUPABASE_URL);
+console.log("KEY:", process.env.SUPABASE_ANON_KEY);
+EOF
+    cd /opt/my-website && node test-env.js
+  `;
+
+  conn.exec(commands, (err, stream) => {
+    if (err) throw err;
+    stream.on('close', () => conn.end())
+    .on('data', d => process.stdout.write(d))
+    .stderr.on('data', d => process.stderr.write(d));
+  });
+
+}).connect({
+  host: '149.28.133.221',
+  port: 22,
+  username: 'root',
+  password: '6s(Eq%rW.Y4Xo7}d'
+});

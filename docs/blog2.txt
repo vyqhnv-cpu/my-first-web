@@ -1,0 +1,40 @@
+# Bài 2 – Confirmation Bias (Định kiến Xác Nhận)
+
+**Tóm tắt**
+Bài viết này khám phá *Confirmation Bias* – xu hướng con người tìm kiếm, chú ý và ưu ái những thông tin xác nhận quan điểm hiện có, đồng thời giảm thiểu hoặc loại bỏ những bằng chứng trái ngược. Đây là một trong những định kiến nhận thức cơ bản, ảnh hưởng sâu rộng tới quyết định cá nhân, nghiên cứu khoa học và quản trị tổ chức.
+
+**1. Định nghĩa học thuật**
+Confirmation Bias (hay *bias xác nhận*) được định nghĩa là "khoảng thiên vị nhận thức khi các cá nhân ưu tiên các bằng chứng ủng hộ giả thuyết của mình và bỏ qua hoặc giảm trọng lượng các bằng chứng phản bác" (Nickerson, 1998). Khái niệm này được nghiên cứu rộng rãi trong tâm lý học nhận thức, đặc biệt qua các thí nghiệm của Wason (1960) và các nghiên cứu của Kahneman & Tversky (1979) về heuristics và bias.
+
+**2. Cơ chế hoạt động**
+- **Tiêu chí chọn lọc**: Khi tiếp nhận thông tin, bộ não ưu tiên các ký hiệu, mẫu và ngữ cảnh phù hợp với quan niệm hiện tại.
+- **Xác nhận cảm xúc**: Thông tin phù hợp thường kích hoạt các vùng não liên quan tới khoái cảm, tạo cảm giác an toàn.
+- **Bảo vệ bản ngã**: Việc chối bỏ chứng cứ trái ngược có thể gây bất ổn tâm lý, do đó người ta thường tự bảo vệ quan điểm cá nhân.
+
+**3. Ví dụ thực tiễn**
+*Ví dụ 1 – Chính trị*: Một cử tri có quan điểm ủng hộ đảng A sẽ thường xuyên theo dõi các phương tiện truyền thông ủng hộ đảng, đồng thời bỏ qua hoặc gạt bỏ những tin tức tiêu cực liên quan.
+*Ví dụ 2 – Khoa học*: Nhà nghiên cứu có giả thuyết ban đầu về hiệu quả một loại thuốc có xu hướng thu thập dữ liệu chỉ ủng hộ giả thuyết, bỏ qua các kết quả thử nghiệm không đạt tiêu chuẩn.
+*Ví dụ 3 – Quản trị dự án*: Quản lý dự án tin rằng cách tiếp cận hiện tại là tốt nhất, do đó ít lắng nghe phản hồi tiêu cực từ nhóm thực hiện, dẫn đến lỗi thiết kế kéo dài.
+
+**4. Câu hỏi phản chiếu (Reflective Question)**
+- *Bạn có thường xuyên tìm kiếm thông tin củng cố quan điểm cá nhân không?* 
+- *Khi gặp dữ liệu trái ngược, bạn phản ứng như thế nào?* 
+- *Có thể liệt kê một trường hợp gần đây mà bạn nhận ra đã bị Confirmation Bias chi phối quyết định?*
+
+**5. Hậu quả và tác động**
+Confirmation Bias có thể dẫn đến quyết định sai lầm trong kinh doanh (đánh giá sai thị trường), trong y tế (đánh giá sai hiệu quả thuốc) và trong đời sống xã hội (bắc cầu quan điểm, phân cực). Khi không được nhận diện, bias này làm giảm khả năng học hỏi và thích nghi.
+
+**6. Giải pháp giảm thiểu**
+- **Tiếp cận dữ liệu đa chiều**: Chủ động tìm kiếm nguồn thông tin trái ngược, thậm chí đặt ra câu hỏi "Nếu giả thuyết của tôi sai, thì sẽ ra sao?".
+- **Phản biện nội bộ**: Thành lập nhóm phản biện hoặc "devil’s advocate" trong các cuộc thảo luận để đưa ra quan điểm đối nghịch.
+- **Sử dụng phương pháp khoa học**: Áp dụng quy trình kiểm định giả thuyết (hypothesis testing) với mức ý nghĩa thống kê rõ ràng, tránh lựa chọn mẫu có thiên vị.
+- **Ghi chép và đánh giá**: Lưu trữ các quyết định và lý do quyết định, sau đó thực hiện đánh giá định kỳ để xem xét độ chính xác.
+
+**7. Kết luận**
+Confirmation Bias là một hiện tượng phổ biến nhưng có thể kiểm soát thông qua việc mở rộng phạm vi thông tin, thực hành phản biện nghiêm ngặt và áp dụng các quy trình khoa học. Nhận diện và giảm thiểu bias này không chỉ nâng cao chất lượng quyết định cá nhân mà còn cải thiện hiệu suất tổ chức và nâng cao tính công bằng trong xã hội.
+
+**8. Kêu gọi hành động (CTA)**
+Để tiếp cận toàn bộ chuỗi "Think Clear" và nhận các hướng dẫn chi tiết về cách khắc phục các bias nhận thức, vui lòng truy cập https://lifeskillhub.com và đăng ký nhận bản tin.
+
+---
+*Bài viết được biên soạn dựa trên tài liệu gốc "Critical_content_plan.txt" và các nguồn tham khảo khoa học uy tín, bao gồm Kahneman (2011) và Nickerson (1998).*

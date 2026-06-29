@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog Tri Thức & Kỹ Năng Sống — The Lifeskill Hub</title>
+    <link rel="icon" href="asset/favicon.png" type="image/png" />
+    <meta
+      name="description"
+      content="Nơi hội tụ tri thức và kỹ năng sống hiện đại. Khám phá những bài viết chuyên sâu về tâm lý, phát triển sự nghiệp và cân bằng cuộc sống."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="blog.css" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="nav-logo" aria-label="The Lifeskill Hub — Trang chủ">
+          <span class="brand-text">The Lifeskill Hub</span>
+        </a>
+
+        <nav class="nav" id="site-nav" aria-label="Chính">
+          <a href="/">Trang chủ</a>
+          <a href="/#mission">Sứ mệnh</a>
+          <a href="/#trac-nghiem">Lộ trình thấu hiểu</a>
+          <a href="/blog" class="active">Blog</a>
+          <a href="/#dang-ky">Liên hệ</a>
+        </nav>
+
+        <div class="header-tools">
+          <a href="/#dang-ky" class="btn-primary">Bắt đầu</a>
+          <button
+            type="button"
+            class="nav-toggle"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="site-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO SECTION -->
+      <section class="blog-hero">
+        <div class="container">
+          <span class="blog-hero-label">Knowledge & Skills</span>
+          <h1>Nơi hội tụ tri thức và kỹ năng sống<br>hiện đại</h1>
+          <p class="blog-hero-desc">
+            Khám phá những bài viết chuyên sâu về tâm lý, phát triển sự nghiệp và cân bằng cuộc sống từ các chuyên gia hàng đầu.
+          </p>
+        </div>
+      </section>
+
+      <!-- FEATURED POST -->
+      <section class="featured-section">
+        <div class="container">
+          <article class="featured-card">
+            <div class="featured-img-wrapper">
+              <img src="asset/blog_featured.png" alt="Nghệ thuật của sự tĩnh lặng trong thế giới ồn ào" loading="eager" />
+            </div>
+            <div class="featured-content">
+              <div class="featured-meta">
+                <span class="badge-psychology">Tâm lý học</span>
+                <span class="read-time">8 phút đọc</span>
+              </div>
+              <h2 class="featured-title">
+                <a href="#">Nghệ thuật của sự tĩnh lặng trong thế giới ồn ào</a>
+              </h2>
+              <p class="featured-desc">
+                Làm thế nào để duy trì sự tập trung và nội tâm yên bình khi chúng ta liên tục bị bủa vây bởi các thông báo và áp lực xã hội hiện đại.
+              </p>
+              
+              <div class="featured-author">
+                <div class="author-avatar" aria-label="Tiến sĩ Minh Anh">
+                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="author-details">
+                  <div class="author-name">Tiến sĩ Minh Anh</div>
+                  <div class="author-date">15 Tháng 5, 2024</div>
+                </div>
+              </div>
+
+              <div>
+                <a href="#" class="btn-read-more">
+                  Đọc tiếp 
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- TWO-COLUMN BLOG CONTENT -->
+      <section class="blog-main-section">
+        <div class="container blog-layout-grid">
+          <!-- LEFT COLUMN: ARTICLES LIST -->
+          <div class="left-column">
+            <div class="articles-grid" id="articles-container">
+              <!-- Article Card 1 -->
+              <article class="article-card">
+                <div class="article-img-box">
+                  <span class="article-badge">Sức khỏe</span>
+                  <img src="asset/blog_morning.png" alt="5 Thói quen buổi sáng để bắt đầu ngày mới đầy năng lượng" loading="lazy" />
+                </div>
+                <div class="article-body">
+                  <h3 class="article-card-title">
+                    <a href="#">5 Thói quen buổi sáng để bắt đầu ngày mới đầy năng lượng</a>
+                  </h3>
+                  <p class="article-card-desc">
+                    Thay đổi cách bạn bắt đầu ngày mới có thể thay đổi toàn bộ cuộc đời bạn. Khám phá các phương pháp khoa học đã được chứng minh giúp bạn đánh thức năng lượng tích cực nhất.
+                  </p>
+                  <div class="article-card-footer">
+                    <span class="article-date">12 Tháng 5, 2024</span>
+                    <button class="btn-bookmark" aria-label="Lưu bài viết" onclick="toggleBookmark(this)">
+                      <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Article Card 2 -->
+              <article class="article-card">
+                <div class="article-img-box">
+                  <span class="article-badge">Sự nghiệp</span>
+                  <img src="asset/blog_hybrid.png" alt="Kỹ năng giao tiếp: Chìa khóa thành công môi trường Hybrid" loading="lazy" />
+                </div>
+                <div class="article-body">
+                  <h3 class="article-card-title">
+                    <a href="#">Kỹ năng giao tiếp: Chìa khóa thành công môi trường Hybrid</a>
+                  </h3>
+                  <p class="article-card-desc">
+                    Khi làm việc từ xa trở thành bình thường mới, cách chúng ta truyền đạt ý tưởng cần được tinh chỉnh để đạt hiệu quả tối ưu và gắn kết đội ngũ.
+                  </p>
+                  <div class="article-card-footer">
+                    <span class="article-date">10 Tháng 5, 2024</span>
+                    <button class="btn-bookmark" aria-label="Lưu bài viết" onclick="toggleBookmark(this)">
+                      <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Article Card 3 -->
+              <article class="article-card">
+                <div class="article-img-box">
+                  <span class="article-badge">Tư duy</span>
+                  <img src="asset/blog_pkm.png" alt="Xây dựng hệ thống quản lý tri thức cá nhân (PKM)" loading="lazy" />
+                </div>
+                <div class="article-body">
+                  <h3 class="article-card-title">
+                    <a href="#">Xây dựng hệ thống quản lý tri thức cá nhân (PKM)</a>
+                  </h3>
+                  <p class="article-card-desc">
+                    Đừng để thông tin trôi tuột mất. Hãy học cách thu thập, phân loại và biến những luồng thông tin hỗn loạn hàng ngày thành tài sản kiến thức thực sự cho tương lai của bạn.
+                  </p>
+                  <div class="article-card-footer">
+                    <span class="article-date">08 Tháng 5, 2024</span>
+                    <button class="btn-bookmark" aria-label="Lưu bài viết" onclick="toggleBookmark(this)">
+                      <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Article Card 4 -->
+              <article class="article-card">
+                <div class="article-img-box">
+                  <span class="article-badge">Học tập</span>
+                  <img src="asset/blog_feynman.png" alt="Làm thế nào để học bất cứ điều gì nhanh hơn gấp 2 lần?" loading="lazy" />
+                </div>
+                <div class="article-body">
+                  <h3 class="article-card-title">
+                    <a href="#">Làm thế nào để học bất cứ điều gì nhanh hơn gấp 2 lần?</a>
+                  </h3>
+                  <p class="article-card-desc">
+                    Ứng dụng kỹ thuật Feynman nổi tiếng kết hợp cùng phương pháp lặp lại ngắt quãng để ghi nhớ sâu sắc và thấu hiểu mọi loại kiến thức mới cực kỳ nhanh chóng.
+                  </p>
+                  <div class="article-card-footer">
+                    <span class="article-date">06 Tháng 5, 2024</span>
+                    <button class="btn-bookmark" aria-label="Lưu bài viết" onclick="toggleBookmark(this)">
+                      <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="pagination-container">
+              <button type="button" class="btn-load-more" id="btn-load-more-posts">
+                Xem thêm bài viết
+              </button>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: SIDEBAR WIDGETS -->
+          <aside class="sidebar">
+            <!-- Widget 1: Sách khuyên đọc -->
+            <div class="sidebar-widget widget-books">
+              <div class="widget-title-flex">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20F4 3.5A2.5 2.5 0 0 1 6.5 1H20v16H6.5a2.5 2.5 0 0 0-2.5 2.5z"/></svg>
+                Sách khuyên đọc
+              </div>
+              <div class="books-list">
+                <!-- Book 1 -->
+                <div class="book-item">
+                  <div class="book-cover">
+                    <img src="asset/book_thinking.png" alt="Sách Tư Duy Nhanh Và Chậm" loading="lazy" />
+                  </div>
+                  <div class="book-info">
+                    <div class="book-title">Tư Duy Nhanh Và Chậm</div>
+                    <div class="book-author">Daniel Kahneman</div>
+                    <div class="book-price">245.000đ</div>
+                  </div>
+                </div>
+                <!-- Book 2 -->
+                <div class="book-item">
+                  <div class="book-cover">
+                    <img src="asset/book_mindset.png" alt="Sách Lối Tư Duy Của Người Thành Công" loading="lazy" />
+                  </div>
+                  <div class="book-info">
+                    <div class="book-title">Lối Tư Duy Của Người Thành Công</div>
+                    <div class="book-author">Carol S. Dweck</div>
+                    <div class="book-price">199.000đ</div>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn-bookstore" onclick="window.location.href='/#trac-nghiem'">
+                Ghé thăm nhà sách
+              </button>
+            </div>
+
+            <!-- Widget 2: Công cụ hỗ trợ -->
+            <div class="sidebar-widget widget-tools">
+              <div class="widget-title-white">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                Công cụ hỗ trợ
+              </div>
+              <div class="tools-list">
+                <div class="tool-item">
+                  <span class="tool-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span>Notion Personal Workflow Template</span>
+                </div>
+                <div class="tool-item">
+                  <span class="tool-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span>Bộ câu hỏi Test MBTI nâng cao</span>
+                </div>
+                <div class="tool-item">
+                  <span class="tool-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span>Ứng dụng Focus Master (Giảm 20%)</span>
+                </div>
+              </div>
+              <a href="/#trac-nghiem" class="link-all-tools">
+                Khám phá tất cả công cụ
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+
+            <!-- Widget 3: Chủ đề phổ biến -->
+            <div class="sidebar-widget widget-tags">
+              <div class="widget-title-bar">
+                Chủ đề phổ biến
+              </div>
+              <div class="tags-cloud">
+                <a href="#" class="tag-pill">#Self-Improvement</a>
+                <a href="#" class="tag-pill">#Productivity</a>
+                <a href="#" class="tag-pill">#MentalHealth</a>
+                <a href="#" class="tag-pill">#CareerPath</a>
+                <a href="#" class="tag-pill">#Mindfulness</a>
+              </div>
+            </div>
+
+            <!-- Widget 4: Newsletter Widget -->
+            <div class="sidebar-widget widget-newsletter">
+              <h3 class="newsletter-title">Newsletter</h3>
+              <p class="newsletter-desc">
+                Nhận những bài viết mới nhất và tài nguyên độc quyền trực tiếp vào hộp thư của bạn.
+              </p>
+              <form class="newsletter-form" id="newsletter-form-sidebar" novalidate>
+                <input
+                  type="email"
+                  class="newsletter-input"
+                  id="newsletter-email"
+                  placeholder="Email của bạn"
+                  required
+                />
+                <button type="submit" class="btn-newsletter-submit" id="btn-newsletter">
+                  Đăng ký ngay
+                </button>
+                <div class="newsletter-message" id="newsletter-status" aria-live="polite"></div>
+              </form>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <span class="footer-brand-name">The Lifeskill Hub</span>
+          <p class="footer-tagline">
+            Nền tảng học tập và phát triển cá nhân toàn diện, hướng tới một thế hệ người Việt bản lĩnh và hạnh phúc.
+          </p>
+        </div>
+        <div class="footer-links">
+          <h3>Liên kết</h3>
+          <ul>
+            <li><a href="/#">Về chúng tôi</a></li>
+            <li><a href="/#trac-nghiem">Lộ trình thấu hiểu</a></li>
+            <li><a href="/blog" class="active">Blog tri thức</a></li>
+            <li><a href="/#dang-ky">Sự kiện sắp tới</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h3>Pháp lý</h3>
+          <ul>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#">Điều khoản sử dụng</a></li>
+            <li><a href="#">Chính sách hoàn tiền</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h3>Theo dõi chúng tôi</h3>
+          <div class="footer-social-icons" style="margin-bottom: 1rem;">
+            <a href="#" aria-label="Facebook" style="border: 1px solid rgba(0,0,0,0.15); width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.85rem; font-weight: 700;">FB</a>
+            <a href="#" aria-label="Instagram" style="border: 1px solid rgba(0,0,0,0.15); width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.85rem; font-weight: 700;">IG</a>
+            <a href="#" aria-label="Youtube" style="border: 1px solid rgba(0,0,0,0.15); width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.85rem; font-weight: 700;">YT</a>
+          </div>
+          <p style="font-size: 0.75rem; color: var(--color-muted); margin-bottom: 0.5rem;">Tải ứng dụng của chúng tôi:</p>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <a href="#" style="background: #000; color: #fff; font-size: 0.7rem; padding: 0.4rem 0.8rem; border-radius: 4px; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem;">App Store</a>
+            <a href="#" style="background: #000; color: #fff; font-size: 0.7rem; padding: 0.4rem 0.8rem; border-radius: 4px; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem;">Google Play</a>
+          </div>
+        </div>
+      </div>
+      <div class="container footer-bottom-container">
+        <div class="footer-divider"></div>
+        <div class="footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <p>© 2024 The Lifeskill Hub. Tất cả quyền được bảo lưu.</p>
+          <div style="font-size: 0.85rem; color: var(--color-muted); display: flex; gap: 1rem;">
+            <a href="#" style="font-weight: 600; color: var(--color-primary);">Vietnamese</a>
+            <span>|</span>
+            <a href="#">English</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- INTERACTION SCRIPTS -->
+    <script>
+      // Navigation Toggle for Mobile
+      var navToggle = document.getElementById("nav-toggle");
+      var siteNav = document.getElementById("site-nav");
+      if (navToggle && siteNav) {
+        navToggle.addEventListener("click", function () {
+          var open = siteNav.classList.toggle("is-open");
+          navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        siteNav.querySelectorAll("a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            siteNav.classList.remove("is-open");
+            navToggle.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+
+      // Bookmark Toggle Interaction
+      function toggleBookmark(button) {
+        button.classList.toggle("active");
+        
+        // Dynamic notification animation
+        var isBookmarked = button.classList.contains("active");
+        var notificationText = isBookmarked ? "Đã lưu bài viết vào danh mục đọc sau!" : "Đã bỏ lưu bài viết.";
+        
+        showNotification(notificationText);
+      }
+
+      // Dynamic Toast Notification Helper
+      function showNotification(text) {
+        var toast = document.createElement("div");
+        toast.textContent = text;
+        toast.style.position = "fixed";
+        toast.style.bottom = "24px";
+        toast.style.right = "24px";
+        toast.style.background = "#081E19";
+        toast.style.color = "#FFE8D6";
+        toast.style.padding = "0.75rem 1.5rem";
+        toast.style.borderRadius = "8px";
+        toast.style.boxShadow = "0 8px 24px rgba(0,0,0,0.15)";
+        toast.style.zIndex = "1000";
+        toast.style.fontSize = "0.95rem";
+        toast.style.fontWeight = "600";
+        toast.style.opacity = "0";
+        toast.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+        toast.style.transform = "translateY(10px)";
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(function() {
+          toast.style.opacity = "1";
+          toast.style.transform = "translateY(0)";
+        }, 100);
+        
+        setTimeout(function() {
+          toast.style.opacity = "0";
+          toast.style.transform = "translateY(10px)";
+          setTimeout(function() {
+            document.body.removeChild(toast);
+          }, 300);
+        }, 3000);
+      }
+
+      // Newsletter Form Handling
+      var newsletterForm = document.getElementById("newsletter-form-sidebar");
+      var newsletterStatus = document.getElementById("newsletter-status");
+      var newsletterBtn = document.getElementById("btn-newsletter");
+
+      if (newsletterForm && newsletterStatus && newsletterBtn) {
+        newsletterForm.addEventListener("submit", function(e) {
+          e.preventDefault();
+          var emailInput = document.getElementById("newsletter-email");
+          var email = emailInput.value.trim();
+
+          if (!email || !newsletterForm.reportValidity()) return;
+
+          // Visual loading feedback
+          var originalBtnText = newsletterBtn.textContent;
+          newsletterBtn.disabled = true;
+          newsletterBtn.textContent = "Đang xử lý...";
+          newsletterStatus.textContent = "";
+
+          // Simulate database insertion or API call
+          setTimeout(function() {
+            newsletterBtn.disabled = false;
+            newsletterBtn.textContent = originalBtnText;
+            emailInput.value = "";
+            
+            newsletterStatus.className = "newsletter-message success";
+            newsletterStatus.textContent = "🎉 Đăng ký thành công! Cảm ơn bạn nhé.";
+            
+            showNotification("Đăng ký nhận Newsletter thành công!");
+          }, 1000);
+        });
+      }
+
+      // Dynamic "Load More" Blog Posts Simulation
+      var loadMoreBtn = document.getElementById("btn-load-more-posts");
+      var articlesContainer = document.getElementById("articles-container");
+      var pageCount = 0;
+
+      if (loadMoreBtn && articlesContainer) {
+        loadMoreBtn.addEventListener("click", function() {
+          if (pageCount >= 1) {
+            showNotification("Bạn đã xem hết toàn bộ các bài viết!");
+            loadMoreBtn.textContent = "Không còn bài viết nào khác";
+            loadMoreBtn.disabled = true;
+            return;
+          }
+
+          loadMoreBtn.disabled = true;
+          loadMoreBtn.textContent = "Đang tải thêm...";
+
+          // Simulated delay for loading posts
+          setTimeout(function() {
+            loadMoreBtn.disabled = false;
+            loadMoreBtn.textContent = "Xem thêm bài viết";
+            pageCount++;
+
+            // Create two new mock article cards to populate the grid
+            var post1 = document.createElement("article");
+            post1.className = "article-card";
+            post1.style.opacity = "0";
+            post1.style.transform = "translateY(20px)";
+            post1.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+            post1.innerHTML = `
+              <div class="article-img-box">
+                <span class="article-badge">Kỹ năng</span>
+                <img src="asset/hero_green.png" alt="Nghệ thuật quản lý thời gian và thiết lập mục tiêu" />
+              </div>
+              <div class="article-body">
+                <h3 class="article-card-title">
+                  <a href="#">Nghệ thuật quản lý thời gian và thiết lập mục tiêu</a>
+                </h3>
+                <p class="article-card-desc">
+                  Làm sao để làm việc năng suất mà vẫn cân bằng được cuộc sống? Khám phá bộ khung quản trị thời gian OKR cá nhân hóa được các chuyên gia khuyên dùng.
+                </p>
+                <div class="article-card-footer">
+                  <span class="article-date">03 Tháng 5, 2024</span>
+                  <button class="btn-bookmark" aria-label="Lưu bài viết" onclick="toggleBookmark(this)">
+                    <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                  </button>
+                </div>
+              </div>
+            `;
+
+            var post2 = document.createElement("article");
+            post2.className = "article-card";
+            post2.style.opacity = "0";
+            post2.style.transform = "translateY(20px)";
+            post2.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+            post2.innerHTML = `
+              <div class="article-img-box">
+                <span class="article-badge">Tâm lý</span>
+                <img src="asset/blog_featured.png" alt="Vượt qua hội chứng kẻ giả mạo (Impostor Syndrome)" />
+              </div>
+              <div class="article-body">
+                <h3 class="article-card-title">
+                  <a href="#">Vượt qua hội chứng kẻ giả mạo (Impostor Syndrome)</a>
+                </h3>
+                <p class="article-card-desc">
+                  Rất nhiều người tài năng luôn cảm thấy mình là kẻ lừa dối và thành công có được là nhờ may mắn. Cùng giải mã tâm lý và vượt qua rào cản này ngay hôm nay.
+                </p>
+                <div class="article-card-footer">
+                  <span class="article-date">30 Tháng 4, 2024</span>
+                  <button class="btn-bookmark" aria-label="Lưu bài viết" onclick="toggleBookmark(this)">
+                    <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                  </button>
+                </div>
+              </div>
+            `;
+
+            articlesContainer.appendChild(post1);
+            articlesContainer.appendChild(post2);
+
+            // Animate entrance
+            setTimeout(function() {
+              post1.style.opacity = "1";
+              post1.style.transform = "translateY(0)";
+              post2.style.opacity = "1";
+              post2.style.transform = "translateY(0)";
+            }, 50);
+
+            showNotification("Đã tải thêm 2 bài viết mới.");
+          }, 800);
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>thelifeskillhub — Khám phá bản thân &amp; nâng tầm kỹ năng</title>
+    <title>LifeSkill Hub. — Nâng tầm kỹ năng &amp; kiến tạo tương lai</title>
     <link rel="icon" href="asset/favicon.png" type="image/png" />
     <meta
       name="description"
-      content="Nền tảng trắc nghiệm tính cách và kỹ năng mềm: học mọi lúc mọi nơi, lộ trình thực tiễn và cộng đồng học viên."
+      content="Nền tảng trắc nghiệm tính cách và học tập trực tuyến: nâng tầm kỹ năng cùng chuyên gia, lộ trình thực tiễn và lớp học Zoom live."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
@@ -20,20 +20,19 @@
   <body>
     <header class="site-header">
       <div class="container header-inner">
-        <a href="#" class="nav-logo" aria-label="The Lifeskill Hub — Trang chủ">
-          <span class="brand-text">The Lifeskill Hub</span>
+        <a href="#" class="nav-logo" aria-label="The LifeSkill Hub — Trang chủ">
+          <span class="brand-text">The LifeSkill <span class="brand-accent">Hub</span></span>
         </a>
 
         <nav class="nav" id="site-nav" aria-label="Chính">
-          <a href="#">Trang chủ</a>
-          <a href="#mission">Sứ mệnh</a>
-          <a href="#trac-nghiem">Lộ trình thấu hiểu</a>
-          <a href="#blog">Blog</a>
-          <a href="#" id="donate-link">Donate</a>
+          <a href="#" class="active">Trang chủ</a>
+          <a href="courses.html">Khóa học</a>
+          <a href="tests.html">Bài test</a>
+          <a href="/blog">Blog</a>
         </nav>
 
         <div class="header-tools">
-          <a href="#dang-ky" class="btn-primary">Đăng kí khai vấn</a>
+          <a href="#dang-ky" class="btn-primary-purple">Bắt đầu ngay</a>
           <button
             type="button"
             class="nav-toggle"
@@ -48,226 +47,435 @@
     </header>
 
     <main>
-      <section class="hero" id="home">
-        <div class="container hero-grid">
-          <div class="hero-copy">
-            <p class="hero-label">Chương trình tìm hiểu bản thân</p>
-            <h1><i>Thấu hiểu chính mình là khởi đầu của sự khôn ngoan.</i></h1>
-            <p class="hero-description">
-              Hành trình thấu hiểu chính mình không phải là một đích đến, mà là sự nỗ lực kiên định mỗi ngày. Chúng tôi đồng hành cùng bạn khám phá những góc khuất của tâm trí, để từ đó, mỗi cá nhân có thể tự tin bước đi bằng chính đôi chân và bản sắc thực sự của mình.
+      <!-- HERO SECTION -->
+      <section class="hero-v2" id="home">
+        <div class="container hero-grid-v2">
+          <div class="hero-copy-v2">
+            <h1 class="hero-title-v2">
+              Làm chủ kỹ năng theo cách <span class="text-accent-purple">mới &amp; độc nhất</span>
+            </h1>
+            <p class="hero-description-v2">
+              Khám phá lộ trình học tập được cá nhân hóa, giúp bạn chinh phục những kỹ năng số hàng đầu và bứt phá trong sự nghiệp.
             </p>
-            <div class="hero-actions">
-              <a href="#trac-nghiem" class="btn-primary">Lộ trình thấu hiểu</a>
-              <button type="button" class="btn-secondary" id="open-survey">Làm khảo sát nhanh</button>
-            </div>
-          </div>
-          <div class="hero-visual">
-            <img
-              class="hero-banner-img"
-              src="asset/hero_green.png"
-              alt="Học tập và phát triển"
-              loading="eager"
-              decoding="async"
-            />
-            <div class="hero-badge-editorial">
-              <span class="badge-number">90%</span>
-              <p class="badge-text">Người dùng cảm thấy rõ ràng hơn về định hướng sự nghiệp sau khi tham gia.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="mission" id="mission">
-        <div class="container mission-grid">
-          <div class="mission-left">
-            <p class="mission-label">SỨ MỆNH CỘNG ĐỒNG</p>
-            <h2 class="mission-title">Trao đi tri thức, kiến tạo sự thấu hiểu.</h2>
-          </div>
-          <div class="mission-separator"></div>
-          <div class="mission-right">
-            <p class="mission-text">
-              "Chúng tôi tin rằng khi một người đủ can đảm để nhìn sâu vào bản thân, họ không chỉ tìm thấy những hạn chế, mà còn chạm tới những hạt giống tiềm năng chưa được khai phá. Sứ mệnh của chúng tôi là trao đi những công cụ chân thực nhất, để bạn không còn cảm thấy lạc lõng trên hành trình khẳng định giá trị cá nhân giữa thế giới đầy biến động."
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="journey" id="trac-nghiem">
-        <div class="container">
-          <header class="section-head section-head--left">
-            <h2>Lộ trình thấu hiểu bản thân</h2>
-            <p class="section-lead">Hành trình 4 bước chuyển hóa từ nhận thức đến hành động thực tế.</p>
-          </header>
-          <div class="journey-grid-editorial-v2">
-            <div class="journey-card-v2">
-              <div class="card-media">
-                <span class="step-badge">Bước 1</span>
-                <img src="https://images.unsplash.com/photo-1557200134-90327ee9fafa?auto=format&fit=crop&w=800&q=80" alt="Đăng ký nhận khai vấn" />
-              </div>
-              <div class="card-body">
-                <h3>Đăng ký nhận khai vấn</h3>
-                <p>Khởi đầu hành trình bằng việc đăng ký tư vấn chuyên sâu. Đội ngũ chuyên viên sẽ kết nối trực tiếp qua Zalo để thấu hiểu nhu cầu và sắp xếp lịch hẹn cá nhân hóa cho bạn.</p>
-              </div>
-              <a href="#dang-ky" class="card-footer">
-                <span>Đăng kí ngay</span>
-              </a>
-            </div>
-            <div class="journey-card-v2">
-              <div class="card-media">
-                <span class="step-badge">Bước 2</span>
-                <img src="https://images.unsplash.com/photo-1543269664-76bc3997d9ea?auto=format&fit=crop&w=800&q=80" alt="Làm bài kiểm tra tính cách" />
-              </div>
-              <div class="card-body">
-                <h3>Bài kiểm tra tính cách</h3>
-                <p>Dựa trên mục tiêu của bạn, chúng tôi sẽ cung cấp bài trắc nghiệm tính cách giúp bạn xác định vị thế bản thân và nhận diện tiềm năng qua sự hướng dẫn của chuyên viên.</p>
-              </div>
-              <div class="card-footer">
-                <span>Kết nối Zalo</span>
-              </div>
-            </div>
-            <div class="journey-card-v2">
-              <div class="card-media">
-                <span class="step-badge">Bước 3</span>
-                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" alt="Khai Vấn 1:1 & Phân Tích" />
-              </div>
-              <div class="card-body">
-                <h3>Khai vấn 1:1 & phân tích</h3>
-                <p>Giải mã kết quả trắc nghiệm cùng chuyên gia để xây dựng lộ trình phát triển cá nhân và nhận lời khuyên định hướng chuyên sâu.</p>
-              </div>
-              <div class="card-footer">
-                <span>60 phút chuyên sâu</span>
-              </div>
-            </div>
-            <div class="journey-card-v2">
-              <div class="card-media">
-                <span class="step-badge">Bước 4</span>
-                <img src="https://images.unsplash.com/photo-1491841573634-28140fc7ced7?auto=format&fit=crop&w=800&q=80" alt="Công Cụ & Tài Liệu" />
-              </div>
-              <div class="card-body">
-                <h3>Công cụ & tài liệu</h3>
-                <p>Tiếp cận hệ thống tài liệu và công cụ bổ trợ được cá nhân hóa, giúp bạn tối ưu hóa thế mạnh và phát triển bền vững.</p>
-              </div>
-              <a href="#blog" class="card-footer">
-                <span>Xem thêm</span>
+            <div class="hero-actions-v2">
+              <a href="#khoa-hoc" class="btn-primary-purple">Bắt đầu ngay</a>
+              <a href="#khoa-hoc" class="btn-watch-course">
+                <span class="play-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M8 5v14l11-7z" fill="currentColor"/>
+                  </svg>
+                </span>
+                Xem khóa học
               </a>
             </div>
           </div>
+          <div class="hero-visual-v2">
+            <div class="hero-image-wrapper">
+              <div class="hero-circle-bg"></div>
+              <img
+                class="hero-student-img"
+                src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=800&q=80"
+                alt="The LifeSkill Hub Student"
+                loading="eager"
+                decoding="async"
+              />
+              
+              <!-- Floating Badges -->
+              <div class="badge-floating badge-courses">
+                <span class="badge-number">60+</span>
+                <span class="badge-text">Khóa học trực tuyến</span>
+              </div>
+              
+              <div class="badge-floating badge-students">
+                <div class="avatar-stack">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=50&fit=crop&q=80" alt="Student 1" />
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&fit=crop&q=80" alt="Student 2" />
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=50&fit=crop&q=80" alt="Student 3" />
+                </div>
+                <div class="badge-students-text">
+                  <span class="students-count">5k+</span>
+                  <span class="students-label">Học viên học cùng</span>
+                </div>
+              </div>
+
+              <div class="badge-floating badge-new">
+                <span class="badge-new-dot"></span>
+                <span class="badge-text">New Học viên mới...</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
+      <!-- PARTNERS SECTION -->
+      <section class="partners-strip">
+        <div class="container partners-inner">
+          <div class="partner-logo">
+            <span class="partner-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            </span>
+            duolingo
+          </div>
+          <div class="partner-logo">
+            <span class="partner-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.3-6.3l-.7.7M6.7 17.3l-.7.7m12.6 0l-.7-.7M6.7 6.7l-.7-.7"/></svg>
+            </span>
+            magic leap
+          </div>
+          <div class="partner-logo">
+            <span class="partner-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            </span>
+            Microsoft
+          </div>
+          <div class="partner-logo">
+            <span class="partner-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2" ry="2"></rect><line x1="2" y1="9" x2="22" y2="9"></line><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </span>
+            Codecov
+          </div>
+          <div class="partner-logo">
+            <span class="partner-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </span>
+            User Testing
+          </div>
+        </div>
+      </section>
 
-      <section class="testimonials-editorial" id="blog">
+      <!-- SEARCH SECTION -->
+      <section class="course-search-section">
+        <div class="container search-inner">
+          <h2 class="search-title">Tìm kiếm khóa học</h2>
+          <div class="search-bar-wrapper">
+            <span class="search-icon-left">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </span>
+            <input type="text" placeholder="Tìm kiếm trong 50+ khóa học..." class="search-input" />
+            <button class="btn-search-pink">Tìm kiếm</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- BENEFITS SECTION -->
+      <section class="benefits-section" id="benefits">
+        <div class="container benefits-grid">
+          <!-- Left Visual Grid -->
+          <div class="benefits-visual-grid">
+            <div class="grid-img-card img-card-1">
+              <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=80" alt="Học trên laptop" />
+            </div>
+            <div class="grid-img-card img-card-2">
+              <img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=500&auto=format&fit=crop&q=80" alt="Học UX/UI trên máy tính bảng" />
+            </div>
+            <div class="grid-img-card img-card-3">
+              <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=80" alt="Học viên nữ" />
+            </div>
+            <div class="grid-img-card img-card-4">
+              <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=80" alt="Học viên nam" />
+            </div>
+          </div>
+
+          <!-- Right Content -->
+          <div class="benefits-content">
+            <h2 class="benefits-title">Lợi ích <span class="text-accent-pink">khi học trực tuyến</span></h2>
+            
+            <div class="benefits-list">
+              <div class="benefit-item">
+                <div class="benefit-icon-wrapper purple-theme">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                  </svg>
+                </div>
+                <div class="benefit-text">
+                  <h3>Bằng cấp quốc tế</h3>
+                  <p>Chứng chỉ có giá trị toàn cầu hoặc đối tác giáo dục hàng đầu thế giới.</p>
+                </div>
+              </div>
+
+              <div class="benefit-item">
+                <div class="benefit-icon-wrapper pink-theme">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                </div>
+                <div class="benefit-text">
+                  <h3>Khóa học ngắn hạn</h3>
+                  <p>Tập trung vào kiến thức thực tiễn giúp bạn đi làm ngay chỉ sau 3-6 tháng.</p>
+                </div>
+              </div>
+
+              <div class="benefit-item">
+                <div class="benefit-icon-wrapper blue-theme">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                </div>
+                <div class="benefit-text">
+                  <h3>Chuyên gia dẫn dắt</h3>
+                  <p>Học hỏi trực tiếp từ những người đang làm việc tại các tập đoàn lớn.</p>
+                </div>
+              </div>
+
+              <div class="benefit-item">
+                <div class="benefit-icon-wrapper indigo-theme">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 7a2 2 0 0 0-2-2h-4l-3-3H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h15a2 2 0 0 0 2-2V7z"/>
+                    <path d="M8 14h8M8 18h6"/>
+                  </svg>
+                </div>
+                <div class="benefit-text">
+                  <h3>Học trực tiếp qua Zoom</h3>
+                  <p>Tương tác trực tiếp 1:1 hoặc nhóm nhỏ, thảo luận và tháo gỡ khó khăn ngay trong buổi học.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- POPULAR COURSES SECTION -->
+      <section class="popular-courses-section" id="khoa-hoc">
+        <div class="popular-courses-header">
+          <div class="container">
+            <h2 class="section-title-white">Khóa học phổ biến nhất</h2>
+            <p class="section-subtitle-white">
+              Lựa chọn hàng đầu cho hành trình sự nghiệp của bạn. Những khóa học được thiết kế để mang lại hiệu quả cao nhất.
+            </p>
+          </div>
+        </div>
+        
+        <div class="container courses-grid-container">
+          <div class="courses-grid">
+            <!-- Card 1 -->
+            <div class="course-card">
+              <div class="course-card-image">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80" alt="Thiết kế Web nâng cao" />
+              </div>
+              <div class="course-card-body">
+                <span class="course-category web-design">WEB DESIGN</span>
+                <h3 class="course-title">Thiết kế Web nâng cao &amp; Phát triển</h3>
+                <div class="course-meta">
+                  <span class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                    25 Bài học
+                  </span>
+                  <span class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                    </svg>
+                    150 Học viên
+                  </span>
+                </div>
+                <div class="course-card-footer">
+                  <span class="course-price">$560.00</span>
+                  <div class="course-author">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&fit=crop&q=80" alt="J. Morgan" class="author-avatar" />
+                    <span class="author-name">J. Morgan</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="course-card">
+              <div class="course-card-image">
+                <img src="https://images.unsplash.com/photo-1541462608141-2ff580ee0e9e?auto=format&fit=crop&w=500&q=80" alt="UX/UI Design" />
+              </div>
+              <div class="course-card-body">
+                <span class="course-category ui-ux">UX/UI DESIGN</span>
+                <h3 class="course-title">Wireframing &amp; Prototyping chuyên nghiệp</h3>
+                <div class="course-meta">
+                  <span class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                    16 Bài học
+                  </span>
+                  <span class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                    </svg>
+                    450 Học viên
+                  </span>
+                </div>
+                <div class="course-card-footer">
+                  <span class="course-price">$160.00</span>
+                  <div class="course-author">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&fit=crop&q=80" alt="Jordan Ke" class="author-avatar" />
+                    <span class="author-name">Jordan Ke</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="course-card">
+              <div class="course-card-image">
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=500&q=80" alt="Python Data Science" />
+              </div>
+              <div class="course-card-body">
+                <span class="course-category data-science">DATA SCIENCE</span>
+                <h3 class="course-title">Python Cho Khoa Học Dữ Liệu Cơ Bản</h3>
+                <div class="course-meta">
+                  <span class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                    22 Bài học
+                  </span>
+                  <span class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                    </svg>
+                    910 Học viên
+                  </span>
+                </div>
+                <div class="course-card-footer">
+                  <span class="course-price">$432.00</span>
+                  <div class="course-author">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&fit=crop&q=80" alt="Alex Taylor" class="author-avatar" />
+                    <span class="author-name">Alex Taylor</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="courses-actions">
+            <a href="#khoa-hoc" class="btn-outline-purple">Xem tất cả khóa học</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- BECOME A TEACHER SECTION -->
+      <section class="become-teacher-section">
+        <div class="container become-teacher-grid">
+          <div class="become-teacher-content">
+            <h2 class="become-teacher-title">Nếu bạn là một giảng viên chứng chỉ hãy <span class="text-accent-blue">Trở thành một giảng viên</span></h2>
+            <p class="become-teacher-description">
+              Mở ra cơ hội truyền cảm hứng và giáo dục bằng cách tham gia vào đội ngũ giảng viên của chúng tôi, chia sẻ chuyên môn của bạn với ngành học trên toàn thế giới.
+            </p>
+            <h3 class="privilege-title">Tận hưởng nhiều đặc quyền</h3>
+            <ul class="privileges-list">
+              <li>
+                <span class="check-icon">✓</span>
+                Tiếp cận khách hàng toàn cầu
+              </li>
+              <li>
+                <span class="check-icon">✓</span>
+                Tự do sáng tạo
+              </li>
+              <li>
+                <span class="check-icon">✓</span>
+                Làm việc linh hoạt
+              </li>
+              <li>
+                <span class="check-icon">✓</span>
+                Kiếm thêm thu nhập chuyên môn
+              </li>
+              <li>
+                <span class="check-icon">✓</span>
+                Công cụ giảng dạy hiện đại
+              </li>
+              <li>
+                <span class="check-icon">✓</span>
+                Phát triển chuyên môn
+              </li>
+            </ul>
+            <div class="become-teacher-actions">
+              <a href="#dang-ky" class="btn-pink">Trở thành giảng viên</a>
+            </div>
+          </div>
+          
+          <div class="become-teacher-visual">
+            <img src="asset/teacher_female.png" alt="Giảng viên tại LifeSkill Hub" class="teacher-img" />
+          </div>
+        </div>
+      </section>
+
+      <!-- TESTIMONIALS SECTION -->
+      <section class="testimonials-v2-section">
         <div class="container">
-          <header class="section-head section-head--center">
-            <h2 class="testimonial-title"><i>Người tham gia nói gì về hành trình thấu hiểu</i></h2>
-          </header>
-          <div class="testimonials-grid-v2">
-            <div class="testimonial-card-v2">
-              <span class="quote-mark">“</span>
-              <p class="testimonial-content">
-                "Buổi khai vấn miễn phí thực sự là một món quà. The Lifeskill Hub không chỉ giải thích các con số từ bài test mà còn giúp tôi hiểu tại sao mình lại thường xuyên gặp khó khăn trong công việc hiện tại."
+          <h2 class="testimonials-v2-title">Cảm nhận từ học viên</h2>
+          <p class="testimonials-v2-subtitle">
+            Những câu chuyện thực tế từ học viên đã và đang thành công cùng khóa học của chúng tôi.
+          </p>
+          
+          <div class="testimonials-v2-grid">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-v2-card">
+              <div class="star-rating">⭐⭐⭐⭐⭐</div>
+              <p class="testimonial-v2-text">
+                "Khóa học thiết kế Web thực sự rất bổ ích, giáo viên giảng dạy nhiệt tình và dễ hiểu. Tôi đã có thể tự tay xây dựng được những website chất lượng và sở hữu portfolio xịn xò."
               </p>
-              <div class="testimonial-author">
-                <img src="asset/avatar1.png" alt="Minh Anh" class="author-img" />
-                <div class="author-info">
-                  <span class="author-name">Minh Anh</span>
-                  <span class="author-role">Giám đốc Sáng tạo</span>
+              <div class="testimonial-v2-author">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&fit=crop&q=80" alt="Alisa Rodriguez" class="student-avatar" />
+                <div class="student-info">
+                  <h4 class="student-name">Alisa Rodriguez</h4>
+                  <span class="student-title">Học viên tại London</span>
                 </div>
               </div>
             </div>
-            <div class="testimonial-card-v2">
-              <span class="quote-mark">“</span>
-              <p class="testimonial-content">
-                "Tôi rất bất ngờ vì chất lượng của buổi khai vấn 1:1. The Lifeskill Hub rất thấu cảm và chuyên nghiệp. Những tài liệu được gợi ý sau đó cũng rất sát với nhu cầu phát triển của tôi."
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial-v2-card">
+              <div class="star-rating">⭐⭐⭐⭐⭐</div>
+              <p class="testimonial-v2-text">
+                "Tôi rất cảm động vì phong cách dạy học chu đáo của giảng viên. Lớp học trực tuyến qua Zoom tương tác trực tiếp giúp tôi gỡ rối những thắc mắc ngay tức thì mà không gặp rào cản nào."
               </p>
-              <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" alt="Lan Hương" class="author-img" />
-                <div class="author-info">
-                  <span class="author-name">Lan Hương</span>
-                  <span class="author-role">Freelancer</span>
+              <div class="testimonial-v2-author">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&fit=crop&q=80" alt="Emily Chen" class="student-avatar" />
+                <div class="student-info">
+                  <h4 class="student-name">Emily Chen</h4>
+                  <span class="student-title">Học viên tại Singapore</span>
                 </div>
               </div>
             </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial-v2-card">
+              <div class="star-rating">⭐⭐⭐⭐⭐</div>
+              <p class="testimonial-v2-text">
+                "Phương pháp học tập rất mới mẻ và mang tính thực chiến cao. Các bài test tính cách cùng lộ trình cá nhân hóa trước khi bắt đầu giúp tôi định vị đúng năng lực bản thân."
+              </p>
+              <div class="testimonial-v2-author">
+                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&fit=crop&q=80" alt="James Johnson" class="student-avatar" />
+                <div class="student-info">
+                  <h4 class="student-name">James Johnson</h4>
+                  <span class="student-title">Học viên tại US</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="slider-controls">
+            <button class="btn-slider-prev" aria-label="Previous testimonial">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+              </svg>
+            </button>
+            <button class="btn-slider-next" aria-label="Next testimonial">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </button>
           </div>
         </div>
       </section>
-
-      <!-- SURVEY MODAL -->
-      <div class="survey-modal" id="survey-modal">
-        <div class="modal-content">
-          <button type="button" class="modal-close" id="close-survey">&times;</button>
-          <div class="survey-inner">
-            <header class="section-head section-head--center">
-              <p class="mission-label">CHÚNG MÌNH MUỐN LẮNG NGHE BẠN</p>
-              <h2>Một vài câu hỏi nhỏ để chúng mình hiểu nhau hơn</h2>
-              <p class="section-lead">Thật ra, mỗi câu trả lời của bạn là một bước giúp chúng mình chuẩn bị lộ trình tốt nhất cho bạn.</p>
-            </header>
-
-            <form class="survey-form" id="survey-form" novalidate>
-              <div class="survey-grid">
-                <!-- Thông tin cơ bản -->
-                <div class="survey-group">
-                  <label for="s-fullname">HỌ VÀ TÊN</label>
-                  <input type="text" id="s-fullname" name="fullname" placeholder="Tên của bạn là..." required />
-                </div>
-                <div class="survey-group">
-                  <label for="s-phone">SỐ ĐIỆN THOẠI / ZALO</label>
-                  <div class="input-wrapper">
-                    <input type="tel" id="s-phone" name="phone" placeholder="Để chúng mình tiện kết nối nhé" required />
-                    <span class="error-text" id="s-phone-error">Vui lòng nhập số điện thoại hợp lệ (tối đa 10 số)</span>
-                  </div>
-                </div>
-                <div class="survey-group">
-                  <label for="s-email">EMAIL</label>
-                  <input type="email" id="s-email" name="email" placeholder="Email của bạn..." />
-                </div>
-
-                <!-- Câu hỏi khảo sát -->
-                <div class="survey-group full-width">
-                  <label>Bạn đã trên 18 tuổi chưa? 🔞</label>
-                  <div class="radio-group">
-                    <label class="radio-item"><input type="radio" name="is_over_18" value="true" required> Rồi nè</label>
-                    <label class="radio-item"><input type="radio" name="is_over_18" value="false"> Chưa đâu</label>
-                  </div>
-                </div>
-
-                <div class="survey-group full-width">
-                  <label for="s-concerns">Bạn đang lo lắng về vấn đề gì nhất hiện tại? 😟</label>
-                  <textarea id="s-concerns" name="concerns" placeholder="Đơn giản thôi, bạn cứ chia sẻ thật lòng những gì đang làm bạn mông lung nhé..." required></textarea>
-                </div>
-
-                <div class="survey-group">
-                  <label>Bạn có ngại khi phải khai vấn 1:1 không? 🤐</label>
-                  <div class="radio-group">
-                    <label class="radio-item"><input type="radio" name="is_hesitant" value="true" required> Có một chút</label>
-                    <label class="radio-item"><input type="radio" name="is_hesitant" value="false"> Không hề nè</label>
-                  </div>
-                </div>
-
-                <div class="survey-group">
-                  <label>Bạn thích nói chuyện trực tiếp hay online? ☕</label>
-                  <select id="s-preference" name="preference" required>
-                    <option value="">Chọn một phương án...</option>
-                    <option value="offline">Gặp trực tiếp (nếu có thể)</option>
-                    <option value="online">Nói chuyện Online cho tiện</option>
-                    <option value="both">Cả hai đều được</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="survey-actions">
-                <button type="submit" class="btn-primary" id="survey-submit">Gửi tâm tư cho The Lifeskill Hub nhé ^^</button>
-              </div>
-              <p class="form-message" id="survey-message" role="status" aria-live="polite" hidden></p>
-            </form>
-          </div>
-        </div>
-      </div>
-
+      
+      <!-- CTA DANG KY -->
       <section class="cta-banner-dark" id="dang-ky">
         <div class="container cta-banner-inner">
-          <h2>Bắt đầu thấu hiểu bản thân ngay hôm nay.</h2>
-          <p class="cta-subtitle">Đăng ký để nhận bài test tính cách độc quyền và đặt lịch khai vấn 1:1 miễn phí cùng The Lifeskill Hub.</p>
+          <h2>Bắt đầu hành trình nâng tầm kỹ năng ngay hôm nay.</h2>
+          <p class="cta-subtitle">Đăng ký tư vấn lộ trình học Live Zoom hoặc để lại thông tin đặt lịch khai vấn 1:1 giải mã bài test bản thân.</p>
           
           <form class="signup-form-dark" id="lead-form" novalidate>
             <div class="form-row-dark">
@@ -291,20 +499,21 @@
               <div class="form-group-dark">
                 <label for="interest">LĨNH VỰC QUAN TÂM</label>
                 <select id="interest" name="interest">
-                  <option value="">Chọn lĩnh vực</option>
-                  <option value="career">Định hướng nghề nghiệp</option>
-                  <option value="skill">Phát triển kỹ năng mềm</option>
-                  <option value="personality">Khám phá tính cách</option>
+                  <option value="">Chọn khóa học / bài test</option>
+                  <option value="web-design">Thiết kế Web nâng cao &amp; Phát triển</option>
+                  <option value="ui-ux">Wireframing &amp; Prototyping chuyên nghiệp</option>
+                  <option value="python">Python Cho Khoa Học Dữ Liệu</option>
+                  <option value="personality">Bài test thấu hiểu bản thân</option>
                 </select>
               </div>
             </div>
             <div class="form-group-dark">
               <label for="message">LỜI NHẮN CỦA BẠN</label>
-              <textarea id="message" name="message" placeholder="Chia sẻ ngắn gọn mục tiêu bạn muốn đạt được..."></textarea>
+              <textarea id="message" name="message" placeholder="Chia sẻ mục tiêu học tập hoặc lo lắng hiện tại của bạn..."></textarea>
             </div>
             <p class="form-message" id="form-message" role="status" aria-live="polite" hidden></p>
             <div class="form-actions-dark">
-              <button type="submit" class="btn-cta-submit" id="lead-submit">Gửi thông tin khai vấn</button>
+              <button type="submit" class="btn-cta-submit" id="lead-submit">Gửi thông tin đăng ký</button>
             </div>
           </form>
           
@@ -313,43 +522,54 @@
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div class="footer-brand">
-          <span class="footer-brand-name">The Lifeskill Hub</span>
-          <p class="footer-tagline">
-            Nền tảng nghiên cứu tâm lý & tư vấn vì cộng đồng, giúp mỗi cá nhân tìm thấy tiềm năng thực sự.
+    <footer class="site-footer-v2">
+      <div class="container footer-grid-v2">
+        <div class="footer-brand-v2">
+          <span class="footer-brand-name-v2">The LifeSkill <span class="brand-accent">Hub</span></span>
+          <p class="footer-tagline-v2">
+            Nâng tầm kỹ năng số, kiến tạo tương lai vững chắc. Nền tảng học tập trực tuyến live và trắc nghiệm định vị bản thân hàng đầu cho cộng đồng.
           </p>
-        </div>
-        <div class="footer-links">
-          <h3>Liên kết</h3>
-          <ul>
-            <li><a href="#">Về chúng tôi</a></li>
-            <li><a href="#trac-nghiem">Lộ trình thấu hiểu</a></li>
-            <li><a href="#mission">Cộng đồng</a></li>
-          </ul>
-        </div>
-        <div class="footer-links">
-          <h3>Pháp lý</h3>
-          <ul>
-            <li><a href="#">Chính sách bảo mật</a></li>
-            <li><a href="#">Điều khoản sử dụng</a></li>
-          </ul>
-        </div>
-        <div class="footer-links">
-          <h3>Theo dõi</h3>
-          <div class="footer-social-icons">
-            <a href="#" aria-label="Share"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></a>
-            <a href="#" aria-label="Website"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
-            <a href="#" aria-label="Email"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          <div class="footer-social-icons-v2">
+            <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a href="#" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
           </div>
         </div>
-      </div>
-      <div class="container footer-bottom-container">
-        <div class="footer-divider"></div>
-        <div class="footer-bottom">
-          <p>© 2024 The Lifeskill Hub. Tất cả quyền được bảo lưu.</p>
+        <div class="footer-links-v2">
+          <h3>Về công ty</h3>
+          <ul>
+            <li><a href="#khoa-hoc">Khóa học Online</a></li>
+            <li><a href="#trac-nghiem">Lộ trình học tập</a></li>
+            <li><a href="#home">Dự án cộng đồng</a></li>
+            <li><a href="/blog">Tài liệu học tập</a></li>
+          </ul>
         </div>
+        <div class="footer-links-v2">
+          <h3>Công ty</h3>
+          <ul>
+            <li><a href="#">Về chúng tôi</a></li>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#">Điều khoản dịch vụ</a></li>
+            <li><a href="#">Liên hệ</a></li>
+          </ul>
+        </div>
+        <div class="footer-links-v2">
+          <h3>Bản tin</h3>
+          <p class="newsletter-desc">Đăng ký để nhận tin tức, khuyến mãi &amp; tài liệu học tập miễn phí sớm nhất từ chúng tôi.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Cảm ơn bạn đã đăng ký!');">
+            <input type="email" placeholder="Email của bạn..." required />
+            <button type="submit" aria-label="Subscribe">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="container footer-divider-v2"></div>
+      <div class="container footer-bottom-v2">
+        <p>&copy; 2026 LifeSkill Hub. All rights reserved. Powered by Antigravity.</p>
       </div>
     </footer>
 
@@ -513,7 +733,7 @@
 
           // Function to open modal
           var openModal = function () {
-            if (isSubmitted) return;
+            if (isSubmitted || localStorage.getItem("surveySubmitted") === "true") return;
             surveyModal.classList.add("is-open");
             document.body.style.overflow = "hidden";
           };
@@ -523,24 +743,24 @@
             surveyModal.classList.remove("is-open");
             document.body.style.overflow = "";
             
-            // Re-show after 10s if not submitted
-            if (!isSubmitted) {
+            // Re-show after 2 mins if not submitted
+            if (!isSubmitted && localStorage.getItem("surveySubmitted") !== "true") {
               clearTimeout(reShowTimeout);
               reShowTimeout = setTimeout(function () {
                 openModal();
-              }, 10000);
+              }, 120000);
             }
           };
 
           openSurveyBtn.addEventListener("click", openModal);
           closeSurveyBtn.addEventListener("click", closeModal);
 
-          // Auto-show after 60 seconds (only once per session)
-          if (!sessionStorage.getItem("surveyAutoShown")) {
+          // Auto-show after 3 mins
+          if (localStorage.getItem("surveySubmitted") !== "true" && !sessionStorage.getItem("surveyAutoShown")) {
             setTimeout(function () {
               openModal();
               sessionStorage.setItem("surveyAutoShown", "true");
-            }, 60000);
+            }, 180000);
           }
 
           // Close on overlay click
@@ -553,6 +773,7 @@
           // Global access to mark as submitted
           window.markSurveyAsSubmitted = function() {
             isSubmitted = true;
+            localStorage.setItem("surveySubmitted", "true");
             clearTimeout(reShowTimeout);
           };
         }
@@ -1288,6 +1509,24 @@
         });
       })();
     </script>
+
+    <!-- TESTIMONIAL SLIDER SCRIPT -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const grid = document.querySelector(".testimonials-v2-grid");
+        const prevBtn = document.querySelector(".btn-slider-prev");
+        const nextBtn = document.querySelector(".btn-slider-next");
+        if (grid && prevBtn && nextBtn) {
+          prevBtn.addEventListener("click", function () {
+            grid.scrollBy({ left: -340, behavior: "smooth" });
+          });
+          nextBtn.addEventListener("click", function () {
+            grid.scrollBy({ left: 340, behavior: "smooth" });
+          });
+        }
+      });
+    </script>
   </body>
 </html>
+
 

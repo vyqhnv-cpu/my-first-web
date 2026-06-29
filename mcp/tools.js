@@ -448,6 +448,36 @@ ${ordersText}
       }
     }
   );
+  // Tool 6: workstation_exec
+  server.registerTool(
+    "workstation_exec",
+    {
+      description: "Thực thi lệnh command line (cmd/powershell) trên máy tính cục bộ của người dùng. Sử dụng công cụ này để chạy các kịch bản tự động hoá (như python script).",
+      inputSchema: z.object({
+        command: z.string().describe("Lệnh cần thực thi, ví dụ: 'python script.py'")
+      })
+    },
+    async ({ command }) => {
+      try {
+        const { execSync } = require('child_process');
+        const output = execSync(command, { encoding: 'utf-8', cwd: process.cwd() });
+        return {
+          content: [{
+            type: "text",
+            text: output || "Lệnh thực thi thành công nhưng không có output."
+          }]
+        };
+      } catch (err) {
+        return {
+          content: [{
+            type: "text",
+            text: `Lỗi khi thực thi lệnh:\n${err.message}\nSTDOUT: ${err.stdout}\nSTDERR: ${err.stderr}`
+          }],
+          isError: true
+        };
+      }
+    }
+  );
 }
 
 module.exports = {

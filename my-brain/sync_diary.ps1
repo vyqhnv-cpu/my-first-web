@@ -1,7 +1,7 @@
 # Cấu hình đường dẫn
 $excelPath = "C:\Users\ADMIN\OneDrive\MYTNH~1\EMOTIO~1.XLS"
 $dbPath = "c:\Users\ADMIN\OneDrive\Máy tính\My-first-web\my-brain\brain.db"
-$mdPath = "c:\Users\ADMIN\OneDrive\Máy tính\My-first-web\data\cam_xuc.md"
+$mdPath = "c:\Users\ADMIN\OneDrive\Máy tính\My-first-web\my-brain\nhat_ky.md"
 $vbsPath = "c:\Users\ADMIN\OneDrive\Máy tính\My-first-web\my-brain\temp_extract.vbs"
 $sqlPath = "c:\Users\ADMIN\OneDrive\Máy tính\My-first-web\my-brain\temp_import.sql"
 

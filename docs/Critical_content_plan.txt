@@ -1,0 +1,51 @@
+# Critical Thinking Content Plan – 2 tuần
+
+## 3 Bài Đăng Đầu Tiên (Facebook & Instagram)
+
+---
+### Bài 1 – Giới thiệu series "Think Clear"
+**Nội dung (text):**
+> "Ê mấy bà ơi, tui vừa khám phá cách suy nghĩ rõ ràng hơn bao giờ hết! 🎉 Trong 2 tuần tới, tui sẽ bật mí 13 “bẫy” khiến mình lạc lối, mỗi ngày 1 insight. Đơn giản thôi, chỉ cần 1 click để truy cập website và theo dõi series. 👉 [https://lifeskillhub.com]"
+
+**Brief hình ảnh (đồng nhất FB & IG, 1080 × 1080 px):**
+- **Phong cách:** Gần gũi, pastel nhẹ, ánh sáng ấm áp.
+- **Thành phần:**
+  1. Logo The Lifeskill Hub góc trên‑trái (màu trắng).
+  2. Tay cầm smartphone, màn hình bật sáng với biểu tượng “💡”.
+  3. Text overlay: “Think Clear – 13 Bias, 14 Days” (Sans‑Serif, #2C3E50).
+  4. **Không** có nút “Donate”. Thay vào đó, thêm ký hiệu link (🔗) ở góc dưới‑phải.
+- **Prompt (tiếng Anh) cho AI tạo ảnh:**
+  *"A square social media post (1080x1080) showing a hand holding a smartphone with a glowing light‑bulb icon on the screen, The Lifeskill Hub logo top left, bold text ‘Think Clear – 13 Bias, 14 Days’ in sans‑serif, and a subtle link icon (🔗) bottom right. Pastel background, warm lighting, friendly, modern style."*
+
+---
+### Bài 2 – Confirmation Bias
+**Nội dung (text):**
+> "Thật ra, tui hay nghe ngóng những ý kiến quen thuộc và bỏ qua thông tin mới. Các bà cũng thế? Đừng để bias chi phối, hãy mở rộng góc nhìn. Đơn giản thôi, chỉ 1 click để xem thêm trên website. 👉 [https://lifeskillhub.com]"
+
+**Brief hình ảnh (1080 × 1080 px):**
+- **Phong cách:** Gần gũi, pastel, ánh sáng vàng nhẹ.
+- **Thành phần:**
+  1. Logo Hub góc trên‑trái.
+  2. Hai mảnh ghép: một bên “old info”, một bên “new info”, với mũi tên chuyển đổi.
+  3. Text overlay: “Confirmation Bias – Đừng ràng buộc mình”.
+  4. **Không** có nút “Donate”. Thêm biểu tượng link (🔗) góc dưới‑phải.
+- **Prompt (tiếng Anh):**
+  *"A square post (1080x1080) with a pastel background showing two puzzle pieces labeled ‘old info’ and ‘new info’ with an arrow between them, The Lifeskill Hub logo top left, bold text ‘Confirmation Bias – Đừng ràng buộc mình’ in sans‑serif, and a subtle link icon (🔗) bottom right."*
+
+---
+### Bài 3 – Sunk‑Cost Fallacy
+**Nội dung (text):**
+> "Khi đã đầu tư thời gian hay công sức, tui thường cảm thấy không thể dừng lại. Nhưng thực tế, bỏ lại những thứ không còn giá trị là cách tiến lên. Đơn giản thôi, 1 click để truy cập website và học thêm. 👉 [https://lifeskillhub.com]"
+
+**Brief hình ảnh (1080 × 1080 px):**
+- **Phong cách:** Gần gũi, pastel, ánh sáng ấm.
+- **Thành phần:**
+  1. Logo Hub góc trên‑trái.
+  2. Đồng tiền rơi vào hố sâu, có biểu tượng “stop”.
+  3. Text overlay: “Sunk‑Cost – Đừng kéo dài”.
+  4. **Không** có nút “Donate”. Thêm ký hiệu link (🔗) góc dưới‑phải.
+- **Prompt (tiếng Anh):**
+  *"A square social media post (1080x1080) showing a coin falling into a deep pit with a stop sign, The Lifeskill Hub logo top left, bold text ‘Sunk‑Cost – Đừng kéo dài’ in sans‑serif, and a subtle link icon (🔗) bottom right. Pastel background, warm lighting, friendly style."*
+
+---
+*Các bài viết đã loại bỏ cụm “Bạn đã vất vả rồi”, “Làm thì sẽ được”, và chuyển CTA sang lời kêu gọi truy cập website.*
