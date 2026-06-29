@@ -804,8 +804,12 @@
                 surveyBtn.textContent = originalBtnText;
                 setFormMessage(surveyMsg, "Lỗi kết nối rồi, bạn thử lại giúp mình nhé!", "error");
               });
-          });
-        // Tải danh sách khóa học phổ biến ở trang chủ
+      })();
+    </script>
+
+    <!-- POPULAR COURSES LOADING (Independent of Supabase CDN) -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
         const popularList = document.getElementById("popular-courses-list");
         if (popularList) {
           fetch("/api/courses")
@@ -872,7 +876,7 @@
               popularList.innerHTML = '<div style="text-align: center; padding: 2rem; color: rgba(255,255,255,0.7); grid-column: 1 / -1;">Không thể tải khóa học.</div>';
             });
         }
-      })();
+      });
     </script>
 
     <!-- PAYMENT MODAL SCRIPT (Independent of Supabase) -->
