@@ -123,7 +123,7 @@ module.exports = () => {
 
   // POST: Đăng ký khóa học
   router.post('/register', async (req, res) => {
-    const { course_id, full_name, email, phone } = req.body;
+    const { course_id, full_name, email, phone, age } = req.body;
     
     // Lấy thông tin giá khóa học từ CSDL (nếu có)
     let coursePrice = 0;
@@ -146,6 +146,7 @@ module.exports = () => {
         full_name,
         email,
         phone,
+        age: age || null,
         status: initialStatus,
         registered_at: new Date().toISOString()
       }).select('id').single();
