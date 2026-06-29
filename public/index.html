@@ -825,10 +825,15 @@
                 
                 // Handle price
                 let priceOriginalHtml = "";
-                if (course.original_price) {
-                  priceOriginalHtml = `<span class="price-original" style="text-decoration: line-through; color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-left: 0.5rem;">${course.original_price.toLocaleString('vi-VN')} ₫</span>`;
+                let priceCurrentText = "";
+                if (course.price < 0) {
+                  priceCurrentText = "SẮP RA MẮT";
+                } else {
+                  if (course.original_price) {
+                    priceOriginalHtml = `<span class="price-original" style="text-decoration: line-through; color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-left: 0.5rem;">${course.original_price.toLocaleString('vi-VN')} ₫</span>`;
+                  }
+                  priceCurrentText = course.price === 0 ? "MIỄN PHÍ" : `${course.price.toLocaleString('vi-VN')} ₫`;
                 }
-                const priceCurrentText = course.price === 0 ? "MIỄN PHÍ" : `${course.price.toLocaleString('vi-VN')} ₫`;
                 
                 card.innerHTML = `
                   <div class="course-card-image">

@@ -35,8 +35,8 @@ module.exports = () => {
       title: 'Khai vấn 1:1: Giải mã bản thân (MBTI & Self-Awareness)',
       category: 'THẤU HIỂU NỘI TÂM',
       category_class: 'data-science', // Blue badge styling
-      price: 500000,
-      original_price: 800000,
+      price: -1,
+      original_price: null,
       sessions: '1 Buổi Zoom 1:1',
       size_limit: 'Sĩ số 1 Học viên',
       badge: 'Hot',
@@ -53,8 +53,8 @@ module.exports = () => {
       title: 'Khai vấn 1:1: Định hướng sự nghiệp (Holland Career Match)',
       category: 'ĐỊNH HƯỚNG NGHỀ NGHIỆP',
       category_class: 'web-design', // Green badge styling
-      price: 500000,
-      original_price: 800000,
+      price: -1,
+      original_price: null,
       sessions: '1 Buổi Zoom 1:1',
       size_limit: 'Sĩ số 1 Học viên',
       badge: 'Mới',

@@ -264,20 +264,36 @@
 
                   // Render pricing
                   const priceOrig = document.getElementById('price-original');
-                  if (course.original_price) {
-                    priceOrig.textContent = `${course.original_price.toLocaleString('vi-VN')} ₫`;
-                    priceOrig.style.display = 'block';
-                  } else {
-                    priceOrig.style.display = 'none';
-                  }
-
                   const priceCur = document.getElementById('price-current');
-                  if (course.price === 0) {
-                    priceCur.textContent = 'MIỄN PHÍ';
-                    priceCur.style.color = 'var(--color-primary)';
+                  
+                  if (course.price < 0) {
+                    priceOrig.style.display = 'none';
+                    priceCur.textContent = 'SẮP RA MẮT';
+                    priceCur.style.color = 'var(--color-neutral)';
+                    
+                    // Disable registration form if course is not released yet
+                    const registerForm = document.getElementById('courseRegisterForm');
+                    if (registerForm) {
+                      const inputs = registerForm.querySelectorAll('input, button');
+                      inputs.forEach(el => el.disabled = true);
+                      const btn = document.getElementById('btnSubmitCourse');
+                      if (btn) btn.textContent = 'Chưa mở đăng ký';
+                    }
                   } else {
-                    priceCur.textContent = `${course.price.toLocaleString('vi-VN')} ₫`;
-                    priceCur.style.color = 'var(--color-secondary)';
+                    if (course.original_price) {
+                      priceOrig.textContent = `${course.original_price.toLocaleString('vi-VN')} ₫`;
+                      priceOrig.style.display = 'block';
+                    } else {
+                      priceOrig.style.display = 'none';
+                    }
+
+                    if (course.price === 0) {
+                      priceCur.textContent = 'MIỄN PHÍ';
+                      priceCur.style.color = 'var(--color-primary)';
+                    } else {
+                      priceCur.textContent = `${course.price.toLocaleString('vi-VN')} ₫`;
+                      priceCur.style.color = 'var(--color-secondary)';
+                    }
                   }
                 })
                 .catch(err => {
