@@ -4,7 +4,9 @@
   "description": "My first web project with SePay integration",
   "main": "index.html",
   "scripts": {
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "deploy": "node scripts/ssh/run_ssh_deploy_final.js",
+    "deploy:fast": "node scripts/ssh/deploy_fast.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",

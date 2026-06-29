@@ -147,16 +147,16 @@
     <!-- COURSE HERO -->
     <section class="course-detail-hero">
       <div class="container">
-        <span class="badge" style="background: var(--color-secondary); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; display: inline-block; margin-bottom: 1.5rem;">UX/UI DESIGN</span>
-        <h1>Wireframing & Prototyping chuyên nghiệp</h1>
+        <span class="badge" id="course-category" style="background: var(--color-secondary); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; display: inline-block; margin-bottom: 1.5rem;">ĐANG TẢI...</span>
+        <h1 id="course-title">Đang tải khóa học...</h1>
         <div class="course-detail-meta">
-          <span>
+          <span id="course-sessions">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-            16 Buổi học qua Zoom
+            ...
           </span>
-          <span>
+          <span id="course-size-limit">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            Giới hạn 20 Học viên/Lớp
+            ...
           </span>
           <span>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
@@ -174,28 +174,14 @@
         <div class="course-main-info">
           <div class="content-section">
             <h2>Về khóa học này</h2>
-            <p>Khóa học Wireframing & Prototyping chuyên nghiệp được thiết kế đặc biệt cho những bạn muốn nắm vững các công cụ và tư duy thiết kế UX/UI. Tham gia lớp học trực tiếp qua Zoom, bạn sẽ được tương tác 1:1 với giảng viên, chữa bài thực hành ngay tại lớp.</p>
-            <p>Bạn không chỉ học cách sử dụng công cụ (như Figma), mà còn học cách tư duy logic đằng sau mỗi quyết định thiết kế, từ đó tự tin tạo ra các sản phẩm thực tế để đưa vào Portfolio xin việc.</p>
+            <p id="course-description">Đang tải nội dung mô tả...</p>
           </div>
 
           <div class="content-section">
             <h2>Lộ trình học tập</h2>
-            <ul class="curriculum-list">
-              <li>
-                <span class="curriculum-title">Buổi 1-4: Nền tảng tư duy UX và Wireframing</span>
-                <span style="color: var(--color-muted); font-size: 0.9rem;">4 Buổi</span>
-              </li>
-              <li>
-                <span class="curriculum-title">Buổi 5-8: Làm chủ công cụ Figma & Hệ thống UI Component</span>
-                <span style="color: var(--color-muted); font-size: 0.9rem;">4 Buổi</span>
-              </li>
-              <li>
-                <span class="curriculum-title">Buổi 9-12: Prototyping cơ bản đến nâng cao (Animation/Micro-interactions)</span>
-                <span style="color: var(--color-muted); font-size: 0.9rem;">4 Buổi</span>
-              </li>
-              <li>
-                <span class="curriculum-title">Buổi 13-16: Đồ án cuối khóa & Chữa Portfolio</span>
-                <span style="color: var(--color-muted); font-size: 0.9rem;">4 Buổi</span>
+            <ul class="curriculum-list" id="curriculum-list">
+              <li style="border-left-color: var(--color-muted);">
+                <span class="curriculum-title">Đang tải lộ trình...</span>
               </li>
             </ul>
           </div>
@@ -205,11 +191,11 @@
         <div>
           <div class="registration-card sticky-sidebar" id="dang-ky">
             <div style="text-align: center; margin-bottom: 2rem;">
-              <div style="text-decoration: line-through; color: var(--color-muted); font-size: 1.1rem; margin-bottom: 0.5rem;">
-                800.000 ₫
+              <div id="price-original" style="text-decoration: line-through; color: var(--color-muted); font-size: 1.1rem; margin-bottom: 0.5rem; display: none;">
+                ...
               </div>
-              <div style="font-size: 2.5rem; font-weight: 800; color: var(--color-primary);">
-                MIỄN PHÍ
+              <div id="price-current" style="font-size: 2.5rem; font-weight: 800; color: var(--color-primary);">
+                Đang tải...
               </div>
               <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.5rem;">
                 Giá ưu đãi áp dụng khi đăng ký trước ngày khai giảng.
@@ -242,13 +228,71 @@
             </form>
             
             <script>
+              const urlParams = new URLSearchParams(window.location.search);
+              const courseId = parseInt(urlParams.get('id')) || 1;
+
+              // Fetch course data on load
+              fetch(`/api/courses/${courseId}`)
+                .then(res => res.json())
+                .then(course => {
+                  document.title = `${course.title} — The LifeSkill Hub`;
+                  document.getElementById('course-category').textContent = course.category;
+                  document.getElementById('course-title').textContent = course.title;
+                  
+                  document.getElementById('course-sessions').innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    ${course.sessions} học qua Zoom
+                  `;
+                  document.getElementById('course-size-limit').innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    Giới hạn ${course.size_limit}
+                  `;
+
+                  document.getElementById('course-description').textContent = course.description;
+
+                  // Render curriculum
+                  const currList = document.getElementById('curriculum-list');
+                  currList.innerHTML = '';
+                  course.curriculum.forEach(item => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                      <span class="curriculum-title">${item.title}</span>
+                      <span style="color: var(--color-muted); font-size: 0.9rem;">${item.duration}</span>
+                    `;
+                    currList.appendChild(li);
+                  });
+
+                  // Render pricing
+                  const priceOrig = document.getElementById('price-original');
+                  if (course.original_price) {
+                    priceOrig.textContent = `${course.original_price.toLocaleString('vi-VN')} ₫`;
+                    priceOrig.style.display = 'block';
+                  } else {
+                    priceOrig.style.display = 'none';
+                  }
+
+                  const priceCur = document.getElementById('price-current');
+                  if (course.price === 0) {
+                    priceCur.textContent = 'MIỄN PHÍ';
+                    priceCur.style.color = 'var(--color-primary)';
+                  } else {
+                    priceCur.textContent = `${course.price.toLocaleString('vi-VN')} ₫`;
+                    priceCur.style.color = 'var(--color-secondary)';
+                  }
+                })
+                .catch(err => {
+                  console.error("Error loading course details:", err);
+                  document.getElementById('course-title').textContent = 'Không thể tải thông tin khóa học';
+                });
+
+              // Handle registration submission
               document.getElementById('courseRegisterForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 const btn = document.getElementById('btnSubmitCourse');
                 const msgBox = document.getElementById('courseFormMessage');
                 
                 const payload = {
-                  course_id: 1, // ID mặc định của khóa Wireframing
+                  course_id: courseId,
                   full_name: document.getElementById('fullName').value,
                   email: document.getElementById('email').value,
                   phone: document.getElementById('phone').value
@@ -268,11 +312,9 @@
                   const data = await response.json();
                   if (data.success) {
                     if (data.payment_required) {
-                      // Chuyển hướng sang trang thanh toán
                       const uName = encodeURIComponent(document.getElementById('fullName').value);
                       window.location.href = `/payment.html?id=${data.enrollment_id}&name=${uName}`;
                     } else {
-                      // Xử lý luồng miễn phí
                       msgBox.style.color = '#10B981';
                       msgBox.textContent = 'Đăng ký khóa học MIỄN PHÍ thành công! Vui lòng kiểm tra Email của bạn.';
                       this.reset();
@@ -284,7 +326,7 @@
                   msgBox.style.color = 'red';
                   msgBox.textContent = error.message;
                 } finally {
-                  btn.textContent = 'Đăng ký & Thanh toán';
+                  btn.textContent = 'Đăng ký ngay';
                   btn.disabled = false;
                 }
               });

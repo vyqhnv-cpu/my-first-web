@@ -8,24 +8,97 @@ const resend = new Resend(resendApiKey);
 module.exports = () => {
   const router = require('express').Router();
 
+  const mockCourses = [
+    {
+      id: 1,
+      title: 'Wireframing & Prototyping chuyên nghiệp',
+      category: 'UX/UI DESIGN',
+      category_class: 'ui-ux',
+      price: 499000,
+      original_price: 800000,
+      sessions: '16 Buổi Zoom',
+      size_limit: '20 Học viên/Lớp',
+      badge: 'Đăng ký nhiều',
+      image_url: 'asset/teacher_female.png',
+      description: 'Khóa học Wireframing & Prototyping chuyên nghiệp được thiết kế đặc biệt cho những bạn muốn nắm vững các công cụ và tư duy thiết kế UX/UI. Tham gia lớp học trực tiếp qua Zoom, bạn sẽ được tương tác 1:1 với giảng viên, chữa bài thực hành ngay tại lớp. Bạn không chỉ học cách sử dụng công cụ (như Figma), mà còn học cách tư duy logic đằng sau mỗi quyết định thiết kế, từ đó tự tin tạo ra các sản phẩm thực tế để đưa vào Portfolio xin việc.',
+      curriculum: [
+        { title: 'Buổi 1-4: Nền tảng tư duy UX và Wireframing', duration: '4 Buổi' },
+        { title: 'Buổi 5-8: Làm chủ công cụ Figma & Hệ thống UI Component', duration: '4 Buổi' },
+        { title: 'Buổi 9-12: Prototyping cơ bản đến nâng cao (Animation/Micro-interactions)', duration: '4 Buổi' },
+        { title: 'Buổi 13-16: Đồ án cuối khóa & Chữa Portfolio', duration: '4 Buổi' }
+      ]
+    },
+    {
+      id: 2,
+      title: 'Python Cho Khoa Học Dữ Liệu Cơ Bản',
+      category: 'DATA SCIENCE',
+      category_class: 'data-science',
+      price: 599000,
+      original_price: null,
+      sessions: '22 Buổi Zoom',
+      size_limit: '15 Học viên/Lớp',
+      badge: '',
+      image_url: 'asset/hero_student.png',
+      description: 'Khóa học Python Cho Khoa Học Dữ Liệu Cơ Bản cung cấp nền tảng lập trình và phân tích dữ liệu thực tế bằng Python. Bạn sẽ làm quen với cú pháp, xử lý mảng, vẽ biểu đồ và trực quan hoá dữ liệu, giúp bạn tự tin ứng dụng vào công việc phân tích báo cáo.',
+      curriculum: [
+        { title: 'Buổi 1-6: Cú pháp Python cơ bản & Biến số', duration: '6 Buổi' },
+        { title: 'Buổi 7-12: Xử lý dữ liệu với Pandas & Numpy', duration: '6 Buổi' },
+        { title: 'Buổi 13-18: Trực quan hóa dữ liệu với Matplotlib & Seaborn', duration: '6 Buổi' },
+        { title: 'Buổi 19-22: Bài tập lớn & Ứng dụng thực tế', duration: '4 Buổi' }
+      ]
+    }
+  ];
+
+  // Helper to merge DB data with mock fallbacks
+  function mergeCourse(dbRow) {
+    const fallback = mockCourses.find(c => c.id == dbRow.id) || mockCourses[0];
+    return {
+      id: dbRow.id,
+      title: dbRow.title || fallback.title,
+      category: dbRow.category || fallback.category,
+      category_class: dbRow.category_class || fallback.category_class || 'ui-ux',
+      price: dbRow.price !== undefined ? dbRow.price : fallback.price,
+      original_price: dbRow.original_price !== undefined ? dbRow.original_price : fallback.original_price,
+      sessions: dbRow.sessions || fallback.sessions,
+      size_limit: dbRow.size_limit || fallback.size_limit,
+      badge: dbRow.badge !== undefined ? dbRow.badge : fallback.badge,
+      image_url: dbRow.image_url || fallback.image_url,
+      description: dbRow.description || fallback.description,
+      curriculum: dbRow.curriculum || fallback.curriculum
+    };
+  }
+
   // GET: Lấy danh sách khóa học
   router.get('/', async (req, res) => {
     try {
       const { data, error } = await supabase.from('courses').select('*');
       if (error) {
-        if (error.code === '42P01') {
-          return res.json([
-            { id: 1, title: 'Wireframing & Prototyping chuyên nghiệp', price: 499000, original_price: 800000, category: 'UX/UI DESIGN' }
-          ]);
-        }
-        return res.status(500).json({ error: error.message });
+        // Trở về mock data nếu bảng chưa có trên DB
+        return res.json(mockCourses);
       }
-      res.json(data);
+      // Khớp dữ liệu từ DB với cấu trúc chi tiết
+      const merged = data.map(row => mergeCourse(row));
+      res.json(merged.length ? merged : mockCourses);
     } catch (err) {
-      // Supabase chưa được cấu hình, trả về dữ liệu mẫu
-      return res.json([
-        { id: 1, title: 'Wireframing & Prototyping chuyên nghiệp', price: 499000, original_price: 800000, category: 'UX/UI DESIGN' }
-      ]);
+      return res.json(mockCourses);
+    }
+  });
+
+  // GET: Lấy chi tiết 1 khóa học
+  router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+      const { data, error } = await supabase.from('courses').select('*').eq('id', id).single();
+      if (error) {
+        const mock = mockCourses.find(c => c.id == id);
+        if (mock) return res.json(mock);
+        return res.status(404).json({ error: 'Không tìm thấy khóa học' });
+      }
+      res.json(mergeCourse(data));
+    } catch (err) {
+      const mock = mockCourses.find(c => c.id == id);
+      if (mock) return res.json(mock);
+      return res.status(500).json({ error: err.message });
     }
   });
 

@@ -26,6 +26,9 @@ conn.on('ready', () => {
     if [ ! -d ".git" ]; then
       git clone https://github.com/vyqhnv-cpu/my-first-web.git .
     else
+      # Reset local changes that might block merge (like tracked .env issues)
+      git checkout -- .env || true
+      git clean -f .env || true
       git pull origin main
     fi
 

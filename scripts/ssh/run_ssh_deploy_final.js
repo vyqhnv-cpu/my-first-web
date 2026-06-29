@@ -30,7 +30,9 @@ conn.on('ready', () => {
     if [ ! -d ".git" ]; then
       git clone https://github.com/vyqhnv-cpu/my-first-web.git .
     else
-      git pull origin main
+      git fetch origin
+      git reset --hard origin/main
+      git clean -fd
     fi
 
     echo "--- 3. Installing Node.js LTS (if missing) ---"
@@ -41,6 +43,7 @@ conn.on('ready', () => {
 
     echo "--- 4. Installing Dependencies ---"
     npm ci
+    npm rebuild sqlite3 --build-from-source
 
     echo "--- 5. Creating .env file ---"
     cat <<EOF > .env
