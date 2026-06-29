@@ -40,7 +40,7 @@ module.exports = () => {
       sessions: '1 Buổi Zoom 1:1',
       size_limit: 'Sĩ số 1 Học viên',
       badge: 'Hot',
-      image_url: 'asset/teacher_female.png',
+      image_url: 'asset/vn_mbti_self.png',
       description: 'Buổi nói chuyện giải mã chuyên sâu kết quả MBTI cá nhân của bạn. Nhận diện các nỗi sợ thầm kín, cơ chế đối phó khi căng thẳng và tìm kiếm sự công nhận phù hợp trong công việc và các mối quan hệ.',
       curriculum: [
         { title: 'Phần 1: Đối chiếu kết quả trắc nghiệm và hành vi thực tế hàng ngày', duration: '30 Phút' },
@@ -58,7 +58,7 @@ module.exports = () => {
       sessions: '1 Buổi Zoom 1:1',
       size_limit: 'Sĩ số 1 Học viên',
       badge: 'Mới',
-      image_url: 'asset/mbti_sentinel.png',
+      image_url: 'asset/vn_holland_career.png',
       description: 'Giải mã mật mã Holland để tìm ra sự giao thoa giữa sở thích tự nhiên và năng lực thực tế. Tháo gỡ trạng thái chênh vênh, đứng núi này trông núi nọ để chọn lựa ngành nghề phù hợp.',
       curriculum: [
         { title: 'Phần 1: Phân tích 3 nhóm mật mã Holland trội nhất của bạn', duration: '30 Phút' },
