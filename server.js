@@ -424,7 +424,10 @@ app.get('/blog/:slug', (req, res) => {
   });
 });
 
-
+// Redirect direct requests for index.html to clean URL /
+app.get('/index.html', (req, res) => {
+  res.redirect(301, '/');
+});
 
 // Serve static files from the public folder (auto-resolves .html and .css)
 app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
