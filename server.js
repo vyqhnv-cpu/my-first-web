@@ -462,7 +462,15 @@ app.get('/index.html', (req, res) => {
 });
 
 // Serve static files from the public folder (auto-resolves .html and .css)
-app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
+app.use(express.static(path.join(__dirname, 'public'), {
+  extensions: ['html'],
+  setHeaders: (res, filepath) => {
+    // Disable caching for HTML files to prevent outdated pages
+    if (filepath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+    }
+  }
+}));
 
 // Keep data folder accessible if it contains json data
 app.use('/data', express.static(path.join(__dirname, 'data')));
