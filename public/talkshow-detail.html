@@ -86,6 +86,20 @@
         pointer-events: none;
       }
 
+      .talkshow-meta {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.25rem;
+      }
+      .talkshow-meta span {
+        color: var(--color-muted);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.95rem;
+      }
+
       /* Countdown Design */
       .countdown-wrapper {
         margin: 2.5rem 0 1rem;
@@ -364,13 +378,20 @@
           font-size: 2rem !important;
         }
 
+        .talkshow-meta {
+          gap: 0.75rem !important;
+        }
+        .talkshow-meta span {
+          font-size: 0.85rem !important;
+        }
+
         .value-grid {
           grid-template-columns: 1fr;
           gap: 1.25rem;
         }
 
         .countdown-wrapper {
-          padding: 1rem 1.25rem;
+          padding: 0.75rem 1rem !important;
           width: 100%;
           box-sizing: border-box;
         }
@@ -378,12 +399,17 @@
         .countdown-timer {
           justify-content: center;
           width: 100%;
+          gap: 0.5rem !important;
         }
 
         .time-num {
-          font-size: 1.5rem;
-          min-width: 2.75rem;
-          padding: 0.2rem 0.5rem;
+          font-size: 1.25rem !important;
+          min-width: 2.25rem !important;
+          padding: 0.2rem 0.25rem !important;
+        }
+        
+        .time-label {
+          font-size: 0.65rem !important;
         }
 
         .speaker-card {
@@ -441,16 +467,16 @@
           <span class="badge" id="talkshow-category" style="background: var(--color-secondary); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; display: inline-block; margin-bottom: 1.25rem;">TÂM LÝ HỌC</span>
           <h1 id="talkshow-title" style="font-family: var(--font-display); font-size: 2.8rem; color: var(--color-primary); margin-bottom: 1.5rem; line-height: 1.2;">Đang tải thông tin...</h1>
           
-          <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-            <span id="talkshow-speaker" style="color: var(--color-muted); display: flex; align-items: center; gap: 0.4rem; font-size: 0.95rem;">
+          <div class="talkshow-meta">
+            <span id="talkshow-speaker">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               Diễn giả: --
             </span>
-            <span id="talkshow-date" style="color: var(--color-muted); display: flex; align-items: center; gap: 0.4rem; font-size: 0.95rem;">
+            <span id="talkshow-date">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               Ngày: --
             </span>
-            <span id="talkshow-time" style="color: var(--color-muted); display: flex; align-items: center; gap: 0.4rem; font-size: 0.95rem;">
+            <span id="talkshow-time">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               Giờ: --
             </span>
