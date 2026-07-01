@@ -69,7 +69,7 @@
     "date": "12 Tháng 8, 2026",
     "time": "19:30 - 21:00",
     "speaker": "The LifeSkill Hub Team",
-    "price": 0,
+    "price": -1,
     "image_url": "asset/vn_talkshow_attachment.png",
     "desc": "Tìm hiểu về 4 kiểu gắn bó trong tình yêu và các mối quan hệ (An toàn, Lo âu, Né tránh, Phức hợp). Nhận diện kiểu gắn bó của bản thân để xây dựng những mối quan hệ bền vững, lành mạnh và hạnh phúc.",
     "link": "talkshow-detail.html?id=4",

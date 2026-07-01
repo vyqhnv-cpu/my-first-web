@@ -106,6 +106,16 @@
               <input type="text" id="fullName" placeholder="Họ và tên của bạn" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem;" />
               <input type="email" id="email" placeholder="Địa chỉ Email" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem;" />
               <input type="tel" id="phone" placeholder="Số điện thoại / Zalo" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem;" />
+              <input type="number" id="age" placeholder="Tuổi của bạn" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem;" />
+              
+              <div style="width: 100%; display: flex; flex-direction: column; gap: 0.25rem; text-align: left;">
+                <label for="selectedDate" style="font-size: 0.85rem; color: var(--color-muted); font-weight: 500; padding-left: 0.2rem;">Chọn ngày tham gia:</label>
+                <select id="selectedDate" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem; background-color: white;">
+                  <!-- Options loaded dynamically -->
+                </select>
+              </div>
+
+              <textarea id="expectation" placeholder="Điều bạn mong muốn nhận được sau khi tham gia talkshow..." style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem; min-height: 80px; resize: vertical; font-family: inherit;"></textarea>
               
               <button type="submit" id="btnSubmitTalkshow" class="btn-primary-purple" style="width: 100%; padding: 1.1rem; font-size: 1.1rem; font-weight: 700; border-radius: 8px; cursor: pointer; margin-top: 1rem;">Đăng ký giữ chỗ</button>
               
@@ -227,24 +237,47 @@
             const priceOrig = document.getElementById('price-original');
             const priceCur = document.getElementById('price-current');
             
-            if (show.price === 0) {
-              priceCur.textContent = 'MIỄN PHÍ';
-              priceCur.style.color = 'var(--color-primary)';
-            } else {
-              if (show.original_price) {
-                priceOrig.textContent = `${show.original_price.toLocaleString('vi-VN')} ₫`;
-                priceOrig.style.display = 'block';
-              }
-              priceCur.textContent = `${show.price.toLocaleString('vi-VN')} ₫`;
-              priceCur.style.color = 'var(--color-secondary)';
-            }
+            if (show.price < 0) {
+              priceCur.textContent = 'SẮP DIỄN RA';
+              priceCur.style.color = 'var(--color-neutral)';
+              priceOrig.style.display = 'none';
 
-            // CHECK "CHƯA DIỄN RA" STATUS TO HIDE REGISTER BUTTON
-            if (show.status === 'coming_soon') {
-              // Hide registration form
-              document.getElementById('talkshowRegisterForm').style.display = 'none';
-              // Show coming soon notice card
-              document.getElementById('coming-soon-notice').style.display = 'block';
+              // Disable form inputs if talkshow is not open yet
+              const registerForm = document.getElementById('talkshowRegisterForm');
+              if (registerForm) {
+                registerForm.classList.add('form-disabled');
+                const inputs = registerForm.querySelectorAll('input, select, textarea, button');
+                inputs.forEach(el => el.disabled = true);
+                const btn = document.getElementById('btnSubmitTalkshow');
+                if (btn) btn.textContent = 'Chưa mở đăng ký';
+              }
+            } else {
+              if (show.price === 0) {
+                priceCur.textContent = 'MIỄN PHÍ';
+                priceCur.style.color = 'var(--color-primary)';
+              } else {
+                if (show.original_price) {
+                  priceOrig.textContent = `${show.original_price.toLocaleString('vi-VN')} ₫`;
+                  priceOrig.style.display = 'block';
+                } else {
+                  priceOrig.style.display = 'none';
+                }
+                priceCur.textContent = `${show.price.toLocaleString('vi-VN')} ₫`;
+                priceCur.style.color = 'var(--color-secondary)';
+              }
+
+              // Load dates options dynamically
+              const dateSelect = document.getElementById('selectedDate');
+              if (dateSelect) {
+                dateSelect.innerHTML = '';
+                const dates = show.dates || [show.date];
+                dates.forEach(d => {
+                  const opt = document.createElement('option');
+                  opt.value = d;
+                  opt.textContent = d;
+                  dateSelect.appendChild(opt);
+                });
+              }
             }
           })
           .catch(err => {
@@ -261,15 +294,38 @@
           btn.textContent = 'Đang gửi...';
           btn.disabled = true;
           msgBox.textContent = '';
+
+          const payload = {
+            talkshow_id: talkshowId,
+            full_name: document.getElementById('fullName').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            age: parseInt(document.getElementById('age').value),
+            selected_date: document.getElementById('selectedDate').value,
+            expectation: document.getElementById('expectation').value
+          };
           
-          // Simulate event registration endpoint (redirects to home lead system or similar)
-          setTimeout(() => {
+          try {
+            const response = await fetch('/api/talkshows/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (data.success) {
+              msgBox.style.color = '#10B981';
+              msgBox.textContent = 'Đăng ký giữ chỗ sự kiện thành công! Vui lòng kiểm tra Email/Zalo của bạn.';
+              this.reset();
+            } else {
+              throw new Error(data.error || 'Có lỗi xảy ra, vui lòng thử lại.');
+            }
+          } catch(err) {
+            msgBox.style.color = '#EF4444';
+            msgBox.textContent = err.message;
+          } finally {
             btn.textContent = 'Đăng ký giữ chỗ';
             btn.disabled = false;
-            msgBox.style.color = '#10B981';
-            msgBox.textContent = 'Đăng ký sự kiện thành công! Chúng tôi đã gửi email xác nhận cho bạn.';
-            this.reset();
-          }, 800);
+          }
         });
       });
     </script>
