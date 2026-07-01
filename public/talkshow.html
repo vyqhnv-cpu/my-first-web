@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Danh sách Khóa học — The LifeSkill Hub</title>
+    <title>Talkshow & Sự kiện — The LifeSkill Hub</title>
     <link rel="icon" href="asset/favicon.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -23,8 +23,8 @@
 
         <nav class="nav" id="site-nav" aria-label="Chính">
           <a href="index.html">Trang chủ</a>
-          <a href="courses.html" class="active">Khóa học</a>
-          <a href="talkshow.html">Talkshow</a>
+          <a href="courses.html">Khóa học</a>
+          <a href="talkshow.html" class="active">Talkshow</a>
           <a href="tests.html">Bài test</a>
           <a href="blog.html">Blog</a>
         </nav>
@@ -47,17 +47,16 @@
     <!-- PAGE HEADER -->
     <section class="page-header" style="padding: 8rem 0 4rem; text-align: center; background: linear-gradient(135deg, #F3E8FF 0%, #FCE7F3 100%);">
       <div class="container">
-        <h1 style="font-family: var(--font-display); font-size: 3rem; color: var(--color-primary); margin-bottom: 1rem;">Khóa học Live</h1>
-        <p style="color: var(--color-muted); font-size: 1.15rem; max-width: 600px; margin: 0 auto;">Tham gia các lớp học trực tuyến qua Zoom cùng các chuyên gia hàng đầu. Lộ trình thực chiến, tương tác 1:1, nâng tầm kỹ năng của bạn.</p>
+        <h1 style="font-family: var(--font-display); font-size: 3rem; color: var(--color-primary); margin-bottom: 1rem;">Talkshow & Sự kiện</h1>
+        <p style="color: var(--color-muted); font-size: 1.15rem; max-width: 600px; margin: 0 auto;">Lắng nghe chia sẻ thực chiến từ chuyên gia, tháo gỡ điểm kẹt tư duy và cùng thảo luận định hướng tương lai vững vàng.</p>
       </div>
     </section>
 
-    <!-- COURSES GRID -->
-    <section class="courses-page-section" style="padding: 5rem 0;">
+    <!-- TALKSHOWS GRID -->
+    <section class="courses-page-section" style="padding: 5rem 0; background-color: #faf7f2;">
       <div class="container">
-        <!-- Static Data for UI Design (will be replaced by JS later) -->
-        <div class="courses-grid" id="courses-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem;">
-          <div style="text-align: center; padding: 2rem; color: var(--color-muted); grid-column: 1 / -1;">Đang tải danh sách khóa học...</div>
+        <div class="courses-grid" id="talkshows-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem;">
+          <div style="text-align: center; padding: 2rem; color: var(--color-muted); grid-column: 1 / -1;">Đang tải danh sách sự kiện...</div>
         </div>
       </div>
     </section>
@@ -123,70 +122,84 @@
           });
         }
 
-        const coursesList = document.getElementById("courses-list");
-        if (!coursesList) return;
+        const talkshowsList = document.getElementById("talkshows-list");
+        if (!talkshowsList) return;
         
-        fetch("/api/courses")
+        fetch("/api/talkshows")
           .then(res => res.json())
-          .then(courses => {
-            coursesList.innerHTML = "";
-            courses.forEach(course => {
+          .then(talkshows => {
+            talkshowsList.innerHTML = "";
+            talkshows.forEach(show => {
               const card = document.createElement("div");
               card.className = "course-card";
               
               // Handle badge
               let badgeHtml = "";
-              if (course.badge) {
-                badgeHtml = `<div class="course-badges"><span class="badge badge-popular">${course.badge}</span></div>`;
+              if (show.badge) {
+                badgeHtml = `<div class="course-badges"><span class="badge badge-popular">${show.badge}</span></div>`;
               }
               
               // Handle price
               let priceOriginalHtml = "";
               let priceCurrentText = "";
-              if (course.price < 0) {
-                priceCurrentText = "SẮP RA MẮT";
+              if (show.price === 0) {
+                priceCurrentText = "MIỄN PHÍ";
+              } else if (show.price < 0) {
+                priceCurrentText = "SẮP DIỄN RA";
               } else {
-                if (course.original_price) {
-                  priceOriginalHtml = `<span class="price-original">${course.original_price.toLocaleString('vi-VN')} ₫</span>`;
+                if (show.original_price) {
+                  priceOriginalHtml = `<span class="price-original">${show.original_price.toLocaleString('vi-VN')} ₫</span>`;
                 }
-                priceCurrentText = course.price === 0 ? "MIỄN PHÍ" : `${course.price.toLocaleString('vi-VN')} ₫`;
+                priceCurrentText = `${show.price.toLocaleString('vi-VN')} ₫`;
               }
               
               card.innerHTML = `
                 <div class="course-card-image">
-                  <img src="${course.image_url}" alt="${course.title}" />
+                  <img src="${show.image_url}" alt="${show.title}" />
                   ${badgeHtml}
                 </div>
-                <div class="course-card-body">
-                  <span class="course-category ${course.category_class || 'ui-ux'}">${course.category}</span>
-                  <h3 class="course-title">${course.title}</h3>
-                  <div class="course-meta">
-                    <span class="meta-item">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-                      ${course.sessions}
-                    </span>
-                    <span class="meta-item">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                      ${course.size_limit}
-                    </span>
-                  </div>
-                  <div class="course-card-footer">
-                    <div class="course-price">
-                      <span class="price-current">${priceCurrentText}</span>
-                      ${priceOriginalHtml}
+                <div class="course-card-body" style="display: flex; flex-direction: column; height: calc(100% - 200px); justify-content: space-between;">
+                  <div>
+                    <span class="course-category ${show.category_class || 'thinking'}">${show.category}</span>
+                    <h3 class="course-title" style="margin: 0.5rem 0 1rem; font-size: 1.25rem; line-height: 1.4; height: 3.5rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">${show.title}</h3>
+                    
+                    <div style="font-size: 0.85rem; color: var(--color-muted); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      <span>Diễn giả: <b>${show.speaker}</b></span>
                     </div>
+
+                    <div style="font-size: 0.85rem; color: var(--color-muted); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      <span>Thời gian: <b>${show.date}</b></span>
+                    </div>
+
+                    <div style="font-size: 0.85rem; color: var(--color-muted); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.4rem;">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      <span>Khung giờ: <b>${show.time}</b></span>
+                    </div>
+
+                    <p style="font-size: 0.9rem; color: var(--color-muted); line-height: 1.5; margin-bottom: 1.5rem; height: 4.5rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">${show.desc}</p>
                   </div>
-                  <div class="courses-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-                    <a href="course-detail.html?id=${course.id}" class="btn-primary-purple" style="flex: 1; text-align: center; text-decoration: none; border-radius: 8px;">Xem chi tiết</a>
+                  
+                  <div>
+                    <div class="course-card-footer" style="padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: space-between;">
+                      <div class="course-price">
+                        <span class="price-current" style="font-size: 1.2rem; font-weight: 800; color: var(--color-primary);">${priceCurrentText}</span>
+                        ${priceOriginalHtml}
+                      </div>
+                    </div>
+                    <div class="courses-actions" style="margin-top: 1rem;">
+                      <a href="${show.link}" class="btn-primary-purple" style="display: block; text-align: center; text-decoration: none; border-radius: 8px; padding: 0.75rem 1rem; font-weight: 700;">Đăng ký tham gia</a>
+                    </div>
                   </div>
                 </div>
               `;
-              coursesList.appendChild(card);
+              talkshowsList.appendChild(card);
             });
           })
           .catch(err => {
-            console.error("Error loading courses:", err);
-            coursesList.innerHTML = '<div style="text-align: center; padding: 2rem; color: red; grid-column: 1 / -1;">Không thể tải danh sách khóa học.</div>';
+            console.error("Error loading talkshows:", err);
+            talkshowsList.innerHTML = '<div style="text-align: center; padding: 2rem; color: red; grid-column: 1 / -1;">Không thể tải danh sách sự kiện.</div>';
           });
       });
     </script>

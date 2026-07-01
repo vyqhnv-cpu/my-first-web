@@ -247,6 +247,24 @@ app.get('/api/posts', (req, res) => {
   });
 });
 
+// Talkshows JSON API endpoint
+app.get('/api/talkshows', (req, res) => {
+  const fs = require('fs');
+  const talkshowsPath = path.join(__dirname, 'public', 'data', 'talkshows.json');
+  fs.readFile(talkshowsPath, 'utf8', (err, data) => {
+    if (err) {
+      console.error("Read talkshows error:", err);
+      return res.status(500).json({ error: 'Failed to read talkshows' });
+    }
+    try {
+      return res.json(JSON.parse(data));
+    } catch (parseErr) {
+      console.error("Parse talkshows error:", parseErr);
+      return res.status(500).json({ error: 'Invalid talkshows data' });
+    }
+  });
+});
+
 // Dynamic Blog Post SSR Routing (Lightweight Hydration)
 app.get('/blog/:slug', (req, res) => {
   const fs = require('fs');

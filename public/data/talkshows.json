@@ -1,0 +1,45 @@
+[
+  {
+    "id": 1,
+    "title": "Tháo gỡ điểm kẹt tư duy tuổi 20",
+    "category": "Tư duy",
+    "category_class": "thinking",
+    "badge": "HOT",
+    "date": "15 Tháng 7, 2026",
+    "time": "19:30 - 21:00",
+    "speaker": "The LifeSkill Hub Team",
+    "price": 0,
+    "image_url": "asset/vn_student_thinking.png",
+    "desc": "Làm thế nào để nhận diện các rào cản vô hình đang trì hoãn sự phát triển sự nghiệp của bạn và phương pháp tư duy đột phá để bứt phá giới hạn bản thân.",
+    "link": "index.html#dang-ky"
+  },
+  {
+    "id": 2,
+    "title": "Thiết kế lộ trình thấu hiểu bản thân",
+    "category": "Khai vấn",
+    "category_class": "coaching",
+    "badge": "MỚI",
+    "date": "22 Tháng 7, 2026",
+    "time": "20:00 - 21:30",
+    "speaker": "The LifeSkill Hub Team",
+    "price": 0,
+    "image_url": "asset/vn_mbti_self.png",
+    "desc": "Phương pháp ứng dụng các bài trắc nghiệm tính cách MBTI và xu hướng nghề nghiệp Holland một cách thực tế để tự định vị năng lực bản thân.",
+    "link": "index.html#dang-ky"
+  },
+  {
+    "id": 3,
+    "title": "Giao tiếp hiệu quả và tự tin trong công việc",
+    "category": "Kỹ năng",
+    "category_class": "skills",
+    "badge": "ĐĂNG KÝ SỚM",
+    "date": "29 Tháng 7, 2026",
+    "time": "19:30 - 21:00",
+    "speaker": "The LifeSkill Hub Team",
+    "price": 150000,
+    "original_price": 250000,
+    "image_url": "asset/vn_female_confident.png",
+    "desc": "Rèn luyện tư duy giao tiếp chủ động, phương pháp viết cấu trúc email/chat chuyên nghiệp và thấu hiểu tâm lý đồng nghiệp trong môi trường công sở.",
+    "link": "index.html#dang-ky"
+  }
+]
