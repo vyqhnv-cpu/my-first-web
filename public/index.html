@@ -645,20 +645,7 @@
           });
         }
 
-        var navToggle = document.getElementById("nav-toggle");
-        var siteNav = document.getElementById("site-nav");
-        if (navToggle && siteNav) {
-          navToggle.addEventListener("click", function () {
-            var open = siteNav.classList.toggle("is-open");
-            navToggle.setAttribute("aria-expanded", open ? "true" : "false");
-          });
-          siteNav.querySelectorAll("a").forEach(function (a) {
-            a.addEventListener("click", function () {
-              siteNav.classList.remove("is-open");
-              navToggle.setAttribute("aria-expanded", "false");
-            });
-          });
-        }
+
 
         // --- MODAL LOGIC ---
         var surveyModal = document.getElementById("survey-modal");
@@ -1530,6 +1517,26 @@
           });
           nextBtn.addEventListener("click", function () {
             grid.scrollBy({ left: 340, behavior: "smooth" });
+          });
+        }
+      });
+    </script>
+
+    <!-- MOBILE MENU TOGGLE SCRIPT (Runs independently of Supabase) -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var navToggle = document.getElementById("nav-toggle");
+        var siteNav = document.getElementById("site-nav");
+        if (navToggle && siteNav) {
+          navToggle.addEventListener("click", function () {
+            var open = siteNav.classList.toggle("is-open");
+            navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+          });
+          siteNav.querySelectorAll("a").forEach(function (a) {
+            a.addEventListener("click", function () {
+              siteNav.classList.remove("is-open");
+              navToggle.setAttribute("aria-expanded", "false");
+            });
           });
         }
       });
