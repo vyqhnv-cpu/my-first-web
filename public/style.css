@@ -1403,16 +1403,19 @@ input.invalid {
 }
 
 @media (max-width: 768px) {
+  .header-inner {
+    position: relative;
+  }
   .nav {
     display: none;
   }
   .nav.is-open {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     position: absolute;
     top: 100%;
-    left: 0;
-    width: 100%;
+    left: -2rem;
+    width: calc(100% + 4rem);
     background: rgba(252, 251, 255, 0.98);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
