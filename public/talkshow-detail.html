@@ -23,7 +23,7 @@
       /* Hero Section Design */
       .talkshow-hero-section {
         padding: 9rem 0 5rem;
-        background: linear-gradient(135deg, #FAF7F2 0%, #F5EFEB 100%);
+        background: linear-gradient(135deg, #F3E8FF 0%, #FCE7F3 100%);
         border-bottom: 1px solid rgba(107, 70, 193, 0.05);
         position: relative;
         overflow: hidden;
@@ -68,17 +68,37 @@
         display: block;
       }
 
+      .hero-visual-v2 {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .hero-circle-bg {
+        position: absolute;
+        width: 120%;
+        height: 120%;
+        background: radial-gradient(circle, rgba(167, 139, 250, 0.22) 0%, transparent 65%);
+        z-index: -1;
+        pointer-events: none;
+      }
+
       /* Countdown Design */
       .countdown-wrapper {
         margin: 2.5rem 0 1rem;
-        background: white;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         padding: 1.25rem 2rem;
         border-radius: var(--radius-md);
         box-shadow: var(--shadow-soft);
         display: inline-flex;
         flex-direction: column;
         align-items: flex-start;
-        border: 1px solid rgba(107, 70, 193, 0.08);
+        border: 1px solid rgba(107, 70, 193, 0.12);
       }
 
       .countdown-title {
@@ -109,12 +129,14 @@
         font-size: 1.8rem;
         font-weight: 800;
         color: var(--color-dark);
-        background: #FDFBFA;
+        background: white;
+        color: var(--color-primary);
         padding: 0.25rem 0.75rem;
         border-radius: 6px;
-        border: 1px solid rgba(0,0,0,0.04);
+        border: 1px solid rgba(107, 70, 193, 0.1);
         min-width: 3.25rem;
         text-align: center;
+        box-shadow: 0 4px 10px rgba(107, 70, 193, 0.04);
       }
 
       .time-label {
@@ -461,9 +483,12 @@
           </div>
         </div>
 
-        <!-- Right: Event image -->
-        <div class="hero-image-wrapper">
-          <img id="talkshow-image" src="asset/vn_student_thinking.png" alt="Sự kiện" />
+        <!-- Right: Event image with glowing background circle -->
+        <div class="hero-visual-v2">
+          <div class="hero-circle-bg"></div>
+          <div class="hero-image-wrapper" style="width: 100%;">
+            <img id="talkshow-image" src="asset/vn_student_thinking.png" alt="Sự kiện" />
+          </div>
         </div>
       </div>
     </section>
