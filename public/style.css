@@ -1412,6 +1412,13 @@ input.invalid {
   .header-tools {
     gap: 1rem;
   }
+  .header-tools .btn-primary-purple {
+    display: none !important;
+  }
+  .nav-logo {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
   .nav {
     display: none;
   }
@@ -1449,14 +1456,14 @@ input.invalid {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 28px;
+    width: 24px;
     height: 18px;
     background: none;
     border: none;
     cursor: pointer;
-    flex-shrink: 0;
-    padding: 8px;
-    box-sizing: content-box;
+    flex-shrink: 0 !important;
+    padding: 12px !important;
+    box-sizing: content-box !important;
   }
   .nav-toggle span {
     display: block;
