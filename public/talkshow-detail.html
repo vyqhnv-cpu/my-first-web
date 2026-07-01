@@ -12,6 +12,373 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <style>
+      /* --- PREMIUM TALKSHOW DETAIL STYLING --- */
+      :root {
+        --color-gold: #F59E0B;
+        --color-gold-light: #FEF3C7;
+        --shadow-premium: 0 20px 40px rgba(107, 70, 193, 0.08);
+      }
+
+      /* Hero Section Design */
+      .talkshow-hero-section {
+        padding: 9rem 0 5rem;
+        background: linear-gradient(135deg, #FAF7F2 0%, #F5EFEB 100%);
+        border-bottom: 1px solid rgba(107, 70, 193, 0.05);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .talkshow-hero-section::before {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(107, 70, 193, 0.08) 0%, transparent 70%);
+        top: -50px;
+        right: -50px;
+        pointer-events: none;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .hero-image-wrapper {
+        position: relative;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-premium);
+        overflow: hidden;
+        border: 4px solid white;
+        transition: transform 0.3s ease;
+        aspect-ratio: 16/10;
+      }
+
+      .hero-image-wrapper:hover {
+        transform: translateY(-5px);
+      }
+
+      .hero-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Countdown Design */
+      .countdown-wrapper {
+        margin: 2.5rem 0 1rem;
+        background: white;
+        padding: 1.25rem 2rem;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-soft);
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 1px solid rgba(107, 70, 193, 0.08);
+      }
+
+      .countdown-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        letter-spacing: 0.05em;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .countdown-timer {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .time-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .time-num {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--color-dark);
+        background: #FDFBFA;
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+        border: 1px solid rgba(0,0,0,0.04);
+        min-width: 3.25rem;
+        text-align: center;
+      }
+
+      .time-label {
+        font-size: 0.7rem;
+        color: var(--color-muted);
+        text-transform: uppercase;
+        margin-top: 0.25rem;
+        font-weight: 600;
+      }
+
+      /* Value Benefits Section */
+      .value-section-title {
+        text-align: center;
+        font-family: var(--font-display);
+        font-size: 2rem;
+        color: var(--color-primary);
+        margin-bottom: 3rem;
+      }
+
+      .value-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-bottom: 4rem;
+      }
+
+      .value-card {
+        background: white;
+        padding: 2.25rem 2rem;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-soft);
+        border: 1px solid rgba(0,0,0,0.03);
+        transition: all 0.3s ease;
+        text-align: left;
+      }
+
+      .value-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-premium);
+        border-color: rgba(107, 70, 193, 0.15);
+      }
+
+      .value-icon {
+        width: 48px;
+        height: 48px;
+        background: rgba(107, 70, 193, 0.06);
+        color: var(--color-primary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .value-card h3 {
+        font-family: var(--font-sans);
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--color-dark);
+        margin-bottom: 0.75rem;
+      }
+
+      .value-card p {
+        color: var(--color-muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      /* Step Timeline Style */
+      .timeline-container {
+        position: relative;
+        padding-left: 2rem;
+        border-left: 2px dashed rgba(107, 70, 193, 0.25);
+        margin: 1.5rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .timeline-item {
+        position: relative;
+      }
+
+      .timeline-marker {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        background-color: white;
+        border: 3px solid var(--color-primary);
+        border-radius: 50%;
+        left: calc(-2rem - 8px);
+        top: 4px;
+        box-shadow: 0 0 0 4px rgba(107, 70, 193, 0.1);
+      }
+
+      .timeline-item:hover .timeline-marker {
+        background-color: var(--color-secondary);
+        transform: scale(1.15);
+      }
+
+      .timeline-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--color-dark);
+        margin-bottom: 0.25rem;
+        display: block;
+      }
+
+      .timeline-duration {
+        font-size: 0.85rem;
+        color: var(--color-secondary);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      /* Speaker Bio Card */
+      .speaker-card {
+        background: #FDFBFA;
+        border-radius: var(--radius-md);
+        padding: 2rem;
+        border: 1px solid rgba(0,0,0,0.04);
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        margin-top: 1rem;
+      }
+
+      .speaker-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid white;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .speaker-info h4 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        margin-bottom: 0.35rem;
+      }
+
+      .speaker-info p {
+        font-size: 0.9rem;
+        color: var(--color-muted);
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      /* Body Grid Layout */
+      .content-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 3.5rem;
+      }
+
+      /* RESPONSIVE DESIGN BREAKPOINTS */
+      
+      /* 1. TABLET LANDSCAPE & DESKTOP (under 1200px) */
+      @media (max-width: 1200px) {
+        .hero-grid {
+          gap: 2.5rem;
+        }
+        .content-grid {
+          gap: 2.5rem;
+        }
+      }
+
+      /* 2. TABLET PORTRAIT (under 992px) */
+      @media (max-width: 992px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+          text-align: center;
+        }
+
+        .hero-image-wrapper {
+          max-width: 550px;
+          margin: 0 auto;
+        }
+
+        .countdown-wrapper {
+          align-items: center;
+          display: inline-flex;
+          margin: 1.5rem auto 1rem;
+        }
+
+        .talkshow-hero-section {
+          padding: 8rem 0 3.5rem;
+        }
+
+        .content-grid {
+          grid-template-columns: 1fr;
+          gap: 3.5rem;
+        }
+
+        .value-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 1.5rem;
+        }
+        
+        .registration-card {
+          position: relative !important;
+          top: 0 !important;
+          max-width: 500px;
+          margin: 0 auto;
+        }
+        
+        .talkshow-hero-section div[style*="display: flex"] {
+          justify-content: center !important;
+        }
+      }
+
+      /* 3. MOBILE (under 768px) */
+      @media (max-width: 768px) {
+        .talkshow-hero-section {
+          padding: 7rem 0 3rem;
+        }
+
+        #talkshow-title {
+          font-size: 2rem !important;
+        }
+
+        .value-grid {
+          grid-template-columns: 1fr;
+          gap: 1.25rem;
+        }
+
+        .countdown-wrapper {
+          padding: 1rem 1.25rem;
+          width: 100%;
+          box-sizing: border-box;
+        }
+
+        .countdown-timer {
+          justify-content: center;
+          width: 100%;
+        }
+
+        .time-num {
+          font-size: 1.5rem;
+          min-width: 2.75rem;
+          padding: 0.2rem 0.5rem;
+        }
+
+        .speaker-card {
+          flex-direction: column;
+          text-align: center;
+          padding: 1.5rem;
+        }
+
+        .speaker-avatar {
+          margin-bottom: 0.5rem;
+        }
+        
+        .registration-card {
+          padding: 1.5rem;
+        }
+      }
+    </style>
   </head>
   <body>
     <!-- HEADER -->
@@ -44,89 +411,166 @@
       </div>
     </header>
 
-    <!-- EVENT HERO -->
-    <section class="course-detail-hero">
-      <div class="container">
-        <span class="badge" id="talkshow-category" style="background: var(--color-secondary); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; display: inline-block; margin-bottom: 1.5rem;">TÂM LÝ HỌC</span>
-        <h1 id="talkshow-title" style="font-family: var(--font-display); font-size: 2.5rem; color: var(--color-primary); margin-bottom: 1.5rem; line-height: 1.2;">Đang tải thông tin sự kiện...</h1>
-        
-        <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1rem;">
-          <span id="talkshow-speaker" style="color: var(--color-muted); display: flex; align-items: center; gap: 0.5rem; font-size: 1rem;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Diễn giả: --
-          </span>
-          <span id="talkshow-date" style="color: var(--color-muted); display: flex; align-items: center; gap: 0.5rem; font-size: 1rem;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Ngày diễn ra: --
-          </span>
-          <span id="talkshow-time" style="color: var(--color-muted); display: flex; align-items: center; gap: 0.5rem; font-size: 1rem;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Khung giờ: --
-          </span>
+    <!-- PREMIUM SPLIT HERO -->
+    <section class="talkshow-hero-section">
+      <div class="container hero-grid">
+        <!-- Left: Text content -->
+        <div style="text-align: left;">
+          <span class="badge" id="talkshow-category" style="background: var(--color-secondary); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; display: inline-block; margin-bottom: 1.25rem;">TÂM LÝ HỌC</span>
+          <h1 id="talkshow-title" style="font-family: var(--font-display); font-size: 2.8rem; color: var(--color-primary); margin-bottom: 1.5rem; line-height: 1.2;">Đang tải thông tin...</h1>
+          
+          <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+            <span id="talkshow-speaker" style="color: var(--color-muted); display: flex; align-items: center; gap: 0.4rem; font-size: 0.95rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Diễn giả: --
+            </span>
+            <span id="talkshow-date" style="color: var(--color-muted); display: flex; align-items: center; gap: 0.4rem; font-size: 0.95rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Ngày: --
+            </span>
+            <span id="talkshow-time" style="color: var(--color-muted); display: flex; align-items: center; gap: 0.4rem; font-size: 0.95rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Giờ: --
+            </span>
+          </div>
+
+          <!-- Dynamic Live Countdown Timer -->
+          <div class="countdown-wrapper" id="countdownContainer" style="display: none;">
+            <div class="countdown-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Sự kiện bắt đầu sau
+            </div>
+            <div class="countdown-timer">
+              <div class="time-block">
+                <span class="time-num" id="cd-days">00</span>
+                <span class="time-label">Ngày</span>
+              </div>
+              <div class="time-block">
+                <span class="time-num" id="cd-hours">00</span>
+                <span class="time-label">Giờ</span>
+              </div>
+              <div class="time-block">
+                <span class="time-num" id="cd-minutes">00</span>
+                <span class="time-label">Phút</span>
+              </div>
+              <div class="time-block">
+                <span class="time-num" id="cd-seconds">00</span>
+                <span class="time-label">Giây</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Event image -->
+        <div class="hero-image-wrapper">
+          <img id="talkshow-image" src="asset/vn_student_thinking.png" alt="Sự kiện" />
         </div>
       </div>
     </section>
 
-    <!-- CONTENT GRID -->
+    <!-- MAIN BODY GRID SECTION -->
     <section style="padding: 5rem 0; background-color: #faf7f2;">
-      <div class="container" style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
+      <div class="container">
         
-        <!-- Left Column: Content -->
-        <div class="course-detail-left" style="display: flex; flex-direction: column; gap: 3rem;">
-          <div>
-            <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: var(--color-primary); margin-bottom: 1.5rem;">Giới thiệu Sự kiện</h2>
-            <p id="talkshow-description" style="color: var(--color-muted); line-height: 1.8; font-size: 1.1rem; margin-bottom: 2rem;">Đang tải nội dung chi tiết...</p>
+        <!-- 1. Value Benefits Cards -->
+        <h2 class="value-section-title">Bạn sẽ gặt hái được gì?</h2>
+        <div class="value-grid">
+          <div class="value-card">
+            <div class="value-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <h3>Góc nhìn Khoa học</h3>
+            <p>Bóc tách bản chất tâm lý dưới góc độ nghiên cứu thực tế, tháo gỡ tận gốc các bẫy tư duy và ngụy biện.</p>
           </div>
-
-          <div>
-            <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: var(--color-primary); margin-bottom: 1.5rem;">Nội dung thảo luận chính</h2>
-            <ul id="curriculum-list" class="curriculum-list">
-              <li style="color: var(--color-muted);">Đang tải chương trình chi tiết...</li>
-            </ul>
+          <div class="value-card">
+            <div class="value-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <h3>Bài tập Thực hành</h3>
+            <p>Trực tiếp rèn luyện và tháo gỡ điểm kẹt ngay trong buổi thông qua các phương pháp tư duy có cấu trúc.</p>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>Kết nối &amp; Khai vấn</h3>
+            <p>Hỏi đáp trực tiếp và nhận những tư vấn cá nhân hóa, tháo gỡ điểm nghẽn cùng đội ngũ Mentor giàu kinh nghiệm.</p>
           </div>
         </div>
 
-        <!-- Right Column: Registration Card -->
-        <div class="course-detail-right">
-          <div class="registration-card" style="position: sticky; top: 120px; background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); padding: 2.5rem; border: 1px solid rgba(0,0,0,0.05);">
-            <div class="pricing" style="margin-bottom: 2rem; display: flex; align-items: baseline; gap: 0.5rem; justify-content: center;">
-              <span id="price-current" style="font-size: 2.2rem; font-weight: 800; color: var(--color-primary);">MIỄN PHÍ</span>
-              <span id="price-original" class="price-original" style="text-decoration: line-through; color: var(--color-muted); font-size: 1.15rem; display: none;"></span>
+        <!-- 2. Split Content Layout -->
+        <div class="content-grid">
+          
+          <!-- Left Column: Details & Agenda & Speaker -->
+          <div style="display: flex; flex-direction: column; gap: 3.5rem; text-align: left;">
+            <div>
+              <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: var(--color-primary); margin-bottom: 1.25rem;">Giới thiệu Sự kiện</h2>
+              <p id="talkshow-description" style="color: var(--color-muted); line-height: 1.8; font-size: 1.1rem; margin-bottom: 0;">Đang tải nội dung chi tiết...</p>
             </div>
 
-            <!-- Coming Soon Notice (Hidden by default) -->
-            <div id="coming-soon-notice" style="display: none; text-align: center; padding: 1.5rem; background: #FFFBEB; border: 1px dashed #F59E0B; border-radius: var(--radius-md); margin-top: 1rem;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" style="margin: 0 auto 0.75rem;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              <h3 style="color: #D97706; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Sự kiện chưa diễn ra</h3>
-              <p style="color: #B45309; font-size: 0.85rem; line-height: 1.5; margin: 0;">Sự kiện này đang được chuẩn bị và chưa mở cổng đăng ký chính thức. Hãy theo dõi Fanpage hoặc Blog của chúng tôi để cập nhật thời gian mở đăng ký nhé!</p>
+            <div>
+              <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: var(--color-primary); margin-bottom: 1.25rem;">Nội dung thảo luận chính</h2>
+              <!-- Restyled Step Timeline -->
+              <div id="curriculum-list" class="timeline-container">
+                <div style="color: var(--color-muted);">Đang tải chương trình...</div>
+              </div>
             </div>
 
-            <!-- Register Form (Hidden dynamically for coming_soon events) -->
-            <form id="talkshowRegisterForm" class="registration-form" style="display: flex; flex-direction: column; gap: 1rem;">
-              <input type="text" id="fullName" placeholder="Họ và tên của bạn" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem;" />
-              <input type="email" id="email" placeholder="Địa chỉ Email" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem;" />
-              <input type="tel" id="phone" placeholder="Số điện thoại / Zalo" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem;" />
-              <input type="number" id="age" placeholder="Tuổi của bạn" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem;" />
-              
-              <div style="width: 100%; display: flex; flex-direction: column; gap: 0.25rem; text-align: left;">
-                <label for="selectedDate" style="font-size: 0.85rem; color: var(--color-muted); font-weight: 500; padding-left: 0.2rem;">Chọn ngày tham gia:</label>
-                <select id="selectedDate" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem; background-color: white;">
-                  <!-- Options loaded dynamically -->
-                </select>
+            <div>
+              <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: var(--color-primary); margin-bottom: 1.25rem;">Diễn giả Đồng hành</h2>
+              <!-- Speaker bio card -->
+              <div class="speaker-card">
+                <img class="speaker-avatar" src="asset/teacher_female.png" alt="Diễn giả" />
+                <div class="speaker-info">
+                  <h4>The LifeSkill Hub Team</h4>
+                  <p>Tổ hợp chuyên gia khai vấn tâm lý chuyên sâu, nhà trị liệu nghệ thuật và cố vấn định vị bản thân với trên 5 năm kinh nghiệm đồng hành cùng thế hệ trẻ Việt Nam.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Registration Card -->
+          <div>
+            <div class="registration-card" style="position: sticky; top: 120px; background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); padding: 2.5rem; border: 1px solid rgba(0,0,0,0.05); text-align: center;">
+              <div class="pricing" style="margin-bottom: 2rem; display: flex; align-items: baseline; gap: 0.5rem; justify-content: center;">
+                <span id="price-current" style="font-size: 2.2rem; font-weight: 800; color: var(--color-primary);">MIỄN PHÍ</span>
+                <span id="price-original" class="price-original" style="text-decoration: line-through; color: var(--color-muted); font-size: 1.15rem; display: none;"></span>
               </div>
 
-              <textarea id="expectation" placeholder="Điều bạn mong muốn nhận được sau khi tham gia talkshow..." style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem; min-height: 80px; resize: vertical; font-family: inherit;"></textarea>
-              
-              <button type="submit" id="btnSubmitTalkshow" class="btn-primary-purple" style="width: 100%; padding: 1.1rem; font-size: 1.1rem; font-weight: 700; border-radius: 8px; cursor: pointer; margin-top: 1rem;">Đăng ký giữ chỗ</button>
-              
-              <div id="talkshowFormMessage" style="margin-top: 1rem; font-size: 0.9rem; text-align: center; font-weight: 500;"></div>
-              <p style="font-size: 0.8rem; color: var(--color-muted); text-align: center; margin-top: 1rem;">
-                Bạn sẽ nhận được email xác nhận và thông tin zoom tham gia sự kiện.
-              </p>
-            </form>
-          </div>
-        </div>
+              <!-- Coming Soon Notice (Hidden by default) -->
+              <div id="coming-soon-notice" style="display: none; text-align: center; padding: 1.5rem; background: #FFFBEB; border: 1px dashed #F59E0B; border-radius: var(--radius-md); margin-top: 1rem;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" style="margin: 0 auto 0.75rem;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <h3 style="color: #D97706; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Sự kiện chưa diễn ra</h3>
+                <p style="color: #B45309; font-size: 0.85rem; line-height: 1.5; margin: 0;">Sự kiện này đang được chuẩn bị và chưa mở cổng đăng ký chính thức. Hãy theo dõi Fanpage hoặc Blog của chúng tôi để cập nhật thời gian mở đăng ký nhé!</p>
+              </div>
 
+              <!-- Register Form (Hidden dynamically for price < 0 events) -->
+              <form id="talkshowRegisterForm" class="registration-form" style="display: flex; flex-direction: column; gap: 1rem;">
+                <input type="text" id="fullName" placeholder="Họ và tên của bạn" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem;" />
+                <input type="email" id="email" placeholder="Địa chỉ Email" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem;" />
+                <input type="tel" id="phone" placeholder="Số điện thoại / Zalo" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem;" />
+                <input type="number" id="age" placeholder="Tuổi của bạn" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem;" />
+                
+                <div style="width: 100%; display: flex; flex-direction: column; gap: 0.25rem; text-align: left;">
+                  <label for="selectedDate" style="font-size: 0.85rem; color: var(--color-muted); font-weight: 500; padding-left: 0.2rem;">Chọn ngày tham gia:</label>
+                  <select id="selectedDate" required style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem; background-color: white;">
+                    <!-- Options loaded dynamically -->
+                  </select>
+                </div>
+
+                <textarea id="expectation" placeholder="Điều bạn mong muốn nhận được sau khi tham gia talkshow..." style="width: 100%; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 1rem; min-height: 80px; resize: vertical; font-family: inherit;"></textarea>
+                
+                <button type="submit" id="btnSubmitTalkshow" class="btn-primary-purple" style="width: 100%; padding: 1.1rem; font-size: 1.1rem; font-weight: 700; border-radius: 8px; cursor: pointer; margin-top: 1rem;">Đăng ký giữ chỗ</button>
+                
+                <div id="talkshowFormMessage" style="margin-top: 1rem; font-size: 0.9rem; text-align: center; font-weight: 500;"></div>
+                <p style="font-size: 0.8rem; color: var(--color-muted); text-align: center; margin-top: 1rem;">
+                  Bạn sẽ nhận được email xác nhận và thông tin zoom tham gia sự kiện.
+                </p>
+              </form>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
 
@@ -201,39 +645,45 @@
             document.title = `${show.title} — Talkshow & Sự kiện`;
             document.getElementById('talkshow-category').textContent = show.category.toUpperCase();
             document.getElementById('talkshow-title').textContent = show.title;
+            document.getElementById('talkshow-image').src = show.image_url;
             
             document.getElementById('talkshow-speaker').innerHTML = `
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               Diễn giả: <b>${show.speaker}</b>
             `;
             document.getElementById('talkshow-date').innerHTML = `
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              Ngày diễn ra: <b>${show.date}</b>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Ngày: <b>${show.date}</b>
             `;
             document.getElementById('talkshow-time').innerHTML = `
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              Khung giờ: <b>${show.time}</b>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Giờ: <b>${show.time}</b>
             `;
 
             document.getElementById('talkshow-description').textContent = show.desc;
 
-            // Render agenda / curriculum
+            // Render agenda / curriculum as vertical step timeline
             const currList = document.getElementById('curriculum-list');
             currList.innerHTML = '';
             if (show.curriculum && show.curriculum.length) {
               show.curriculum.forEach(item => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                  <span class="curriculum-title">${item.title}</span>
-                  <span style="color: var(--color-muted); font-size: 0.9rem;">${item.duration}</span>
+                const step = document.createElement('div');
+                step.className = 'timeline-item';
+                step.innerHTML = `
+                  <div class="timeline-marker"></div>
+                  <span class="timeline-title">${item.title}</span>
+                  <span class="timeline-duration">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    ${item.duration}
+                  </span>
                 `;
-                currList.appendChild(li);
+                currList.appendChild(step);
               });
             } else {
-              currList.innerHTML = '<li style="color: var(--color-muted);">Nội dung chi tiết đang được cập nhật.</li>';
+              currList.innerHTML = '<div style="color: var(--color-muted);">Nội dung chi tiết đang được cập nhật.</div>';
             }
 
-            // Render pricing & conditional button hiding
+            // Render pricing & conditional form locking
             const priceOrig = document.getElementById('price-original');
             const priceCur = document.getElementById('price-current');
             
@@ -277,6 +727,58 @@
                   opt.textContent = d;
                   dateSelect.appendChild(opt);
                 });
+              }
+
+              // ACTIVATE LIVE COUNTDOWN TIMER (If event is upcoming)
+              // Parse date from database/json. Example format: "15 Tháng 7, 2026"
+              // We will map Vietnamese month names to English to parse it reliably.
+              const dateStr = show.date;
+              const matches = dateStr.match(/(\d+)\s+Tháng\s+(\d+),\s+(\d+)/);
+              if (matches) {
+                const day = parseInt(matches[1]);
+                const month = parseInt(matches[2]) - 1; // 0-indexed month
+                const year = parseInt(matches[3]);
+                
+                // Set target time to 19:30 on that day (or the event's start hour)
+                let startHour = 19;
+                let startMin = 30;
+                const timeMatches = show.time.match(/(\d+):(\d+)/);
+                if (timeMatches) {
+                  startHour = parseInt(timeMatches[1]);
+                  startMin = parseInt(timeMatches[2]);
+                }
+                
+                const targetDate = new Date(year, month, day, startHour, startMin, 0);
+                
+                // Run countdown ticking
+                const countdownContainer = document.getElementById('countdownContainer');
+                if (countdownContainer && targetDate > new Date()) {
+                  countdownContainer.style.display = 'inline-flex';
+                  
+                  const updateTimer = () => {
+                    const now = new Date().getTime();
+                    const distance = targetDate.getTime() - now;
+                    
+                    if (distance < 0) {
+                      clearInterval(timerInterval);
+                      countdownContainer.style.display = 'none';
+                      return;
+                    }
+                    
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    
+                    document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+                    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+                    document.getElementById('cd-minutes').textContent = String(minutes).padStart(2, '0');
+                    document.getElementById('cd-seconds').textContent = String(seconds).padStart(2, '0');
+                  };
+                  
+                  updateTimer(); // run once immediately
+                  const timerInterval = setInterval(updateTimer, 1000);
+                }
               }
             }
           })
