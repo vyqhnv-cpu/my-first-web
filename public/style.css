@@ -1406,6 +1406,36 @@ input.invalid {
   .nav {
     display: none;
   }
+  .nav.is-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(252, 251, 255, 0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 1.5rem 2rem;
+    box-shadow: 0 10px 20px rgba(107, 70, 193, 0.05);
+    border-top: 1px solid rgba(110, 60, 188, 0.05);
+    border-bottom: 1px solid rgba(110, 60, 188, 0.05);
+    z-index: 999;
+    gap: 1.25rem;
+  }
+  .nav.is-open a {
+    width: 100%;
+    padding: 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-dark);
+  }
+  .nav.is-open a::after {
+    display: none;
+  }
+  .nav.is-open a.active {
+    color: var(--color-primary);
+  }
   .nav-toggle {
     display: flex;
     flex-direction: column;
