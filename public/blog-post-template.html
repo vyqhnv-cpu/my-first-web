@@ -24,6 +24,52 @@
     
     <!-- Google AI SGE & Search Agents Schema -->
     {{JSON_LD}}
+    
+    <!-- Custom Article Typography Styling -->
+    <style>
+      .article-body-content {
+        font-family: var(--font-serif);
+        font-size: 1.15rem;
+        color: #3d3a35; /* Soft readable charcoal */
+        line-height: 1.8;
+        letter-spacing: 0.01em;
+      }
+      .article-body-content p {
+        margin-top: 0;
+        margin-bottom: 1.75rem;
+      }
+      .article-body-content h2 {
+        font-family: var(--font-sans);
+        font-size: 1.75rem;
+        color: var(--color-primary);
+        font-weight: 700;
+        margin-top: 3.5rem;
+        margin-bottom: 1.25rem;
+        line-height: 1.3;
+      }
+      .article-body-content h3 {
+        font-family: var(--font-sans);
+        font-size: 1.4rem;
+        color: var(--color-primary);
+        font-weight: 700;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        line-height: 1.35;
+      }
+      .article-body-content ul, .article-body-content ol {
+        margin-top: 0;
+        margin-bottom: 1.75rem;
+        padding-left: 1.5rem;
+      }
+      .article-body-content li {
+        margin-bottom: 0.75rem;
+        line-height: 1.75;
+      }
+      .article-body-content strong, .article-body-content b {
+        color: var(--color-primary); /* Purple theme for highlighted texts */
+        font-weight: 700;
+      }
+    </style>
   </head>
   <body>
     <!-- HEADER -->
@@ -90,7 +136,7 @@
         </div>
 
         <!-- Article Body Content -->
-        <div class="article-body-content" style="font-family: var(--font-serif); font-size: 1.2rem; color: #2d2a26; line-height: 1.8; letter-spacing: 0.01em;">
+        <div class="article-body-content">
           {{CONTENT}}
         </div>
 
