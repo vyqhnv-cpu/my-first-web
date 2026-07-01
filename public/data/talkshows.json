@@ -9,7 +9,7 @@
     "time": "19:30 - 21:00",
     "speaker": "The LifeSkill Hub Team",
     "price": 0,
-    "image_url": "asset/vn_student_thinking.png",
+    "image_url": "asset/vn_talkshow_thinking.png",
     "desc": "Làm thế nào để nhận diện các rào cản vô hình đang trì hoãn sự phát triển sự nghiệp của bạn và phương pháp tư duy đột phá để bứt phá giới hạn bản thân.",
     "link": "index.html#dang-ky"
   },
@@ -23,7 +23,7 @@
     "time": "20:00 - 21:30",
     "speaker": "The LifeSkill Hub Team",
     "price": 0,
-    "image_url": "asset/vn_mbti_self.png",
+    "image_url": "asset/vn_talkshow_self.png",
     "desc": "Phương pháp ứng dụng các bài trắc nghiệm tính cách MBTI và xu hướng nghề nghiệp Holland một cách thực tế để tự định vị năng lực bản thân.",
     "link": "index.html#dang-ky"
   },
@@ -38,7 +38,7 @@
     "speaker": "The LifeSkill Hub Team",
     "price": 150000,
     "original_price": 250000,
-    "image_url": "asset/vn_female_confident.png",
+    "image_url": "asset/vn_talkshow_communication.png",
     "desc": "Rèn luyện tư duy giao tiếp chủ động, phương pháp viết cấu trúc email/chat chuyên nghiệp và thấu hiểu tâm lý đồng nghiệp trong môi trường công sở.",
     "link": "index.html#dang-ky"
   }
