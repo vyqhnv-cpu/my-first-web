@@ -247,22 +247,52 @@ app.get('/api/posts', (req, res) => {
   });
 });
 
-// Talkshows JSON API endpoint
-app.get('/api/talkshows', (req, res) => {
+// Talkshows JSON API endpoint (Queries Supabase with local JSON fallback)
+app.get('/api/talkshows', async (req, res) => {
   const fs = require('fs');
   const talkshowsPath = path.join(__dirname, 'public', 'data', 'talkshows.json');
-  fs.readFile(talkshowsPath, 'utf8', (err, data) => {
-    if (err) {
-      console.error("Read talkshows error:", err);
-      return res.status(500).json({ error: 'Failed to read talkshows' });
+  
+  // Read local file fallback utility helper
+  const sendFallback = () => {
+    fs.readFile(talkshowsPath, 'utf8', (err, fileData) => {
+      if (err) {
+        console.error("Read talkshows fallback file error:", err);
+        return res.status(500).json({ error: 'Failed to read talkshows' });
+      }
+      try {
+        return res.json(JSON.parse(fileData));
+      } catch (parseErr) {
+        return res.status(500).json({ error: 'Invalid fallback data' });
+      }
+    });
+  };
+
+  try {
+    const { data, error } = await supabase
+      .from('talkshows')
+      .select('*')
+      .order('id', { ascending: true });
+
+    if (error) {
+      console.warn("Supabase query error for talkshows, falling back to local JSON:", error.message);
+      return sendFallback();
     }
-    try {
-      return res.json(JSON.parse(data));
-    } catch (parseErr) {
-      console.error("Parse talkshows error:", parseErr);
-      return res.status(500).json({ error: 'Invalid talkshows data' });
+    
+    if (data && data.length > 0) {
+      // Return Supabase data, parsing numeric price
+      const formatted = data.map(item => ({
+        ...item,
+        price: Number(item.price),
+        original_price: item.original_price ? Number(item.original_price) : null
+      }));
+      return res.json(formatted);
     }
-  });
+    
+    return sendFallback();
+  } catch (err) {
+    console.error("Talkshows API exception, falling back to JSON:", err);
+    return sendFallback();
+  }
 });
 
 // Dynamic Blog Post SSR Routing (Lightweight Hydration)
