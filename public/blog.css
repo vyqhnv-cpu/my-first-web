@@ -596,48 +596,50 @@
   margin: 0;
 }
 
-.newsletter-form {
+.sidebar-newsletter-form {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
   margin-top: 0.5rem;
 }
 
-.newsletter-input {
+.sidebar-newsletter-input {
   padding: 1rem;
   border: 1px solid rgba(139, 90, 43, 0.15);
   border-radius: var(--radius-sm);
   font-size: 1rem;
   background-color: var(--color-white);
+  color: var(--color-primary);
   outline: none;
   width: 100%;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   font-family: var(--font-sans);
 }
 
-.newsletter-input:focus {
-  border-color: #8B5A2B;
-  box-shadow: 0 0 0 3px rgba(139, 90, 43, 0.1);
+.sidebar-newsletter-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(29, 27, 60, 0.1);
 }
 
-.btn-newsletter-submit {
+.btn-sidebar-newsletter-submit {
   padding: 1.1rem;
-  background-color: #1A0D00;
+  background-color: var(--color-primary);
   color: var(--color-white);
   border: none;
   border-radius: var(--radius-sm);
   font-weight: 700;
   font-size: 1rem;
+  width: 100%;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: center;
   font-family: inherit;
 }
 
-.btn-newsletter-submit:hover {
-  background-color: #2D1A00;
+.btn-sidebar-newsletter-submit:hover {
+  background-color: var(--color-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(26, 13, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(29, 27, 60, 0.15);
 }
 
 .newsletter-message {
