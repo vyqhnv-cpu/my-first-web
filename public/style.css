@@ -1403,8 +1403,14 @@ input.invalid {
 }
 
 @media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
   .header-inner {
     position: relative;
+  }
+  .header-tools {
+    gap: 1rem;
   }
   .nav {
     display: none;
@@ -1414,8 +1420,8 @@ input.invalid {
     flex-direction: column;
     position: absolute;
     top: 100%;
-    left: -2rem;
-    width: calc(100% + 4rem);
+    left: -1rem;
+    width: calc(100% + 2rem);
     background: rgba(252, 251, 255, 0.98);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -1443,11 +1449,14 @@ input.invalid {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 24px;
+    width: 28px;
     height: 18px;
     background: none;
     border: none;
     cursor: pointer;
+    flex-shrink: 0;
+    padding: 8px;
+    box-sizing: content-box;
   }
   .nav-toggle span {
     display: block;
