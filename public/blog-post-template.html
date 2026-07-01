@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{TITLE}} — The LifeSkill Hub</title>
+    <link rel="icon" href="../asset/favicon.png" type="image/png" />
+    <meta name="description" content="{{META_DESC}}" />
+    
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="{{TITLE}} — The LifeSkill Hub" />
+    <meta property="og:description" content="{{META_DESC}}" />
+    <meta property="og:image" content="https://thelifeskillhub.com/{{IMAGE_URL}}" />
+    <meta property="og:type" content="article" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../blog.css" />
+    
+    <!-- Google AI SGE & Search Agents Schema -->
+    {{JSON_LD}}
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="../index.html" class="nav-logo" aria-label="The LifeSkill Hub — Trang chủ">
+          <span class="brand-text">The LifeSkill <span class="brand-accent">Hub</span></span>
+        </a>
+
+        <nav class="nav" id="site-nav" aria-label="Chính">
+          <a href="../index.html">Trang chủ</a>
+          <a href="../courses.html">Khóa học</a>
+          <a href="../tests.html">Bài test</a>
+          <a href="../blog.html" class="active">Blog</a>
+        </nav>
+
+        <div class="header-tools">
+          <a href="../index.html#dang-ky" class="btn-primary-purple">Bắt đầu ngay</a>
+          <button
+            type="button"
+            class="nav-toggle"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="site-nav"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main style="padding-top: 100px; background-color: #faf7f2;">
+      <article class="blog-detail-container" style="max-width: 800px; margin: 0 auto; padding: 2rem 1.25rem;">
+        <!-- Breadcrumbs -->
+        <nav aria-label="Điều hướng" style="font-size: 0.85rem; margin-bottom: 1.5rem; color: var(--color-muted); font-family: var(--font-sans);">
+          <a href="../index.html" style="color: var(--color-muted);">Trang chủ</a> &gt; 
+          <a href="../blog.html" style="color: var(--color-muted);">Blog</a> &gt; 
+          <span style="color: var(--color-primary); font-weight: 500;">{{TITLE}}</span>
+        </nav>
+
+        <!-- Category & Read time -->
+        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; font-family: var(--font-sans); font-size: 0.85rem;">
+          <span style="background: var(--color-secondary); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-weight: 700;">{{CATEGORY}}</span>
+          <span style="color: var(--color-muted);">{{READ_TIME}}</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 style="font-family: var(--font-serif); font-size: 2.75rem; color: var(--color-primary); line-height: 1.25; margin-bottom: 1.5rem; font-weight: 700;">{{TITLE}}</h1>
+
+        <!-- Author and Date -->
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.08); font-family: var(--font-sans);">
+          <div style="background: #e8e4dc; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-primary);">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <div style="font-weight: 700; color: var(--color-primary); font-size: 0.95rem;">{{AUTHOR}}</div>
+            <div style="color: var(--color-muted); font-size: 0.85rem;">{{DATE}}</div>
+          </div>
+        </div>
+
+        <!-- Cover Image -->
+        <div style="border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+          <img src="../{{IMAGE_URL}}" alt="{{TITLE}}" style="width: 100%; height: auto; display: block;" />
+        </div>
+
+        <!-- Article Body Content -->
+        <div class="article-body-content" style="font-family: var(--font-serif); font-size: 1.2rem; color: #2d2a26; line-height: 1.8; letter-spacing: 0.01em;">
+          {{CONTENT}}
+        </div>
+
+        <!-- Call To Action (Lead Magnet) -->
+        <div style="background: linear-gradient(135deg, var(--color-primary) 0%, #2f2b60 100%); color: white; padding: 2.5rem; border-radius: var(--radius-lg); margin-top: 4rem; text-align: center; box-shadow: 0 15px 35px rgba(29, 27, 60, 0.15);">
+          <h3 style="font-family: var(--font-sans); font-size: 1.65rem; font-weight: 700; margin-bottom: 0.75rem;">Mọi giải pháp đều bắt đầu từ sự thấu hiểu chính mình</h3>
+          <p style="font-size: 1rem; opacity: 0.9; max-width: 600px; margin: 0 auto 1.75rem; line-height: 1.6;">Làm bài trắc nghiệm tính cách khoa học hoàn toàn miễn phí để nhận diện điểm mạnh và lộ trình rèn luyện cá nhân hóa của riêng bạn.</p>
+          <a href="../tests.html" class="btn-pink" style="display: inline-block; padding: 1rem 2rem; border-radius: var(--radius-sm); font-weight: 700;">Làm bài test ngay (2 phút)</a>
+        </div>
+      </article>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer-v2">
+      <div class="container footer-grid-v2">
+        <div class="footer-brand-v2">
+          <span class="footer-brand-name-v2">The LifeSkill <span class="brand-accent">Hub</span></span>
+          <p class="footer-tagline-v2">
+            Nền tảng học tập và khai vấn cá nhân hóa, định vị bản thân và tháo gỡ điểm kẹt tư duy hàng đầu cho giới trẻ Việt Nam.
+          </p>
+          <div class="footer-social-icons-v2">
+            <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-links-v2">
+          <h3>Chương trình</h3>
+          <ul>
+            <li><a href="../index.html#khoa-hoc">Chương trình 1:1</a></li>
+            <li><a href="../tests.html">Trắc nghiệm tư duy</a></li>
+            <li><a href="../courses.html">Khóa học hiện có</a></li>
+            <li><a href="../blog.html">Blog tri thức</a></li>
+          </ul>
+        </div>
+        <div class="footer-links-v2">
+          <h3>Pháp lý</h3>
+          <ul>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#">Điều khoản dịch vụ</a></li>
+            <li><a href="../index.html#dang-ky">Liên hệ tư vấn</a></li>
+          </ul>
+        </div>
+        <div class="footer-links-v2">
+          <h3>Bản tin</h3>
+          <p class="newsletter-desc">Đăng ký để nhận các bài viết phân tích tâm lý &amp; tài liệu rèn luyện tư duy mới nhất.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Cảm ơn bạn đã đăng ký!');">
+            <input type="email" placeholder="Email của bạn..." required />
+            <button type="submit" aria-label="Subscribe">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="container footer-divider-v2"></div>
+      <div class="container footer-bottom-v2">
+        <p>&copy; 2026 LifeSkill Hub. All rights reserved. Powered by Antigravity.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Navigation Toggle for Mobile
+      var navToggle = document.getElementById("nav-toggle");
+      var siteNav = document.getElementById("site-nav");
+      if (navToggle && siteNav) {
+        navToggle.addEventListener("click", function () {
+          var open = siteNav.classList.toggle("is-open");
+          navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        siteNav.querySelectorAll("a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            siteNav.classList.remove("is-open");
+            navToggle.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

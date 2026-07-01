@@ -63,34 +63,34 @@
       <!-- FEATURED POST -->
       <section class="featured-section">
         <div class="container">
-          <article class="featured-card">
+          <article class="featured-card" id="featured-post-card" style="display: none;">
             <div class="featured-img-wrapper">
-              <img src="asset/blog_featured.png" alt="Nghệ thuật của sự tĩnh lặng trong thế giới ồn ào" loading="eager" />
+              <img id="featured-image" src="asset/blog_featured.png" alt="Featured Post" loading="eager" />
             </div>
             <div class="featured-content">
               <div class="featured-meta">
-                <span class="badge-psychology">Tâm lý học</span>
-                <span class="read-time">8 phút đọc</span>
+                <span id="featured-category" class="badge-psychology">Tâm lý học</span>
+                <span id="featured-read-time" class="read-time">8 phút đọc</span>
               </div>
               <h2 class="featured-title">
-                <a href="#">Nghệ thuật của sự tĩnh lặng trong thế giới ồn ào</a>
+                <a id="featured-title-link" href="#">Đang tải bài viết...</a>
               </h2>
-              <p class="featured-desc">
-                Làm thế nào để duy trì sự tập trung và nội tâm yên bình khi chúng ta liên tục bị bủa vây bởi các thông báo và áp lực xã hội hiện đại.
+              <p id="featured-desc" class="featured-desc">
+                Đang tải mô tả bài viết nổi bật từ hệ thống...
               </p>
               
               <div class="featured-author">
-                <div class="author-avatar" aria-label="Tiến sĩ Minh Anh">
+                <div class="author-avatar">
                   <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 </div>
                 <div class="author-details">
-                  <div class="author-name">Tiến sĩ Minh Anh</div>
-                  <div class="author-date">15 Tháng 5, 2024</div>
+                  <div id="featured-author-name" class="author-name">Tác giả</div>
+                  <div id="featured-date" class="author-date">Ngày đăng</div>
                 </div>
               </div>
 
               <div>
-                <a href="#" class="btn-read-more">
+                <a id="featured-read-more-btn" href="#" class="btn-read-more">
                   Đọc tiếp 
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
@@ -457,96 +457,109 @@
         });
       }
 
-      // Dynamic "Load More" Blog Posts Simulation
+      // Dynamic blog post loading from /api/posts
       var loadMoreBtn = document.getElementById("btn-load-more-posts");
       var articlesContainer = document.getElementById("articles-container");
-      var pageCount = 0;
+      var allPosts = [];
+      var displayedCount = 0;
 
-      if (loadMoreBtn && articlesContainer) {
-        loadMoreBtn.addEventListener("click", function() {
-          if (pageCount >= 1) {
-            showNotification("Bạn đã xem hết toàn bộ các bài viết!");
-            loadMoreBtn.textContent = "Không còn bài viết nào khác";
-            loadMoreBtn.disabled = true;
-            return;
-          }
-
-          loadMoreBtn.disabled = true;
-          loadMoreBtn.textContent = "Đang tải thêm...";
-
-          // Simulated delay for loading posts
-          setTimeout(function() {
-            loadMoreBtn.disabled = false;
-            loadMoreBtn.textContent = "Xem thêm bài viết";
-            pageCount++;
-
-            // Create two new mock article cards to populate the grid
-            var post1 = document.createElement("article");
-            post1.className = "article-card";
-            post1.style.opacity = "0";
-            post1.style.transform = "translateY(20px)";
-            post1.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-            post1.innerHTML = `
-              <div class="article-img-box">
-                <span class="article-badge">Kỹ năng</span>
-                <img src="asset/hero_green.png" alt="Nghệ thuật quản lý thời gian và thiết lập mục tiêu" />
-              </div>
-              <div class="article-body">
-                <h3 class="article-card-title">
-                  <a href="#">Nghệ thuật quản lý thời gian và thiết lập mục tiêu</a>
-                </h3>
-                <p class="article-card-desc">
-                  Làm sao để làm việc năng suất mà vẫn cân bằng được cuộc sống? Khám phá bộ khung quản trị thời gian OKR cá nhân hóa được các chuyên gia khuyên dùng.
-                </p>
-                <div class="article-card-footer">
-                  <span class="article-date">03 Tháng 5, 2024</span>
-                  <button class="btn-bookmark" aria-label="Lưu bài viết" onclick="toggleBookmark(this)">
-                    <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-                  </button>
-                </div>
-              </div>
-            `;
-
-            var post2 = document.createElement("article");
-            post2.className = "article-card";
-            post2.style.opacity = "0";
-            post2.style.transform = "translateY(20px)";
-            post2.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-            post2.innerHTML = `
-              <div class="article-img-box">
-                <span class="article-badge">Tâm lý</span>
-                <img src="asset/blog_featured.png" alt="Vượt qua hội chứng kẻ giả mạo (Impostor Syndrome)" />
-              </div>
-              <div class="article-body">
-                <h3 class="article-card-title">
-                  <a href="#">Vượt qua hội chứng kẻ giả mạo (Impostor Syndrome)</a>
-                </h3>
-                <p class="article-card-desc">
-                  Rất nhiều người tài năng luôn cảm thấy mình là kẻ lừa dối và thành công có được là nhờ may mắn. Cùng giải mã tâm lý và vượt qua rào cản này ngay hôm nay.
-                </p>
-                <div class="article-card-footer">
-                  <span class="article-date">30 Tháng 4, 2024</span>
-                  <button class="btn-bookmark" aria-label="Lưu bài viết" onclick="toggleBookmark(this)">
-                    <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-                  </button>
-                </div>
-              </div>
-            `;
-
-            articlesContainer.appendChild(post1);
-            articlesContainer.appendChild(post2);
-
-            // Animate entrance
-            setTimeout(function() {
-              post1.style.opacity = "1";
-              post1.style.transform = "translateY(0)";
-              post2.style.opacity = "1";
-              post2.style.transform = "translateY(0)";
-            }, 50);
-
-            showNotification("Đã tải thêm 2 bài viết mới.");
-          }, 800);
+      // Fetch all posts from API
+      fetch('/api/posts')
+        .then(function(res) { return res.json(); })
+        .then(function(posts) {
+          allPosts = posts;
+          renderBlogPage();
+        })
+        .catch(function(err) {
+          console.error("Error loading blog posts:", err);
         });
+
+      function renderBlogPage() {
+        if (!allPosts || allPosts.length === 0) return;
+
+        // 1. Render Featured Post (first post)
+        const featured = allPosts[0];
+        document.getElementById("featured-image").src = featured.image_url;
+        document.getElementById("featured-image").alt = featured.title;
+        document.getElementById("featured-category").textContent = featured.category;
+        document.getElementById("featured-read-time").textContent = featured.read_time;
+        
+        const titleLink = document.getElementById("featured-title-link");
+        titleLink.textContent = featured.title;
+        titleLink.href = "/blog/" + featured.slug;
+        
+        document.getElementById("featured-desc").textContent = featured.description;
+        document.getElementById("featured-author-name").textContent = featured.author;
+        document.getElementById("featured-date").textContent = featured.date;
+        document.getElementById("featured-read-more-btn").href = "/blog/" + featured.slug;
+        
+        // Show featured card
+        document.getElementById("featured-post-card").style.display = "flex";
+
+        // 2. Render initial grid articles (next 2 posts, index 1 and 2)
+        articlesContainer.innerHTML = "";
+        const initialGridPosts = allPosts.slice(1, 3);
+        initialGridPosts.forEach(function(post) {
+          appendArticleCard(post);
+        });
+        displayedCount = 3; // 1 featured + 2 in grid
+
+        // 3. Setup Load More Button
+        if (allPosts.length <= displayedCount) {
+          loadMoreBtn.style.display = "none";
+        } else {
+          loadMoreBtn.addEventListener("click", function() {
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.textContent = "Đang tải...";
+            
+            setTimeout(function() {
+              const nextPosts = allPosts.slice(displayedCount);
+              nextPosts.forEach(function(post) {
+                appendArticleCard(post, true);
+              });
+              displayedCount += nextPosts.length;
+              loadMoreBtn.style.display = "none";
+              showNotification("Đã tải toàn bộ bài viết.");
+            }, 400);
+          });
+        }
+      }
+
+      function appendArticleCard(post, animate) {
+        var card = document.createElement("article");
+        card.className = "article-card";
+        if (animate) {
+          card.style.opacity = "0";
+          card.style.transform = "translateY(20px)";
+          card.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+        }
+        
+        card.innerHTML = `
+          <div class="article-img-box">
+            <span class="article-badge">${post.category}</span>
+            <img src="${post.image_url}" alt="${post.title}" loading="lazy" />
+          </div>
+          <div class="article-body">
+            <h3 class="article-card-title">
+              <a href="/blog/${post.slug}">${post.title}</a>
+            </h3>
+            <p class="article-card-desc">${post.description}</p>
+            <div class="article-card-footer">
+              <span class="article-date">${post.date}</span>
+              <button class="btn-bookmark" aria-label="Lưu bài viết" onclick="toggleBookmark(this)">
+                <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+        articlesContainer.appendChild(card);
+        
+        if (animate) {
+          setTimeout(function() {
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+          }, 50);
+        }
       }
     </script>
   </body>

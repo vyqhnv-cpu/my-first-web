@@ -229,6 +229,103 @@ app.use('/api/transactions', require('./api/transactions'));
 app.use('/api/courses', require('./api/courses')());
 app.use('/api/tests', require('./api/tests')());
 
+// Blog JSON API endpoint
+app.get('/api/posts', (req, res) => {
+  const fs = require('fs');
+  const postsPath = path.join(__dirname, 'public', 'data', 'posts.json');
+  fs.readFile(postsPath, 'utf8', (err, data) => {
+    if (err) {
+      console.error("Read posts error:", err);
+      return res.status(500).json({ error: 'Failed to read posts' });
+    }
+    try {
+      return res.json(JSON.parse(data));
+    } catch (parseErr) {
+      console.error("Parse posts error:", parseErr);
+      return res.status(500).json({ error: 'Invalid posts data' });
+    }
+  });
+});
+
+// Dynamic Blog Post SSR Routing (Lightweight Hydration)
+app.get('/blog/:slug', (req, res) => {
+  const fs = require('fs');
+  const slug = req.params.slug;
+  const postsPath = path.join(__dirname, 'public', 'data', 'posts.json');
+  const templatePath = path.join(__dirname, 'public', 'blog-post-template.html');
+
+  fs.readFile(postsPath, 'utf8', (err, postsData) => {
+    if (err) {
+      console.error("Read posts error:", err);
+      return res.redirect('/blog');
+    }
+    
+    try {
+      const posts = JSON.parse(postsData);
+      const post = posts.find(p => p.slug === slug);
+      
+      if (!post) {
+        // Post not found -> redirect to main blog listing
+        return res.redirect('/blog');
+      }
+
+      fs.readFile(templatePath, 'utf8', (err, templateData) => {
+        if (err) {
+          console.error("Read template error:", err);
+          return res.redirect('/blog');
+        }
+
+        // 1. Strip HTML tags from content to make a clean plain-text articleBody for AI Search
+        const plainTextContent = post.content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+
+        // 2. Generate Google SGE / AI Search JSON-LD script
+        const jsonLd = `
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": ${JSON.stringify(post.title)},
+          "image": "https://thelifeskillhub.com/${post.image_url}",
+          "datePublished": ${JSON.stringify(post.date_iso)},
+          "author": {
+            "@type": "Person",
+            "name": ${JSON.stringify(post.author)}
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "The LifeSkill Hub",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://thelifeskillhub.com/asset/favicon.png"
+            }
+          },
+          "description": ${JSON.stringify(post.description)},
+          "articleBody": ${JSON.stringify(plainTextContent)}
+        }
+        </script>
+        `;
+
+        // 3. Hydrate the template with variables
+        let html = templateData
+          .replace(/\{\{TITLE\}\}/g, post.title)
+          .replace(/\{\{META_DESC\}\}/g, post.description)
+          .replace(/\{\{CATEGORY\}\}/g, post.category)
+          .replace(/\{\{READ_TIME\}\}/g, post.read_time)
+          .replace(/\{\{AUTHOR\}\}/g, post.author)
+          .replace(/\{\{DATE\}\}/g, post.date)
+          .replace(/\{\{IMAGE_URL\}\}/g, post.image_url)
+          .replace(/\{\{CONTENT\}\}/g, post.content)
+          .replace(/\{\{JSON_LD\}\}/g, jsonLd);
+
+        return res.send(html);
+      });
+    } catch (parseErr) {
+      console.error("Parse posts error:", parseErr);
+      return res.redirect('/blog');
+    }
+  });
+});
+
 
 
 // Serve static files from the public folder (auto-resolves .html and .css)
