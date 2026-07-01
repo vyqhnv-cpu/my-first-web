@@ -295,6 +295,56 @@ app.get('/api/talkshows', async (req, res) => {
   }
 });
 
+// GET: Lấy chi tiết 1 talkshow (Queries Supabase with local JSON fallback)
+app.get('/api/talkshows/:id', async (req, res) => {
+  const fs = require('fs');
+  const id = parseInt(req.params.id);
+  const talkshowsPath = path.join(__dirname, 'public', 'data', 'talkshows.json');
+  
+  const sendFallback = () => {
+    fs.readFile(talkshowsPath, 'utf8', (err, fileData) => {
+      if (err) {
+        console.error("Read talkshow detail fallback error:", err);
+        return res.status(500).json({ error: 'Failed to read talkshow detail' });
+      }
+      try {
+        const talkshows = JSON.parse(fileData);
+        const talk = talkshows.find(t => t.id === id);
+        if (talk) return res.json(talk);
+        return res.status(404).json({ error: 'Không tìm thấy talkshow' });
+      } catch (parseErr) {
+        return res.status(500).json({ error: 'Invalid fallback data' });
+      }
+    });
+  };
+
+  try {
+    const { data, error } = await supabase
+      .from('talkshows')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.warn(`Supabase talkshow detail query failed for ID ${id}, falling back:`, error.message);
+      return sendFallback();
+    }
+    
+    if (data) {
+      return res.json({
+        ...data,
+        price: Number(data.price),
+        original_price: data.original_price ? Number(data.original_price) : null
+      });
+    }
+    
+    return sendFallback();
+  } catch (err) {
+    console.error("Talkshow detail exception, falling back:", err);
+    return sendFallback();
+  }
+});
+
 // Dynamic Blog Post SSR Routing (Lightweight Hydration)
 app.get('/blog/:slug', (req, res) => {
   const fs = require('fs');
