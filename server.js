@@ -140,83 +140,10 @@ app.post('/api/public-donate', async (req, res) => {
 // Helpers to calculate scheduled dates (in ISO format)
 const addDays = (days) => new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
 
-// API Tự động gửi chuỗi 3 email
+// API Tự động gửi chuỗi 3 email (Disabled due to business model change)
 app.post('/api/send-email', async (req, res) => {
-  const { to_email, user_name, form_type } = req.body;
-  
-  if (!to_email) {
-    return res.status(400).json({ error: 'Không có email' });
-  }
-
-  // Chế độ test: gửi ngay lập tức cả 3 email nếu email chứa '+test'
-  const isTestMode = to_email.includes('+test');
-  
-  // Resend bản miễn phí chỉ cho phép gửi đúng email gốc, nên ta xóa chữ '+test' đi trước khi gửi
-  const final_to_email = isTestMode ? to_email.replace('+test', '') : to_email;
-  
-  // Lên lịch thời gian (nếu không phải test mode)
-  const scheduledTime2 = isTestMode ? undefined : addDays(2); // 48 giờ sau
-  const scheduledTime3 = isTestMode ? undefined : addDays(3); // 72 giờ sau
-
-  try {
-    // === Email 1: Welcome (Gửi ngay) ===
-    await resend.emails.send({
-      from: 'onboarding@resend.dev',
-      to: final_to_email,
-      subject: `Chào bạn, tui là The Lifeskill Hub đây! 👋`,
-      html: `
-        <p>Chào <strong>${user_name}</strong>,</p>
-        <p>Tui vừa nhận được thông tin của bạn qua form <b>${form_type}</b> rồi nè. Cảm ơn bạn vì đã tin tưởng và chia sẻ những tâm tư của mình với tui nha.</p>
-        <p>Tui biết ở tuổi này, giữa muôn vàn ngã rẽ sự nghiệp và cuộc sống, đôi khi mình thấy ngột ngạt và mông lung lắm. Bạn vất vả rồi! Nhưng không sao đâu, bạn thật đặc biệt theo cách của riêng mình, và tui lập ra The Lifeskill Hub là để tạo ra một góc nhỏ an toàn, nơi tụi mình có thể ngồi lại và gỡ rối cùng nhau.</p>
-        <p>Mấy ngày tới, tui sẽ gửi cho bạn một vài câu chuyện nho nhỏ mà tui nghĩ sẽ giúp ích được cho bạn. Đừng áp lực gì nghen, chỉ là chút tâm tình tui muốn gửi gắm thôi.</p>
-        <p>Tạm thời bạn cứ nghỉ ngơi đi nhé, bạn làm tốt lắm rồi!</p>
-        <p>Mình yêu bạn,<br><strong>The Lifeskill Hub</strong></p>
-      `
-    });
-
-    // === Email 2: Nurture (2 ngày sau) ===
-    const email2Payload = {
-      from: 'onboarding@resend.dev',
-      to: final_to_email,
-      subject: `Thật ra, mông lung không đáng sợ như bạn nghĩ đâu... 🤔`,
-      html: `
-        <p>Chào bạn lại là tui đây,</p>
-        <p>Hôm nay bạn thấy thế nào? Tui muốn kể cho bạn nghe một sự thật: Hầu hết chúng ta đều sợ cảm giác "không biết mình muốn gì". Tui ngày xưa cũng vậy.</p>
-        <p>Nhưng thật ra, mông lung lại là một tín hiệu siêu tốt. Nó báo hiệu rằng bạn không còn chấp nhận một cuộc sống đi theo khuôn mẫu cũ nữa. Bạn đang bắt đầu tìm kiếm một con đường thực sự thuộc về mình.</p>
-        <p>Đơn giản thôi, khi bạn đi lạc, đó là lúc bạn có cơ hội khám phá ra một vùng đất mới. Bạn không cần phức tạp hóa lên hay tự trách bản thân đâu. Cứ cho phép mình hoang mang một chút, quan sát chính mình, và rồi bạn sẽ thấy manh mối đầu tiên xuất hiện.</p>
-        <p>Thử xem sao nhé! Nhớ là dù có chuyện gì, cứ bước từng bước nhỏ thôi.</p>
-        <p>Hẹn gặp bạn trong email ngày mai nha.</p>
-        <p>Thương,<br><strong>The Lifeskill Hub</strong></p>
-      `
-    };
-    if (scheduledTime2) email2Payload.scheduled_at = scheduledTime2;
-    await resend.emails.send(email2Payload);
-
-    // === Email 3: Sale (3 ngày sau) ===
-    const email3Payload = {
-      from: 'onboarding@resend.dev',
-      to: final_to_email,
-      subject: `Để tui đi cùng bạn đoạn đường này nhé! 🤝`,
-      html: `
-        <p>Chào bạn,</p>
-        <p>Mấy hôm nay tụi mình nói chuyện nhiều về sự mông lung rồi. Hôm nay tui muốn đề xuất một giải pháp cụ thể hơn, để giúp bạn đi nhanh hơn và đỡ phải vấp lại những sai lầm mà tui từng trải qua.</p>
-        <p>Ở The Lifeskill Hub, tui hoàn toàn không bán các khóa học lý thuyết khô khan. Tui chỉ có một đặc sản duy nhất: <strong>Khai vấn (Coaching) 1:1</strong>.</p>
-        <p>Trong các buổi Khai vấn này, tụi mình sẽ ngồi lại trực tiếp với nhau. Tui không dạy đời hay chỉ đạo bạn phải làm thế này thế kia. Tui sẽ dùng những kinh nghiệm thực tế nhất để giúp bạn tự sắp xếp lại suy nghĩ, tìm ra thế mạnh thực sự của bản thân và lên một lộ trình rõ ràng cho sự nghiệp.</p>
-        <p>Làm là sẽ được thôi, đừng lo!</p>
-        <p>Nếu bạn cảm thấy đã sẵn sàng để tụi mình đồng hành cùng nhau, hãy đặt lịch Khai vấn 1:1 hoặc ủng hộ các gói Đồng hành tại đây nhé:<br>
-        👉 <strong><a href="https://my-first-web.vercel.app/">Đăng ký Khai vấn 1:1 / Đóng góp tại đây</a></strong></p>
-        <p>Tui rất mong chờ được lắng nghe trọn vẹn câu chuyện của bạn.</p>
-        <p>Mình đợi bạn nhé,<br><strong>The Lifeskill Hub</strong></p>
-      `
-    };
-    if (scheduledTime3) email3Payload.scheduled_at = scheduledTime3;
-    await resend.emails.send(email3Payload);
-
-    res.json({ success: true, message: isTestMode ? 'Đã gửi test 3 email ngay lập tức' : 'Đã lên lịch gửi 3 email' });
-  } catch (error) {
-    console.error('Send Email Error:', error);
-    res.status(500).json({ error: error.message });
-  }
+  // Return success without sending emails to keep client-side flow working smoothly
+  res.json({ success: true, message: 'Chuỗi email nuôi dưỡng đã tắt.' });
 });
 // Protect admin static folder
 app.use('/admin', authMiddleware, express.static(path.join(__dirname, 'admin')));
@@ -349,6 +276,8 @@ app.get('/api/talkshows/:id', async (req, res) => {
 app.post('/api/talkshows/register', async (req, res) => {
   const { talkshow_id, full_name, email, phone, age, selected_date, expectation } = req.body;
   
+  let registration_id = 'mock_reg_id_fallback';
+  
   try {
     const { data, error } = await supabase
       .from('talkshow_enrollments')
@@ -369,12 +298,87 @@ app.post('/api/talkshows/register', async (req, res) => {
       console.error("Supabase insert error for talkshow registration:", error.message);
       return res.status(500).json({ error: error.message });
     }
-    
-    return res.json({ success: true, registration_id: data ? data.id : 'mock_reg_id' });
+    if (data) {
+      registration_id = data.id;
+    }
   } catch (err) {
     console.warn("Supabase not fully configured or talkshow_enrollments table missing, skipping DB insert");
-    return res.json({ success: true, registration_id: 'mock_reg_id_fallback' });
   }
+
+  // Send confirmation email via Resend (with Smart Test Mode support)
+  if (email) {
+    try {
+      const isTestMode = email.includes('+test');
+      const final_to_email = isTestMode ? email.replace('+test', '') : email;
+      
+      // Read talkshow details from talkshows.json to personalize email content
+      const fs = require('fs');
+      const talkshowsPath = path.join(__dirname, 'public', 'data', 'talkshows.json');
+      let talkshowInfo = { title: 'Talkshow & Sự kiện', speaker: 'The LifeSkill Hub Team' };
+      try {
+        if (fs.existsSync(talkshowsPath)) {
+          const talkshows = JSON.parse(fs.readFileSync(talkshowsPath, 'utf8'));
+          const matched = talkshows.find(t => t.id === parseInt(talkshow_id));
+          if (matched) talkshowInfo = matched;
+        }
+      } catch (fileErr) {
+        console.error("Error reading talkshows.json:", fileErr);
+      }
+
+      await resend.emails.send({
+        from: 'onboarding@resend.dev',
+        to: final_to_email,
+        subject: `Xác nhận giữ chỗ thành công: "${talkshowInfo.title}" 🎟️`,
+        html: `
+          <div style="font-family: sans-serif; color: #334155; line-height: 1.6; max-width: 600px; margin: 0 auto; padding: 2rem; border: 1px solid #E2E8F0; border-radius: 12px; background-color: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+            <h3 style="color: #6E3CBC; margin-top: 0; font-size: 1.4rem;">Chào <strong>${full_name}</strong>,</h3>
+            <p>Chúc mừng bạn đã đăng ký giữ chỗ thành công vé tham dự talkshow: <strong style="color: #6E3CBC;">${talkshowInfo.title}</strong>! 🎉</p>
+            
+            <div style="background-color: #F2EEFB; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #6E3CBC; margin: 1.5rem 0;">
+              <h4 style="margin-top: 0; color: #6E3CBC; font-size: 1.1rem; margin-bottom: 1rem;">🎟️ Thông tin vé mời của bạn:</h4>
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                <tr>
+                  <td style="padding: 0.4rem 0; color: #64748B; width: 140px; font-weight: 600; vertical-align: top;">Sự kiện:</td>
+                  <td style="padding: 0.4rem 0; color: #0F172A; font-weight: 700;">${talkshowInfo.title}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 0.4rem 0; color: #64748B; font-weight: 600; vertical-align: top;">Diễn giả:</td>
+                  <td style="padding: 0.4rem 0; color: #0F172A;">${talkshowInfo.speaker}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 0.4rem 0; color: #64748B; font-weight: 600; vertical-align: top;">Ngày tham gia:</td>
+                  <td style="padding: 0.4rem 0; color: #EC4899; font-weight: 700;">${selected_date}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 0.4rem 0; color: #64748B; font-weight: 600; vertical-align: top;">Độ tuổi:</td>
+                  <td style="padding: 0.4rem 0; color: #0F172A;">${age} tuổi</td>
+                </tr>
+                ${expectation ? `
+                <tr>
+                  <td style="padding: 0.4rem 0; color: #64748B; font-weight: 600; vertical-align: top;">Kỳ vọng của bạn:</td>
+                  <td style="padding: 0.4rem 0; color: #334155; font-style: italic;">"${expectation}"</td>
+                </tr>` : ''}
+              </table>
+            </div>
+            
+            <p>Chúng mình sẽ gửi link tham gia Zoom trực tiếp qua Email hoặc Zalo của bạn trước giờ diễn ra sự kiện 1 tiếng nhé.</p>
+            
+            ${isTestMode ? `
+            <div style="background-color: #FEF2F2; color: #EF4444; padding: 0.75rem; border-radius: 6px; border: 1px dashed #FCA5A5; margin-top: 1.5rem; font-weight: 700; text-align: center; font-size: 0.9rem;">
+              [CHẾ ĐỘ TEST SMART] Email này được gửi ở chế độ Test thông minh thành công!
+            </div>` : ''}
+            
+            <p style="margin-top: 2rem; border-top: 1px solid #E2E8F0; padding-top: 1.5rem; font-size: 0.95rem; color: #64748B;">Hẹn gặp bạn tại sự kiện nghen!</p>
+            <p style="font-size: 0.95rem; color: #64748B; margin: 0;">Thân mến,<br><strong style="color: #6E3CBC;">The LifeSkill Hub Team</strong></p>
+          </div>
+        `
+      });
+    } catch (emailErr) {
+      console.error("Talkshow Registration Email Error:", emailErr);
+    }
+  }
+
+  return res.json({ success: true, registration_id });
 });
 
 // Dynamic Blog Post SSR Routing (Lightweight Hydration)
