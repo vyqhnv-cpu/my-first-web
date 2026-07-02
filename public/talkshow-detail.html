@@ -830,8 +830,11 @@
             const data = await response.json();
             if (data.success) {
               msgBox.style.color = '#10B981';
-              msgBox.textContent = 'Đăng ký giữ chỗ sự kiện thành công! Vui lòng kiểm tra Email/Zalo của bạn.';
+              msgBox.textContent = 'Đăng ký giữ chỗ sự kiện thành công! Đang chuyển hướng...';
               this.reset();
+              setTimeout(function() {
+                window.location.href = "thank-you.html";
+              }, 1000);
             } else {
               throw new Error(data.error || 'Có lỗi xảy ra, vui lòng thử lại.');
             }

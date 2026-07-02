@@ -109,27 +109,7 @@ app.post('/api/public-donate', async (req, res) => {
       .single();
     if (orderErr) throw orderErr;
 
-    // Send order confirmation email
-    if (email) {
-      try {
-        const isTestMode = email.includes('+test');
-        const final_to_email = isTestMode ? email.replace('+test', '') : email;
-        await resend.emails.send({
-          from: 'onboarding@resend.dev',
-          to: final_to_email,
-          subject: `Đơn hàng của bạn đã được ghi nhận rồi nè! Cảm ơn bạn nhé 👋`,
-          html: `
-            <p>Chào <strong>${full_name}</strong>,</p>
-            <p>Mình vừa nhận được thông tin đăng ký của bạn cho <strong>${product.name}</strong> với số tiền là <strong>${Number(amount).toLocaleString('vi-VN')}đ</strong>. Cảm ơn bạn rất nhiều vì đã tin tưởng và đồng hành cùng The Lifeskill Hub nha.</p>
-            <p>Đơn giản thôi, để bắt đầu lộ trình của chúng ta, bạn vui lòng kiểm tra hộp thư email (và cả Zalo) trong vòng 24h tới nhé. Mình sẽ chủ động gửi hướng dẫn chi tiết và liên hệ để xếp lịch với bạn.</p>
-            <p>Đừng lo lắng gì nghen!</p>
-            <p>Mình yêu bạn,<br><strong>The Lifeskill Hub</strong></p>
-          `
-        });
-      } catch (emailErr) {
-        console.error("Order Email Error:", emailErr);
-      }
-    }
+    // Automated order confirmation email disabled due to security/confidentiality reasons
 
     return res.json({ success: true, order_id: order.id });
   } catch (e) {
@@ -305,78 +285,7 @@ app.post('/api/talkshows/register', async (req, res) => {
     console.warn("Supabase not fully configured or talkshow_enrollments table missing, skipping DB insert");
   }
 
-  // Send confirmation email via Resend (with Smart Test Mode support)
-  if (email) {
-    try {
-      const isTestMode = email.includes('+test');
-      const final_to_email = isTestMode ? email.replace('+test', '') : email;
-      
-      // Read talkshow details from talkshows.json to personalize email content
-      const fs = require('fs');
-      const talkshowsPath = path.join(__dirname, 'public', 'data', 'talkshows.json');
-      let talkshowInfo = { title: 'Talkshow & Sự kiện', speaker: 'The LifeSkill Hub Team' };
-      try {
-        if (fs.existsSync(talkshowsPath)) {
-          const talkshows = JSON.parse(fs.readFileSync(talkshowsPath, 'utf8'));
-          const matched = talkshows.find(t => t.id === parseInt(talkshow_id));
-          if (matched) talkshowInfo = matched;
-        }
-      } catch (fileErr) {
-        console.error("Error reading talkshows.json:", fileErr);
-      }
-
-      await resend.emails.send({
-        from: 'onboarding@resend.dev',
-        to: final_to_email,
-        subject: `Xác nhận giữ chỗ thành công: "${talkshowInfo.title}" 🎟️`,
-        html: `
-          <div style="font-family: sans-serif; color: #334155; line-height: 1.6; max-width: 600px; margin: 0 auto; padding: 2rem; border: 1px solid #E2E8F0; border-radius: 12px; background-color: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-            <h3 style="color: #6E3CBC; margin-top: 0; font-size: 1.4rem;">Chào <strong>${full_name}</strong>,</h3>
-            <p>Chúc mừng bạn đã đăng ký giữ chỗ thành công vé tham dự talkshow: <strong style="color: #6E3CBC;">${talkshowInfo.title}</strong>! 🎉</p>
-            
-            <div style="background-color: #F2EEFB; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #6E3CBC; margin: 1.5rem 0;">
-              <h4 style="margin-top: 0; color: #6E3CBC; font-size: 1.1rem; margin-bottom: 1rem;">🎟️ Thông tin vé mời của bạn:</h4>
-              <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
-                <tr>
-                  <td style="padding: 0.4rem 0; color: #64748B; width: 140px; font-weight: 600; vertical-align: top;">Sự kiện:</td>
-                  <td style="padding: 0.4rem 0; color: #0F172A; font-weight: 700;">${talkshowInfo.title}</td>
-                </tr>
-                <tr>
-                  <td style="padding: 0.4rem 0; color: #64748B; font-weight: 600; vertical-align: top;">Diễn giả:</td>
-                  <td style="padding: 0.4rem 0; color: #0F172A;">${talkshowInfo.speaker}</td>
-                </tr>
-                <tr>
-                  <td style="padding: 0.4rem 0; color: #64748B; font-weight: 600; vertical-align: top;">Ngày tham gia:</td>
-                  <td style="padding: 0.4rem 0; color: #EC4899; font-weight: 700;">${selected_date}</td>
-                </tr>
-                <tr>
-                  <td style="padding: 0.4rem 0; color: #64748B; font-weight: 600; vertical-align: top;">Độ tuổi:</td>
-                  <td style="padding: 0.4rem 0; color: #0F172A;">${age} tuổi</td>
-                </tr>
-                ${expectation ? `
-                <tr>
-                  <td style="padding: 0.4rem 0; color: #64748B; font-weight: 600; vertical-align: top;">Kỳ vọng của bạn:</td>
-                  <td style="padding: 0.4rem 0; color: #334155; font-style: italic;">"${expectation}"</td>
-                </tr>` : ''}
-              </table>
-            </div>
-            
-            <p>Chúng mình sẽ gửi link tham gia Zoom trực tiếp qua Email hoặc Zalo của bạn trước giờ diễn ra sự kiện 1 tiếng nhé.</p>
-            
-            ${isTestMode ? `
-            <div style="background-color: #FEF2F2; color: #EF4444; padding: 0.75rem; border-radius: 6px; border: 1px dashed #FCA5A5; margin-top: 1.5rem; font-weight: 700; text-align: center; font-size: 0.9rem;">
-              [CHẾ ĐỘ TEST SMART] Email này được gửi ở chế độ Test thông minh thành công!
-            </div>` : ''}
-            
-            <p style="margin-top: 2rem; border-top: 1px solid #E2E8F0; padding-top: 1.5rem; font-size: 0.95rem; color: #64748B;">Hẹn gặp bạn tại sự kiện nghen!</p>
-            <p style="font-size: 0.95rem; color: #64748B; margin: 0;">Thân mến,<br><strong style="color: #6E3CBC;">The LifeSkill Hub Team</strong></p>
-          </div>
-        `
-      });
-    } catch (emailErr) {
-      console.error("Talkshow Registration Email Error:", emailErr);
-    }
-  }
+  // Automated email disabled due to security/confidentiality reasons
 
   return res.json({ success: true, registration_id });
 });
