@@ -22,8 +22,20 @@
     "status": "open",
     "curriculum": [
       {
-        "title": "Nhận diện rào cản tư duy và mô hình niềm tin giới hạn cũ",
-        "duration": "90 Phút"
+        "title": "Phần 1: Nhận diện rào cản tư duy và mô hình niềm tin giới hạn cũ",
+        "duration": "30 Phút"
+      },
+      {
+        "title": "Phần 2: Giải phẫu tâm lý - Vì sao bạn liên tục mắc kẹt trong vùng an toàn?",
+        "duration": "20 Phút"
+      },
+      {
+        "title": "Phần 3: Re-framing Framework - Kỹ thuật tái cấu trúc tư duy để lột xác",
+        "duration": "20 Phút"
+      },
+      {
+        "title": "Phần 4: Hỏi đáp & Khai vấn trực tiếp cùng chuyên gia tâm lý",
+        "duration": "20 Phút"
       }
     ]
   },
