@@ -10,28 +10,19 @@
     "dates": [
       "Đêm 1: Thứ 3 - 21/07/2026 (19:30 - 21:00)",
       "Đêm 2: Thứ 4 - 22/07/2026 (19:30 - 21:00)",
-      "Đêm 3: Thứ 5 - 23/07/2026 (19:30 - 21:00)",
-      "Trọn gói 3 đêm (21, 22, 23/07)"
+      "Đêm 3: Thứ 5 - 23/07/2026 (19:30 - 21:00)"
     ],
     "time": "19:30 - 21:00",
     "speaker": "The LifeSkill Hub Team",
     "price": 0,
     "original_price": null,
     "image_url": "asset/vn_talkshow_mindset.png",
-    "desc": "Change your mind, change your life — Lột xác khỏi phiên bản cũ. Chuỗi Talkshow đặc biệt 3 đêm (Tối T3, T4, T5 ngày 21, 22, 23/7) giúp bạn tháo gỡ tư duy cũ, tái định hình bản thân và xây dựng chiến lược lột xác mạnh mẽ để bứt phá giới hạn.",
+    "desc": "Change your mind, change your life — Lột xác khỏi phiên bản cũ. Chuỗi Talkshow đặc biệt (Tối T3, T4, T5 ngày 21, 22, 23/7) giúp bạn tháo gỡ tư duy cũ, tái định hình bản thân và xây dựng chiến lược lột xác mạnh mẽ để bứt phá giới hạn.",
     "link": "talkshow-detail.html?id=5",
     "status": "open",
     "curriculum": [
       {
-        "title": "Đêm 1 (T3 - 21/07): Nhận diện rào cản tư duy & Mô hình niềm tin giới hạn cũ",
-        "duration": "90 Phút"
-      },
-      {
-        "title": "Đêm 2 (T4 - 22/07): Phương pháp Re-framing & Tái cấu trúc tư duy lột xác",
-        "duration": "90 Phút"
-      },
-      {
-        "title": "Đêm 3 (T5 - 23/07): Thiết lập bản đồ hành động & Xây dựng thói quen phiên bản mới",
+        "title": "Nhận diện rào cản tư duy và mô hình niềm tin giới hạn cũ",
         "duration": "90 Phút"
       }
     ]
