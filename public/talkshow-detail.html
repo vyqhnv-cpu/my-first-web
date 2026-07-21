@@ -541,7 +541,7 @@
               </div>
             </div>
 
-            <div>
+            <div id="speakers-section">
               <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: var(--color-primary); margin-bottom: 1.25rem;">Diễn giả Đồng hành</h2>
               <!-- Speaker bio card -->
               <div class="speaker-card">
@@ -686,6 +686,11 @@
             `;
 
             document.getElementById('talkshow-description').textContent = show.desc;
+
+            if (show.id === 5) {
+              const speakersSec = document.getElementById('speakers-section');
+              if (speakersSec) speakersSec.style.display = 'none';
+            }
 
             // Render agenda / curriculum as vertical step timeline
             const currList = document.getElementById('curriculum-list');
