@@ -154,12 +154,12 @@ app.get('/api/posts', (req, res) => {
   });
 });
 
-// Talkshows JSON API endpoint (Queries Supabase with local JSON fallback)
+// Talkshows JSON API endpoint (Queries Supabase with local JSON fallback & merge)
+app.post('/api/talkshows', (req, res) => res.redirect('/api/talkshows')); // redirect POST if any
 app.get('/api/talkshows', async (req, res) => {
   const fs = require('fs');
   const talkshowsPath = path.join(__dirname, 'public', 'data', 'talkshows.json');
   
-  // Read local file fallback utility helper
   const sendFallback = () => {
     fs.readFile(talkshowsPath, 'utf8', (err, fileData) => {
       if (err) {
@@ -175,27 +175,33 @@ app.get('/api/talkshows', async (req, res) => {
   };
 
   try {
+    let localTalkshows = [];
+    if (fs.existsSync(talkshowsPath)) {
+      localTalkshows = JSON.parse(fs.readFileSync(talkshowsPath, 'utf8'));
+    }
+
     const { data, error } = await supabase
       .from('talkshows')
       .select('*')
       .order('id', { ascending: true });
 
-    if (error) {
-      console.warn("Supabase query error for talkshows, falling back to local JSON:", error.message);
-      return sendFallback();
+    if (error || !data || data.length === 0) {
+      if (error) console.warn("Supabase query error for talkshows, falling back to local JSON:", error.message);
+      return res.json(localTalkshows);
     }
-    
-    if (data && data.length > 0) {
-      // Return Supabase data, parsing numeric price
-      const formatted = data.map(item => ({
-        ...item,
-        price: Number(item.price),
-        original_price: item.original_price ? Number(item.original_price) : null
-      }));
-      return res.json(formatted);
-    }
-    
-    return sendFallback();
+
+    const formattedDb = data.map(item => ({
+      ...item,
+      price: Number(item.price),
+      original_price: item.original_price ? Number(item.original_price) : null
+    }));
+
+    // Merge any local talkshows (like id: 5) that are missing from DB
+    const dbIds = new Set(formattedDb.map(t => t.id));
+    const extraLocal = localTalkshows.filter(t => !dbIds.has(t.id));
+    const merged = [...extraLocal, ...formattedDb];
+
+    return res.json(merged);
   } catch (err) {
     console.error("Talkshows API exception, falling back to JSON:", err);
     return sendFallback();

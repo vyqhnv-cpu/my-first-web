@@ -1,5 +1,42 @@
 [
   {
+    "id": 5,
+    "title": "Change your mind, change your life — Lột xác khỏi phiên bản cũ",
+    "category": "Tư duy",
+    "category_class": "thinking",
+    "badge": "MỚI & HOT",
+    "date": "21 Tháng 7, 2026",
+    "display_date": "21 - 23 Tháng 7, 2026 (Tối T3, T4, T5)",
+    "dates": [
+      "Đêm 1: Thứ 3 - 21/07/2026 (19:30 - 21:00)",
+      "Đêm 2: Thứ 4 - 22/07/2026 (19:30 - 21:00)",
+      "Đêm 3: Thứ 5 - 23/07/2026 (19:30 - 21:00)",
+      "Trọn gói 3 đêm (21, 22, 23/07)"
+    ],
+    "time": "19:30 - 21:00",
+    "speaker": "The LifeSkill Hub Team",
+    "price": 0,
+    "original_price": null,
+    "image_url": "asset/vn_talkshow_mindset.png",
+    "desc": "Chuỗi Talkshow đặc biệt 3 đêm (Tối T3, T4, T5 ngày 21, 22, 23/7) giúp bạn tháo gỡ tư duy cũ, tái định hình bản thân và xây dựng chiến lược lột xác mạnh mẽ để bứt phá giới hạn.",
+    "link": "talkshow-detail.html?id=5",
+    "status": "open",
+    "curriculum": [
+      {
+        "title": "Đêm 1 (T3 - 21/07): Nhận diện rào cản tư duy & Mô hình niềm tin giới hạn cũ",
+        "duration": "90 Phút"
+      },
+      {
+        "title": "Đêm 2 (T4 - 22/07): Phương pháp Re-framing & Tái cấu trúc tư duy lột xác",
+        "duration": "90 Phút"
+      },
+      {
+        "title": "Đêm 3 (T5 - 23/07): Thiết lập bản đồ hành động & Xây dựng thói quen phiên bản mới",
+        "duration": "90 Phút"
+      }
+    ]
+  },
+  {
     "id": 1,
     "title": "Tháo gỡ điểm kẹt tư duy tuổi 20",
     "category": "Tư duy",
@@ -14,9 +51,18 @@
     "link": "talkshow-detail.html?id=1",
     "status": "open",
     "curriculum": [
-      { "title": "Phần 1: Nhận diện rào cản vô hình và vùng an toàn giả tạo", "duration": "30 Phút" },
-      { "title": "Phần 2: Giải mã cơ chế trì hoãn và các ngụy biện ngầm", "duration": "30 Phút" },
-      { "title": "Phần 3: 3 Framework tư duy đột phá cho tuổi trẻ", "duration": "30 Phút" }
+      {
+        "title": "Phần 1: Nhận diện rào cản vô hình và vùng an toàn giả tạo",
+        "duration": "30 Phút"
+      },
+      {
+        "title": "Phần 2: Giải mã cơ chế trì hoãn và các ngụy biện ngầm",
+        "duration": "30 Phút"
+      },
+      {
+        "title": "Phần 3: 3 Framework tư duy đột phá cho tuổi trẻ",
+        "duration": "30 Phút"
+      }
     ]
   },
   {
@@ -34,9 +80,18 @@
     "link": "talkshow-detail.html?id=2",
     "status": "open",
     "curriculum": [
-      { "title": "Phần 1: Bản đồ định vị thế mạnh bản thân (MBTI)", "duration": "30 Phút" },
-      { "title": "Phần 2: Giao thoa sở thích và năng lực (Holland)", "duration": "30 Phút" },
-      { "title": "Phần 3: Hỏi đáp và gỡ rối trực tiếp cùng Coach", "duration": "30 Phút" }
+      {
+        "title": "Phần 1: Bản đồ định vị thế mạnh bản thân (MBTI)",
+        "duration": "30 Phút"
+      },
+      {
+        "title": "Phần 2: Giao thoa sở thích và năng lực (Holland)",
+        "duration": "30 Phút"
+      },
+      {
+        "title": "Phần 3: Hỏi đáp và gỡ rối trực tiếp cùng Coach",
+        "duration": "30 Phút"
+      }
     ]
   },
   {
@@ -55,9 +110,18 @@
     "link": "talkshow-detail.html?id=3",
     "status": "open",
     "curriculum": [
-      { "title": "Phần 1: Tư duy giao tiếp chủ động và rành mạch", "duration": "30 Phút" },
-      { "title": "Phần 2: Kỹ thuật viết tin nhắn, email có cấu trúc", "duration": "30 Phút" },
-      { "title": "Phần 3: Thực hành xử lý tình huống giao tiếp khéo léo", "duration": "30 Phút" }
+      {
+        "title": "Phần 1: Tư duy giao tiếp chủ động và rành mạch",
+        "duration": "30 Phút"
+      },
+      {
+        "title": "Phần 2: Kỹ thuật viết tin nhắn, email có cấu trúc",
+        "duration": "30 Phút"
+      },
+      {
+        "title": "Phần 3: Thực hành xử lý tình huống giao tiếp khéo léo",
+        "duration": "30 Phút"
+      }
     ]
   },
   {
@@ -75,9 +139,18 @@
     "link": "talkshow-detail.html?id=4",
     "status": "coming_soon",
     "curriculum": [
-      { "title": "Phần 1: Định nghĩa 4 kiểu gắn bó phổ biến trong mối quan hệ", "duration": "30 Phút" },
-      { "title": "Phần 2: Nhận diện kiểu gắn bó của bản thân qua hành vi thực tế", "duration": "30 Phút" },
-      { "title": "Phần 3: Giải pháp điều chỉnh hướng tới kiểu gắn bó An toàn", "duration": "30 Phút" }
+      {
+        "title": "Phần 1: Định nghĩa 4 kiểu gắn bó phổ biến trong mối quan hệ",
+        "duration": "30 Phút"
+      },
+      {
+        "title": "Phần 2: Nhận diện kiểu gắn bó của bản thân qua hành vi thực tế",
+        "duration": "30 Phút"
+      },
+      {
+        "title": "Phần 3: Giải pháp điều chỉnh hướng tới kiểu gắn bó An toàn",
+        "duration": "30 Phút"
+      }
     ]
   }
 ]
