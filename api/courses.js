@@ -102,17 +102,41 @@ module.exports = () => {
     };
   }
 
+  let coursesCache = null;
+  let coursesCacheTime = 0;
+  const CACHE_TTL = 5 * 60 * 1000; // 5 phút
+
   // GET: Lấy danh sách khóa học
   router.get('/', async (req, res) => {
+    if (coursesCache && (Date.now() - coursesCacheTime < CACHE_TTL)) {
+      return res.json(coursesCache);
+    }
+
     try {
-      const { data, error } = await supabase.from('courses').select('*');
-      if (error) {
-        // Trở về mock data nếu bảng chưa có trên DB
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 giây timeout
+
+      const { data, error } = await supabase
+        .from('courses')
+        .select('*')
+        .abortSignal(controller.signal);
+        
+      clearTimeout(timeoutId);
+
+      if (error || !data || data.length === 0) {
+        // Trở về mock data nếu bảng chưa có trên DB hoặc lỗi mạng
+        coursesCache = mockCourses;
+        coursesCacheTime = Date.now();
         return res.json(mockCourses);
       }
+      
       // Khớp dữ liệu từ DB với cấu trúc chi tiết
       const merged = data.map(row => mergeCourse(row));
-      res.json(merged.length ? merged : mockCourses);
+      const finalData = merged.length ? merged : mockCourses;
+      
+      coursesCache = finalData;
+      coursesCacheTime = Date.now();
+      return res.json(finalData);
     } catch (err) {
       return res.json(mockCourses);
     }

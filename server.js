@@ -156,7 +156,15 @@ app.get('/api/posts', (req, res) => {
 
 // Talkshows JSON API endpoint (Queries Supabase with local JSON fallback & merge)
 app.post('/api/talkshows', (req, res) => res.redirect('/api/talkshows')); // redirect POST if any
+let talkshowsCache = null;
+let talkshowsCacheTime = 0;
+const CACHE_TTL = 5 * 60 * 1000; // 5 phút
+
 app.get('/api/talkshows', async (req, res) => {
+  if (talkshowsCache && (Date.now() - talkshowsCacheTime < CACHE_TTL)) {
+    return res.json(talkshowsCache);
+  }
+
   const fs = require('fs');
   const talkshowsPath = path.join(__dirname, 'public', 'data', 'talkshows.json');
   
@@ -167,7 +175,10 @@ app.get('/api/talkshows', async (req, res) => {
         return res.status(500).json({ error: 'Failed to read talkshows' });
       }
       try {
-        return res.json(JSON.parse(fileData));
+        const parsed = JSON.parse(fileData);
+        talkshowsCache = parsed;
+        talkshowsCacheTime = Date.now();
+        return res.json(parsed);
       } catch (parseErr) {
         return res.status(500).json({ error: 'Invalid fallback data' });
       }
@@ -180,13 +191,22 @@ app.get('/api/talkshows', async (req, res) => {
       localTalkshows = JSON.parse(fs.readFileSync(talkshowsPath, 'utf8'));
     }
 
+    // Đặt timeout cho Supabase query để tránh treo
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 giây timeout
+
     const { data, error } = await supabase
       .from('talkshows')
       .select('*')
-      .order('id', { ascending: true });
+      .order('id', { ascending: true })
+      .abortSignal(controller.signal);
+      
+    clearTimeout(timeoutId);
 
     if (error || !data || data.length === 0) {
       if (error) console.warn("Supabase query error for talkshows, falling back to local JSON:", error.message);
+      talkshowsCache = localTalkshows;
+      talkshowsCacheTime = Date.now();
       return res.json(localTalkshows);
     }
 
@@ -201,6 +221,8 @@ app.get('/api/talkshows', async (req, res) => {
     const extraLocal = localTalkshows.filter(t => !dbIds.has(t.id));
     const merged = [...extraLocal, ...formattedDb];
 
+    talkshowsCache = merged;
+    talkshowsCacheTime = Date.now();
     return res.json(merged);
   } catch (err) {
     console.error("Talkshows API exception, falling back to JSON:", err);
