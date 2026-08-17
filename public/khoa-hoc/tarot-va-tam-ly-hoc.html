@@ -39,6 +39,56 @@
     />
     <link rel="stylesheet" href="/style.css" />
     <style>
+      @keyframes pulse-btn {
+        0% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.7); }
+        70% { box-shadow: 0 0 0 15px rgba(168, 85, 247, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
+      }
+      .btn-pulse {
+        animation: pulse-btn 2s infinite;
+      }
+      
+      .glass-timer {
+        margin-top: 2rem;
+        background: rgba(15, 23, 42, 0.4);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 1.5rem 2.5rem;
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: inline-block;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+      
+      .value-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+      .value-card {
+        background: white;
+        border-radius: var(--radius-md);
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        border: 1px solid #e2e8f0;
+        transition: transform 0.3s ease;
+      }
+      .value-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      }
+      .value-icon {
+        width: 48px;
+        height: 48px;
+        background: #f3e8ff;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        color: var(--color-primary);
+      }
       .course-detail-hero {
         background: linear-gradient(100deg, rgba(15, 23, 42, 0.98) 0%, rgba(15, 23, 42, 0.85) 45%, rgba(15, 23, 42, 0.2) 100%), url('/asset/tarot_psychology_hero.jpg');
         background-size: cover;
@@ -210,6 +260,19 @@
             Khai giảng: 24/8/2026
           </span>
         </div>
+        </div>
+
+        <!-- Timer 1: Early Bird in Hero -->
+        <div id="eb-timer-container" class="glass-timer">
+          <div id="eb-label" style="font-weight: 600; color: #fde047; margin-bottom: 0.75rem; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">Ưu đãi Early Bird 199k kết thúc sau:</div>
+          <div id="eb-clock" style="display: flex; justify-content: center; gap: 1.5rem; font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; color: white;">
+            <div><span id="eb-d">00</span><span style="font-size: 0.85rem; font-weight:500; display:block; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px;">Ngày</span></div><span style="color: rgba(255,255,255,0.3)">:</span>
+            <div><span id="eb-h">00</span><span style="font-size: 0.85rem; font-weight:500; display:block; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px;">Giờ</span></div><span style="color: rgba(255,255,255,0.3)">:</span>
+            <div><span id="eb-m">00</span><span style="font-size: 0.85rem; font-weight:500; display:block; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px;">Phút</span></div><span style="color: rgba(255,255,255,0.3)">:</span>
+            <div><span id="eb-s">00</span><span style="font-size: 0.85rem; font-weight:500; display:block; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px;">Giây</span></div>
+          </div>
+        </div>
+
       </div>
     </section>
     <!-- MAIN CONTENT -->
@@ -233,24 +296,36 @@
 
           <div class="content-section">
             <h2>Bạn sẽ nhận được gì?</h2>
-            <ul style="list-style: none; padding: 0; line-height: 1.8; color: var(--color-neutral);">
-              <li style="margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.75rem;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary)" stroke-width="2" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Hiểu vòng lặp suy nghĩ và mô hình hành vi của bản thân thông qua lăng kính 22 lá Ẩn chính</span>
-              </li>
-              <li style="margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.75rem;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary)" stroke-width="2" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Nhận diện hệ giá trị cũ đang âm thầm điều khiển những mô hình đó</span>
-              </li>
-              <li style="margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.75rem;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary)" stroke-width="2" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Xây dựng hệ giá trị mới, chủ động hơn, phù hợp với con người bạn đang muốn trở thành</span>
-              </li>
-              <li style="margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.75rem;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary)" stroke-width="2" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Tự đọc được Tarot cho chính mình — không cần phụ thuộc vào ai để hiểu bản thân</span>
-              </li>
-            </ul>
+            <div class="value-grid">
+              <div class="value-card">
+                <div class="value-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--color-dark);">Hiểu rõ vòng lặp</h3>
+                <p style="color: var(--color-neutral); font-size: 0.95rem; line-height: 1.6; margin: 0;">Hiểu vòng lặp suy nghĩ và mô hình hành vi thông qua lăng kính 22 lá Ẩn chính.</p>
+              </div>
+              <div class="value-card">
+                <div class="value-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--color-dark);">Nhận diện bẫy ngầm</h3>
+                <p style="color: var(--color-neutral); font-size: 0.95rem; line-height: 1.6; margin: 0;">Nhận diện hệ giá trị cũ đang âm thầm điều khiển những mô hình độc hại.</p>
+              </div>
+              <div class="value-card">
+                <div class="value-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--color-dark);">Xây hệ giá trị mới</h3>
+                <p style="color: var(--color-neutral); font-size: 0.95rem; line-height: 1.6; margin: 0;">Chủ động kiến tạo con người bạn đang muốn trở thành trong tương lai.</p>
+              </div>
+              <div class="value-card">
+                <div class="value-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--color-dark);">Tự đọc cho mình</h3>
+                <p style="color: var(--color-neutral); font-size: 0.95rem; line-height: 1.6; margin: 0;">Tự đọc được Tarot cho chính mình — không cần phụ thuộc vào ai để hiểu bản thân.</p>
+              </div>
+            </div>
           </div>
 
           <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 1.5rem; margin-bottom: 3rem; font-style: italic; color: #475569; font-size: 0.95rem;">
@@ -270,17 +345,6 @@
             <!-- COUNTDOWN TIMERS -->
             <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2rem;">
               
-              <!-- Timer 1: Early Bird -->
-              <div id="eb-timer-container" style="background: linear-gradient(135deg, #fdf4ff 0%, #f3e8ff 100%); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid #e879f9; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                <div id="eb-label" style="font-weight: 600; color: #9333ea; margin-bottom: 0.75rem;">Ưu đãi Early Bird 199k kết thúc sau:</div>
-                <div id="eb-clock" style="display: flex; justify-content: center; gap: 1rem; font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; color: #7e22ce;">
-                  <div><span id="eb-d">00</span><span style="font-size: 0.8rem; font-weight:500; display:block; color: #a855f7;">Ngày</span></div>:
-                  <div><span id="eb-h">00</span><span style="font-size: 0.8rem; font-weight:500; display:block; color: #a855f7;">Giờ</span></div>:
-                  <div><span id="eb-m">00</span><span style="font-size: 0.8rem; font-weight:500; display:block; color: #a855f7;">Phút</span></div>:
-                  <div><span id="eb-s">00</span><span style="font-size: 0.8rem; font-weight:500; display:block; color: #a855f7;">Giây</span></div>
-                </div>
-              </div>
-
               <!-- Timer 2: Khai giảng -->
               <div id="kg-timer-container" style="background: #f8fafc; padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid #cbd5e1; text-align: center;">
                 <div id="kg-label" style="font-weight: 600; color: #334155; margin-bottom: 0.75rem;">Khóa học khai giảng sau:</div>
@@ -347,6 +411,14 @@
               </button>
               <div id="courseFormMessage" style="margin-top: 1rem; font-size: 0.9rem; text-align: center; font-weight: 500;"></div>
             </form>
+            
+            <style>
+              @keyframes pulse-glass {
+                0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+                70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+              }
+            </style>
             
             <script>
               // Countdown Logic
