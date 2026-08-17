@@ -156,79 +156,66 @@ app.get('/api/posts', (req, res) => {
 
 // Talkshows JSON API endpoint (Queries Supabase with local JSON fallback & merge)
 app.post('/api/talkshows', (req, res) => res.redirect('/api/talkshows')); // redirect POST if any
-let talkshowsCache = null;
-let talkshowsCacheTime = 0;
-const CACHE_TTL = 5 * 60 * 1000; // 5 phút
-
-app.get('/api/talkshows', async (req, res) => {
-  if (talkshowsCache && (Date.now() - talkshowsCacheTime < CACHE_TTL)) {
-    return res.json(talkshowsCache);
-  }
-
-  const fs = require('fs');
+  let talkshowsCache = null;
   const talkshowsPath = path.join(__dirname, 'public', 'data', 'talkshows.json');
-  
-  const sendFallback = () => {
-    fs.readFile(talkshowsPath, 'utf8', (err, fileData) => {
-      if (err) {
-        console.error("Read talkshows fallback file error:", err);
-        return res.status(500).json({ error: 'Failed to read talkshows' });
-      }
+
+  app.get('/api/talkshows', (req, res) => {
+    const fetchFreshData = async () => {
+      const fs = require('fs');
       try {
-        const parsed = JSON.parse(fileData);
-        talkshowsCache = parsed;
-        talkshowsCacheTime = Date.now();
-        return res.json(parsed);
-      } catch (parseErr) {
-        return res.status(500).json({ error: 'Invalid fallback data' });
+        let localTalkshows = [];
+        if (fs.existsSync(talkshowsPath)) {
+          localTalkshows = JSON.parse(fs.readFileSync(talkshowsPath, 'utf8'));
+        }
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+        const { data, error } = await supabase
+          .from('talkshows')
+          .select('*')
+          .order('id', { ascending: true })
+          .abortSignal(controller.signal);
+          
+        clearTimeout(timeoutId);
+
+        if (error || !data || data.length === 0) {
+          talkshowsCache = localTalkshows;
+          return;
+        }
+
+        const formattedDb = data.map(item => ({
+          ...item,
+          price: Number(item.price),
+          original_price: item.original_price ? Number(item.original_price) : null
+        }));
+
+        const dbIds = new Set(formattedDb.map(t => t.id));
+        const extraLocal = localTalkshows.filter(t => !dbIds.has(t.id));
+        const merged = [...extraLocal, ...formattedDb];
+
+        talkshowsCache = merged.sort((a, b) => a.id - b.id);
+      } catch (err) {
+        if (!talkshowsCache && fs.existsSync(talkshowsPath)) {
+           talkshowsCache = JSON.parse(fs.readFileSync(talkshowsPath, 'utf8'));
+        }
       }
-    });
-  };
+    };
 
-  try {
-    let localTalkshows = [];
-    if (fs.existsSync(talkshowsPath)) {
-      localTalkshows = JSON.parse(fs.readFileSync(talkshowsPath, 'utf8'));
+    if (talkshowsCache) {
+      res.json(talkshowsCache);
+      fetchFreshData();
+    } else {
+      const fs = require('fs');
+      if (fs.existsSync(talkshowsPath)) {
+        const localData = JSON.parse(fs.readFileSync(talkshowsPath, 'utf8'));
+        res.json(localData);
+      } else {
+        res.json([]);
+      }
+      fetchFreshData();
     }
-
-    // Đặt timeout cho Supabase query để tránh treo
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 giây timeout
-
-    const { data, error } = await supabase
-      .from('talkshows')
-      .select('*')
-      .order('id', { ascending: true })
-      .abortSignal(controller.signal);
-      
-    clearTimeout(timeoutId);
-
-    if (error || !data || data.length === 0) {
-      if (error) console.warn("Supabase query error for talkshows, falling back to local JSON:", error.message);
-      talkshowsCache = localTalkshows;
-      talkshowsCacheTime = Date.now();
-      return res.json(localTalkshows);
-    }
-
-    const formattedDb = data.map(item => ({
-      ...item,
-      price: Number(item.price),
-      original_price: item.original_price ? Number(item.original_price) : null
-    }));
-
-    // Merge any local talkshows (like id: 5) that are missing from DB
-    const dbIds = new Set(formattedDb.map(t => t.id));
-    const extraLocal = localTalkshows.filter(t => !dbIds.has(t.id));
-    const merged = [...extraLocal, ...formattedDb];
-
-    talkshowsCache = merged;
-    talkshowsCacheTime = Date.now();
-    return res.json(merged);
-  } catch (err) {
-    console.error("Talkshows API exception, falling back to JSON:", err);
-    return sendFallback();
-  }
-});
+  });
 
 // GET: Lấy chi tiết 1 talkshow (Queries Supabase with local JSON fallback)
 app.get('/api/talkshows/:id', async (req, res) => {

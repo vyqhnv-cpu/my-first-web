@@ -65,6 +65,21 @@ module.exports = () => {
         { title: 'Phần 2: Khảo sát danh mục công việc thực tế tương thích trên thị trường', duration: '30 Phút' },
         { title: 'Phần 3: Lập kế hoạch rèn luyện các kỹ năng lõi để thăng tiến', duration: '30 Phút' }
       ]
+    },
+    {
+      id: 99,
+      title: 'Khóa học Tarot & Tâm lý học — Hiểu chính mình qua 22 lá Ẩn chính',
+      category: 'TÂM LÝ HỌC',
+      category_class: 'data-science', 
+      price: 199000,
+      original_price: 700000,
+      sessions: '8 Buổi qua Zoom',
+      size_limit: 'Khai giảng 24/8/2026',
+      badge: 'Đặc biệt',
+      image_url: 'asset/vn_talkshow_mindset.png',
+      description: 'Khóa học Tarot & Tâm lý học 8 buổi Online. Giải mã 22 lá Ẩn chính dưới góc nhìn tâm lý học, hiểu vòng lặp suy nghĩ và hành vi của chính mình.',
+      custom_url: '/khoa-hoc/tarot-va-tam-ly-hoc',
+      curriculum: []
     }
   ];
 
@@ -78,7 +93,7 @@ module.exports = () => {
       cleanClass = 'ui-ux';
     } else if (cleanClass.includes('thấu hiểu') || cleanClass.includes('thau-hieu')) {
       cleanClass = 'data-science';
-    } else if (cleanClass.includes('định hướng') || cleanClass.includes('dinh-huong')) {
+    } else if (cleanClass.includes('định hướng') || cleanClass.includes('dinh-huong') || cleanClass.includes('tâm lý')) {
       cleanClass = 'web-design';
     }
     
@@ -98,47 +113,52 @@ module.exports = () => {
       badge: dbRow.badge !== undefined ? dbRow.badge : fallback.badge,
       image_url: dbRow.image_url || fallback.image_url,
       description: dbRow.description || fallback.description,
+      custom_url: dbRow.custom_url || fallback.custom_url,
       curriculum: dbRow.curriculum || fallback.curriculum
     };
   }
 
   let coursesCache = null;
-  let coursesCacheTime = 0;
-  const CACHE_TTL = 5 * 60 * 1000; // 5 phút
 
   // GET: Lấy danh sách khóa học
-  router.get('/', async (req, res) => {
-    if (coursesCache && (Date.now() - coursesCacheTime < CACHE_TTL)) {
-      return res.json(coursesCache);
-    }
+  router.get('/', (req, res) => {
+    const fetchFreshData = async () => {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 giây timeout
+        const { data, error } = await supabase
+          .from('courses')
+          .select('*')
+          .abortSignal(controller.signal);
+          
+        clearTimeout(timeoutId);
 
-      const { data, error } = await supabase
-        .from('courses')
-        .select('*')
-        .abortSignal(controller.signal);
+        if (error || !data || data.length === 0) {
+          coursesCache = mockCourses;
+          return;
+        }
         
-      clearTimeout(timeoutId);
-
-      if (error || !data || data.length === 0) {
-        // Trở về mock data nếu bảng chưa có trên DB hoặc lỗi mạng
-        coursesCache = mockCourses;
-        coursesCacheTime = Date.now();
-        return res.json(mockCourses);
+        const merged = data.map(row => mergeCourse(row));
+        
+        // Merge missing custom courses like Tarot that might not be in DB
+        const dbIds = new Set(merged.map(c => c.id));
+        const extraLocal = mockCourses.filter(c => !dbIds.has(c.id));
+        
+        coursesCache = [...extraLocal, ...merged].sort((a, b) => a.id - b.id);
+      } catch (err) {
+        if (!coursesCache) coursesCache = mockCourses;
       }
-      
-      // Khớp dữ liệu từ DB với cấu trúc chi tiết
-      const merged = data.map(row => mergeCourse(row));
-      const finalData = merged.length ? merged : mockCourses;
-      
-      coursesCache = finalData;
-      coursesCacheTime = Date.now();
-      return res.json(finalData);
-    } catch (err) {
-      return res.json(mockCourses);
+    };
+
+    if (coursesCache) {
+      // Stale-while-revalidate: Trả kết quả ngay lập tức từ Cache, sau đó fetch ngầm
+      res.json(coursesCache);
+      fetchFreshData();
+    } else {
+      // Chưa có cache, trả luôn mockCourses cho nhanh, fetch ngầm cho lần sau
+      res.json(mockCourses);
+      fetchFreshData();
     }
   });
 
