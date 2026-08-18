@@ -215,9 +215,14 @@ module.exports = () => {
       }).select('id').single();
 
       if (error && error.code !== '42P01') {
-        return res.status(500).json({ error: error.message });
+        if (error.message && error.message.includes('fetch failed')) {
+          console.log('Supabase fetch failed (network/DNS). Skipping DB insert.');
+        } else {
+          return res.status(500).json({ error: error.message });
+        }
+      } else {
+        dbData = data;
       }
-      dbData = data;
     } catch (err) {
       console.log('Supabase not configured, skipping DB insert for enrollments');
     }
