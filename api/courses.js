@@ -74,7 +74,7 @@ module.exports = () => {
       price: 199000,
       original_price: 700000,
       sessions: '8 Buổi qua Zoom',
-      size_limit: 'Khai giảng 24/8/2026',
+      size_limit: 'Khai giảng 25/8/2026',
       badge: 'Đặc biệt',
       image_url: 'asset/vn_talkshow_mindset.png',
       description: 'Khóa học Tarot & Tâm lý học 8 buổi Online. Giải mã 22 lá Ẩn chính dưới góc nhìn tâm lý học, hiểu vòng lặp suy nghĩ và hành vi của chính mình.',
@@ -145,7 +145,11 @@ module.exports = () => {
         const dbIds = new Set(merged.map(c => c.id));
         const extraLocal = mockCourses.filter(c => !dbIds.has(c.id));
         
-        coursesCache = [...extraLocal, ...merged].sort((a, b) => a.id - b.id);
+        coursesCache = [...extraLocal, ...merged].sort((a, b) => {
+          if (a.id === 99) return -1;
+          if (b.id === 99) return 1;
+          return a.id - b.id;
+        });
       } catch (err) {
         if (!coursesCache) coursesCache = mockCourses;
       }
