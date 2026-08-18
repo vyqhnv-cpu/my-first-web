@@ -134,7 +134,9 @@
         }
       }
     </style>
-  </head>
+  <!-- Facebook Tracking -->
+    <script src="/asset/fb-tracking.js"></script>
+</head>
   <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-557D4SJB"
@@ -356,6 +358,11 @@
                   
                   const data = await response.json();
                   if (data.success) {
+                    try {
+                      if (window.trackFbEvent) {
+                        window.trackFbEvent('Lead', { content_name: document.title }, { email: payload.email, phone: payload.phone });
+                      }
+                    } catch(e) {}
                     if (data.payment_required) {
                       const uName = encodeURIComponent(document.getElementById('fullName').value);
                       window.location.href = `/payment.html?id=${data.enrollment_id}&name=${uName}`;

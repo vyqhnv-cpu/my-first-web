@@ -135,6 +135,7 @@ app.use('/api/orders', require('./api/orders')());
 app.use('/api/transactions', require('./api/transactions'));
 app.use('/api/courses', require('./api/courses')());
 app.use('/api/tests', require('./api/tests')());
+app.use('/api/fb', require('./api/fb_tracking')());
 
 // Blog JSON API endpoint
 app.get('/api/posts', (req, res) => {
