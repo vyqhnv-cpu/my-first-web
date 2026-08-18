@@ -12,7 +12,7 @@ module.exports = () => {
   // Endpoint cung cấp Cấu hình cho Frontend (Ẩn CAPI Token, chỉ lộ Pixel ID)
   router.get('/config', (req, res) => {
     res.json({
-      pixelId: process.env.FB_PIXEL_ID || 'MISSING_PIXEL_ID'
+      pixelId: process.env.FB_PIXEL_ID && process.env.FB_PIXEL_ID !== 'undefined' ? process.env.FB_PIXEL_ID : '863353330129564'
     });
   });
 
@@ -21,8 +21,8 @@ module.exports = () => {
     try {
       const { event_name, event_id, event_source_url, fbp, fbc, custom_data, user_data } = req.body;
 
-      const pixelId = process.env.FB_PIXEL_ID;
-      const capiToken = process.env.FB_CAPI_TOKEN;
+      const pixelId = (process.env.FB_PIXEL_ID && process.env.FB_PIXEL_ID !== 'undefined') ? process.env.FB_PIXEL_ID : '863353330129564';
+      const capiToken = (process.env.FB_CAPI_TOKEN && process.env.FB_CAPI_TOKEN !== 'undefined') ? process.env.FB_CAPI_TOKEN : 'EAAeHwAZCIZCs8BSU2AZBd2QetKXqyWDAZBl52TrSebsabEx2kUv0sgjjQLzvZAKFINnHZBIp3ASaQt2iMTtDreKbHzFuHufCh7qpfJroiOaj4nFdTnvo80ZC0rZCOZA9q2ihcKZCD4KEs0IhSMBFRW4Pzox23TV2dofemgVm24eduIke6Kfop7hSLRKgLeCexqEYnEgwZDZD';
 
       if (!pixelId || !capiToken) {
         console.warn('[CAPI] FB_PIXEL_ID or FB_CAPI_TOKEN is not configured.');
