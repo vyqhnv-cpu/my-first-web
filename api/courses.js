@@ -1,4 +1,4 @@
-const { supabase } = require('../lib/supabase');
+const { queryAsync, runAsync, getAsync } = require('../lib/db');
 const { Resend } = require('resend');
 
 // Khởi tạo Resend bằng biến môi trường
@@ -127,14 +127,9 @@ module.exports = () => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-        const { data, error } = await supabase
-          .from('courses')
-          .select('*')
-          .abortSignal(controller.signal);
-          
-        clearTimeout(timeoutId);
+        const data = await queryAsync('SELECT * FROM courses');
 
-        if (error || !data || data.length === 0) {
+        if (!data || data.length === 0) {
           coursesCache = getSortedMock();
           return;
         }
@@ -178,13 +173,14 @@ module.exports = () => {
   router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
-      const { data, error } = await supabase.from('courses').select('*').eq('id', id).single();
-      if (error) {
-        const mock = mockCourses.find(c => c.id == id);
-        if (mock) return res.json(mock);
-        return res.status(404).json({ error: 'Không tìm thấy khóa học' });
+      const data = await getAsync('SELECT * FROM courses WHERE id = ?', [id]);
+      
+      if (!data) {
+        throw new Error('Course not found in DB');
       }
-      res.json(mergeCourse(data));
+      
+      const merged = mergeCourse(data);
+      res.json(merged);
     } catch (err) {
       const mock = mockCourses.find(c => c.id == id);
       if (mock) return res.json(mock);
@@ -199,8 +195,8 @@ module.exports = () => {
     // Lấy thông tin giá khóa học từ CSDL (nếu có)
     let coursePrice = 0;
     try {
-      const { data: courseData, error: courseError } = await supabase.from('courses').select('price').eq('id', course_id).single();
-      if (!courseError && courseData) coursePrice = courseData.price;
+      const courseData = await getAsync('SELECT price FROM courses WHERE id = ?', [course_id]);
+      if (courseData) coursePrice = courseData.price;
     } catch(e) {}
 
     // ÉP GIÁ = 0 ĐỂ CHẠY CHƯƠNG TRÌNH KHUYẾN MÃI (Dạy miễn phí)
@@ -212,27 +208,14 @@ module.exports = () => {
     let dbData = null;
     try {
       // Lưu vào database
-      const { data, error } = await supabase.from('enrollments').insert({
-        course_id,
-        full_name,
-        email,
-        phone,
-        age: age || null,
-        status: initialStatus,
-        registered_at: new Date().toISOString()
-      }).select('id').single();
+      const result = await runAsync(
+        'INSERT INTO enrollments (course_id, full_name, email, phone, age, status, registered_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [course_id, full_name, email, phone, age || null, initialStatus, new Date().toISOString()]
+      );
 
-      if (error && error.code !== '42P01') {
-        if (error.message && error.message.includes('fetch failed')) {
-          console.log('Supabase fetch failed (network/DNS). Skipping DB insert.');
-        } else {
-          return res.status(500).json({ error: error.message });
-        }
-      } else {
-        dbData = data;
-      }
+      dbData = { id: result.id };
     } catch (err) {
-      console.log('Supabase not configured, skipping DB insert for enrollments');
+      console.log('SQLite error, skipping DB insert for enrollments:', err.message);
     }
     
     if (coursePrice === 0) {
@@ -271,15 +254,15 @@ module.exports = () => {
     
     let dbData = null;
     try {
-      const { data, error } = await supabase.from('enrollments')
-        .update({ status: 'awaiting_confirmation' })
-        .eq('id', enrollment_id)
-        .select('*')
-        .single();
-      
-      if (!error && data) dbData = data;
+      const updateResult = await runAsync(
+        "UPDATE enrollments SET status = 'awaiting_confirmation' WHERE id = ?",
+        [enrollment_id]
+      );
+      if (updateResult.changes > 0) {
+        dbData = await getAsync('SELECT * FROM enrollments WHERE id = ?', [enrollment_id]);
+      }
     } catch (err) {
-      console.log('Supabase update failed or missing config');
+      console.log('SQLite update failed');
     }
     
     const targetEmail = (dbData && dbData.email) ? dbData.email : email;

@@ -2,14 +2,8 @@ const { Client } = require('ssh2');
 const path = require('path');
 const fs = require('fs');
 
-const env = {
-  SUPABASE_URL: 'https://gpydibzaymuubtkthomb.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdweWRpYnpheW11dWJ0a3Rob21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NDk3NDMsImV4cCI6MjA5NDAyNTc0M30.rADQpZtx_SvMdF-Y_e7epsSMp-0JO1WHQShqhlN6YDI',
-  RESEND_API_KEY: 're_ai8V8rrn_FZ5eNi59m7HJ3NAnoAvvdyEL',
-  ADMIN_USER: 'admin',
-  ADMIN_PASSWORD: 'admin123',
-  MCP_API_KEY: 'gX9kLm2Zt7pQr1Vb8wY4e0s3c6nD5fHj'
-};
+require('dotenv').config({ path: path.join(__dirname, '..', '..', '.env') });
+const env = process.env;
 
 const localDbPath = path.join(__dirname, '..', '..', 'my-brain', 'brain.db');
 const remoteDbPath = '/opt/my-website/my-brain/brain.db';
@@ -53,6 +47,8 @@ RESEND_API_KEY=${env.RESEND_API_KEY}
 ADMIN_USER=${env.ADMIN_USER}
 ADMIN_PASSWORD=${env.ADMIN_PASSWORD}
 MCP_API_KEY=${env.MCP_API_KEY}
+FB_PIXEL_ID=${env.FB_PIXEL_ID}
+FB_CAPI_TOKEN=${env.FB_CAPI_TOKEN}
 PORT=3000
 EOF
 
@@ -82,23 +78,8 @@ EOF'
   conn.exec(setupCmd, (err, stream) => {
     if (err) throw err;
     stream.on('close', () => {
-      console.log('✅ Setup commands finished. Now uploading brain.db via SFTP...');
-      
-      // 2. SFTP upload brain.db
-      conn.sftp((err, sftp) => {
-        if (err) {
-          console.error('SFTP Error:', err);
-          conn.end();
-          return;
-        }
-
-        sftp.fastPut(localDbPath, remoteDbPath, (err) => {
-          if (err) {
-             console.error('SFTP Upload Error:', err);
-             // Proceed anyway, maybe it doesn't exist locally
-          } else {
-             console.log('✅ brain.db uploaded successfully!');
-          }
+        // Skipped SFTP upload to prevent overwriting production database
+        console.log('✅ brain.db upload skipped to protect production data!');
 
           // 3. Final commands: restart service, check status
           const finalCmd = `
@@ -120,9 +101,7 @@ EOF'
              })
              .on('data', d => process.stdout.write(d))
              .stderr.on('data', d => process.stderr.write(d));
-          });
-        });
-      });
+         });
     })
     .on('data', d => process.stdout.write(d))
     .stderr.on('data', d => process.stderr.write(d));
