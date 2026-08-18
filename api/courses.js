@@ -135,7 +135,7 @@ module.exports = () => {
         clearTimeout(timeoutId);
 
         if (error || !data || data.length === 0) {
-          coursesCache = mockCourses;
+          coursesCache = getSortedMock();
           return;
         }
         
@@ -151,8 +151,16 @@ module.exports = () => {
           return a.id - b.id;
         });
       } catch (err) {
-        if (!coursesCache) coursesCache = mockCourses;
+        if (!coursesCache) coursesCache = getSortedMock();
       }
+    };
+
+    const getSortedMock = () => {
+      return [...mockCourses].sort((a, b) => {
+        if (a.id === 99) return -1;
+        if (b.id === 99) return 1;
+        return a.id - b.id;
+      });
     };
 
     if (coursesCache) {
@@ -161,7 +169,7 @@ module.exports = () => {
       fetchFreshData();
     } else {
       // Chưa có cache, trả luôn mockCourses cho nhanh, fetch ngầm cho lần sau
-      res.json(mockCourses);
+      res.json(getSortedMock());
       fetchFreshData();
     }
   });
