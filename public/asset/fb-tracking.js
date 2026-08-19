@@ -1,7 +1,8 @@
 // Helper function to read cookie
-function getCookie(name) {
-  const m = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return m ? m[2] : null;
+function getCookie(name) { 
+  const v = `; ${document.cookie}`; 
+  const parts = v.split(`; ${name}=`); 
+  if (parts.length === 2) return parts.pop().split(';').shift(); 
 }
 
 // Generate unique event_id for deduplication

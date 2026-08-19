@@ -6,6 +6,18 @@ function hash(val) {
   return crypto.createHash('sha256').update(String(val).trim().toLowerCase()).digest('hex');
 }
 
+function getClientIp(req) {
+  return req.headers['cf-connecting-ip'] || 
+         (req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0].trim() : null) || 
+         req.headers['x-real-ip'] || 
+         req.socket?.remoteAddress || 
+         req.ip;
+}
+
+function getClientUserAgent(req) {
+  return req.headers['user-agent'] || '';
+}
+
 module.exports = () => {
   const router = require('express').Router();
 
@@ -29,6 +41,9 @@ module.exports = () => {
         return res.status(200).json({ success: false, message: 'CAPI not configured' });
       }
 
+      const clientIp = getClientIp(req);
+      const userAgent = getClientUserAgent(req);
+
       // Format payload theo cấu trúc Facebook Graph API v21.0
       const payload = {
         data: [{
@@ -38,10 +53,10 @@ module.exports = () => {
           event_source_url: event_source_url || req.headers.referer,
           action_source: 'website',
           user_data: {
-            client_ip_address: req.headers['x-forwarded-for']?.split(',')[0] || req.ip,
-            client_user_agent: req.headers['user-agent'],
-            fbp: fbp,
-            fbc: fbc,
+            client_ip_address: clientIp, // RAW, NOT HASHED
+            client_user_agent: userAgent, // RAW, NOT HASHED
+            fbp: fbp || undefined, // RAW, NOT HASHED
+            fbc: fbc || undefined, // RAW, NOT HASHED
             // Mã hóa PII (Personally Identifiable Information)
             em: user_data?.email ? [hash(user_data.email)] : [],
             ph: user_data?.phone ? [hash(user_data.phone)] : [],
@@ -53,6 +68,8 @@ module.exports = () => {
           }
         }],
       };
+      
+      console.log('[CAPI] Final Payload to Meta:', JSON.stringify(payload, null, 2));
 
       const fbRes = await fetch(`https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${capiToken}`, {
         method: 'POST',
