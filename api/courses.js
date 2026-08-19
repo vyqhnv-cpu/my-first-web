@@ -293,5 +293,62 @@ module.exports = () => {
     res.json({ success: true });
   });
 
+  // GET: Xem danh sách học viên (Có bảo mật cơ bản)
+  router.get('/view/enrollments', async (req, res) => {
+    // Check password
+    const pwd = req.query.pwd || req.query.password;
+    if (pwd !== 'admin123') {
+      return res.status(401).send('<h1>Sai mật khẩu!</h1><p>Bạn không có quyền truy cập trang này.</p>');
+    }
+
+    try {
+      const data = await queryAsync('SELECT * FROM enrollments ORDER BY id DESC');
+      let html = `
+      <html>
+      <head>
+        <title>Danh sách học viên</title>
+        <style>
+          body { font-family: Arial; padding: 20px; }
+          table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+          th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+          th { background-color: #f4f4f4; }
+          tr:nth-child(even) { background-color: #fafafa; }
+        </style>
+      </head>
+      <body>
+        <h2>Danh sách Đăng ký Khóa học (${data.length} học viên)</h2>
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Mã KH</th>
+            <th>Họ Tên</th>
+            <th>Email</th>
+            <th>SĐT</th>
+            <th>Tuổi</th>
+            <th>Trạng thái</th>
+            <th>Ngày ĐK</th>
+          </tr>
+          ${data.map(r => `
+            <tr>
+              <td>${r.id}</td>
+              <td>${r.course_id}</td>
+              <td>${r.full_name}</td>
+              <td>${r.email}</td>
+              <td>${r.phone}</td>
+              <td>${r.age || ''}</td>
+              <td><strong style="color: ${r.status === 'paid' ? 'green' : 'orange'}">${r.status}</strong></td>
+              <td>${new Date(r.registered_at).toLocaleString('vi-VN')}</td>
+            </tr>
+          `).join('')}
+        </table>
+      </body>
+      </html>
+      `;
+      res.send(html);
+    } catch(err) {
+      res.status(500).send('Lỗi đọc dữ liệu: ' + err.message);
+    }
+  });
+
   return router;
 };
