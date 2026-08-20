@@ -306,17 +306,50 @@ app.post('/api/talkshows/register', async (req, res) => {
   return res.json({ success: true, registration_id });
 });
 
-// Dynamic Blog Post SSR Routing (Lightweight Hydration)
+// Explicit clean URLs for main pages
+app.get('/blog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'blog.html'));
+});
+app.get('/courses', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'courses.html'));
+});
+app.get('/talkshow', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'talkshow.html'));
+});
+app.get('/tests', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'tests.html'));
+});
+
+// Khoa hoc detail routing
+app.get('/khoa-hoc/:slug', (req, res) => {
+  const cleanSlug = req.params.slug.replace(/\.html$/, '');
+  const staticPath = path.join(__dirname, 'public', 'khoa-hoc', `${cleanSlug}.html`);
+  const fs = require('fs');
+  if (fs.existsSync(staticPath)) {
+    return res.sendFile(staticPath);
+  }
+  return res.sendFile(path.join(__dirname, 'public', 'courses.html'));
+});
+
+// Dynamic Blog Post SSR Routing (Lightweight Hydration + Static Pre-rendered Check)
 app.get('/blog/:slug', (req, res) => {
   const fs = require('fs');
-  const slug = req.params.slug;
+  const slug = req.params.slug.replace(/\.html$/, '');
+  
+  // 1. First priority: Check pre-rendered static HTML file in public/blog/
+  const staticBlogPath = path.join(__dirname, 'public', 'blog', `${slug}.html`);
+  if (fs.existsSync(staticBlogPath)) {
+    return res.sendFile(staticBlogPath);
+  }
+
+  // 2. Second priority: Dynamic SSR hydration from posts.json
   const postsPath = path.join(__dirname, 'public', 'data', 'posts.json');
   const templatePath = path.join(__dirname, 'public', 'blog-post-template.html');
 
   fs.readFile(postsPath, 'utf8', (err, postsData) => {
     if (err) {
       console.error("Read posts error:", err);
-      return res.redirect('/blog');
+      return res.sendFile(path.join(__dirname, 'public', 'blog.html'));
     }
     
     try {
@@ -324,20 +357,18 @@ app.get('/blog/:slug', (req, res) => {
       const post = posts.find(p => p.slug === slug);
       
       if (!post) {
-        // Post not found -> redirect to main blog listing
-        return res.redirect('/blog');
+        // Post not found -> show main blog listing
+        return res.sendFile(path.join(__dirname, 'public', 'blog.html'));
       }
 
       fs.readFile(templatePath, 'utf8', (err, templateData) => {
         if (err) {
           console.error("Read template error:", err);
-          return res.redirect('/blog');
+          return res.sendFile(path.join(__dirname, 'public', 'blog.html'));
         }
 
-        // 1. Strip HTML tags from content to make a clean plain-text articleBody for AI Search
         const plainTextContent = post.content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 
-        // 2. Generate Google SGE / AI Search JSON-LD script
         const jsonLd = `
         <script type="application/ld+json">
         {
@@ -364,7 +395,6 @@ app.get('/blog/:slug', (req, res) => {
         </script>
         `;
 
-        // 3. Hydrate the template with variables
         let html = templateData
           .replace(/\{\{TITLE\}\}/g, post.title)
           .replace(/\{\{META_DESC\}\}/g, post.description)
@@ -380,7 +410,7 @@ app.get('/blog/:slug', (req, res) => {
       });
     } catch (parseErr) {
       console.error("Parse posts error:", parseErr);
-      return res.redirect('/blog');
+      return res.sendFile(path.join(__dirname, 'public', 'blog.html'));
     }
   });
 });
