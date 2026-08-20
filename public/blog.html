@@ -77,20 +77,20 @@
       <!-- FEATURED POST -->
       <section class="featured-section">
         <div class="container">
-          <article class="featured-card" id="featured-post-card" style="display: none;">
+          <article class="featured-card" id="featured-post-card">
             <div class="featured-img-wrapper">
-              <img id="featured-image" src="asset/blog_featured.png" alt="Featured Post" loading="eager" />
+              <img id="featured-image" src="asset/blog_tarot_psychology.jpg" alt="Tarot và Tâm Lý Học" loading="eager" />
             </div>
             <div class="featured-content">
               <div class="featured-meta">
                 <span id="featured-category" class="badge-psychology">Tâm lý học</span>
-                <span id="featured-read-time" class="read-time">8 phút đọc</span>
+                <span id="featured-read-time" class="read-time">10 phút đọc</span>
               </div>
               <h2 class="featured-title">
-                <a id="featured-title-link" href="#">Đang tải bài viết...</a>
+                <a id="featured-title-link" href="/blog/tarot-va-tam-ly-hoc">Tarot và Tâm Lý Học: Giải Mã Vì Sao Bạn Mắc Kẹt Trong Vòng Lặp "Lần Này Sẽ Khác"</a>
               </h2>
               <p id="featured-desc" class="featured-desc">
-                Đang tải mô tả bài viết nổi bật từ hệ thống...
+                Khám phá mối liên hệ sâu sắc giữa Tarot và tâm lý học Carl Jung. Hiểu rõ cơ chế thiên kiến lạc quan, thiên kiến xác nhận và cách dùng 22 lá Ẩn chính làm tấm gương phản chiếu nội tâm để bẻ gãy vòng lặp vô thức.
               </p>
               
               <div class="featured-author">
@@ -98,13 +98,13 @@
                   <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 </div>
                 <div class="author-details">
-                  <div id="featured-author-name" class="author-name">Tác giả</div>
-                  <div id="featured-date" class="author-date">Ngày đăng</div>
+                  <div id="featured-author-name" class="author-name">The LifeSkill Hub Team</div>
+                  <div id="featured-date" class="author-date">20 Tháng 8, 2026</div>
                 </div>
               </div>
 
               <div>
-                <a id="featured-read-more-btn" href="#" class="btn-read-more">
+                <a id="featured-read-more-btn" href="/blog/tarot-va-tam-ly-hoc" class="btn-read-more">
                   Đọc tiếp 
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
@@ -477,15 +477,27 @@
       var allPosts = [];
       var displayedCount = 0;
 
-      // Fetch all posts from API
-      fetch('/api/posts')
-        .then(function(res) { return res.json(); })
+      // Fetch all posts from API with fallback to static data and cache-busting
+      fetch('/api/posts?v=' + Date.now())
+        .then(function(res) {
+          if (!res.ok) throw new Error("API returned " + res.status);
+          return res.json();
+        })
         .then(function(posts) {
           allPosts = posts;
           renderBlogPage();
         })
         .catch(function(err) {
-          console.error("Error loading blog posts:", err);
+          console.warn("Falling back to static /data/posts.json:", err);
+          fetch('/data/posts.json?v=' + Date.now())
+            .then(function(r) { return r.json(); })
+            .then(function(posts) {
+              allPosts = posts;
+              renderBlogPage();
+            })
+            .catch(function(e) {
+              console.error("Failed to load blog posts:", e);
+            });
         });
 
       function renderBlogPage() {

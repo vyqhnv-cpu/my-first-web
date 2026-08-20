@@ -16,3 +16,6 @@ temp_sqlite/
 # Environment and DB
 .env
 *.db
+
+# Document reference files
+data/document/
