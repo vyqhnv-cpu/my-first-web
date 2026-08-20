@@ -420,6 +420,14 @@ app.get('/index.html', (req, res) => {
   res.redirect(301, '/');
 });
 
+// Redirect old course 99 to new custom URL
+app.get('/course-detail.html', (req, res, next) => {
+  if (req.query.id === '99') {
+    return res.redirect(301, '/khoa-hoc/tarot-va-tam-ly-hoc');
+  }
+  next();
+});
+
 // Serve static files from the public folder (auto-resolves .html and .css)
 app.use(express.static(path.join(__dirname, 'public'), {
   extensions: ['html'],
