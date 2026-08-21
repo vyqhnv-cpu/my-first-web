@@ -21,12 +21,23 @@ conn.on('ready', () => {
     cd /opt/my-website
 
     echo "--- 2. Cloning Repository ---"
+    # Backup DB to prevent overwriting during git operations
+    if [ -f "my-brain/brain.db" ]; then
+      cp my-brain/brain.db /tmp/brain_backup.db
+    fi
+
     if [ ! -d ".git" ]; then
       git clone https://github.com/vyqhnv-cpu/my-first-web.git .
     else
       git fetch origin
       git reset --hard origin/main
       git clean -fd
+    fi
+
+    # Restore DB
+    if [ -f "/tmp/brain_backup.db" ]; then
+      mkdir -p my-brain
+      cp /tmp/brain_backup.db my-brain/brain.db
     fi
 
     echo "--- 3. Installing Node.js LTS (if missing) ---"
