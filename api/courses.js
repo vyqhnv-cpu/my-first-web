@@ -83,7 +83,22 @@ module.exports = () => {
     }
   ];
 
+
+  const applyDynamicPrice = (course) => {
+    if (course && (course.id === 99 || course.id == '99')) {
+      const now = new Date();
+      const targetDate = new Date('2026-08-22T23:59:59+07:00');
+      if (now <= targetDate) {
+        return { ...course, price: 0, original_price: 700000 };
+      } else {
+        return { ...course, price: 700000, original_price: null };
+      }
+    }
+    return course;
+  };
+
   // Helper to merge DB data with mock fallbacks
+
   function mergeCourse(dbRow) {
     const fallback = mockCourses.find(c => c.id == dbRow.id) || mockCourses[0];
     
@@ -160,11 +175,11 @@ module.exports = () => {
 
     if (coursesCache) {
       // Stale-while-revalidate: Trả kết quả ngay lập tức từ Cache, sau đó fetch ngầm
-      res.json(coursesCache);
+      res.json(coursesCache.map(applyDynamicPrice));
       fetchFreshData();
     } else {
       // Chưa có cache, trả luôn mockCourses cho nhanh, fetch ngầm cho lần sau
-      res.json(getSortedMock());
+      res.json(getSortedMock().map(applyDynamicPrice));
       fetchFreshData();
     }
   });
@@ -180,10 +195,10 @@ module.exports = () => {
       }
       
       const merged = mergeCourse(data);
-      res.json(merged);
+      res.json(applyDynamicPrice(merged));
     } catch (err) {
       const mock = mockCourses.find(c => c.id == id);
-      if (mock) return res.json(mock);
+      if (mock) return res.json(applyDynamicPrice(mock));
       return res.status(500).json({ error: err.message });
     }
   });
