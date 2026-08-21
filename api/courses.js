@@ -72,7 +72,7 @@ module.exports = () => {
       category: 'TÂM LÝ HỌC',
       category_class: 'data-science', 
       price: 199000,
-      original_price: 700000,
+      original_price: null,
       sessions: '8 Buổi qua Zoom',
       size_limit: 'Khai giảng 25/8/2026',
       badge: 'Đặc biệt',
@@ -86,13 +86,7 @@ module.exports = () => {
 
   const applyDynamicPrice = (course) => {
     if (course && (course.id === 99 || course.id == '99')) {
-      const now = new Date();
-      const targetDate = new Date('2026-08-22T23:59:59+07:00');
-      if (now <= targetDate) {
-        return { ...course, price: 0, original_price: 700000 };
-      } else {
-        return { ...course, price: 700000, original_price: null };
-      }
+      return { ...course, price: 199000, original_price: null };
     }
     return course;
   };
