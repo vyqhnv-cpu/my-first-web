@@ -1,6 +1,6 @@
 require('dotenv').config();
-const { supabase } = require('./lib/supabase');
-const { runAsync } = require('./lib/db');
+const { supabase } = require('../lib/supabase');
+const { runAsync } = require('../lib/db');
 
 async function migrate() {
   console.log('Fetching enrollments from Supabase...');
