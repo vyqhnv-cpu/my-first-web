@@ -68,7 +68,7 @@ module.exports = () => {
     },
     {
       id: 99,
-      title: 'Khóa học Tarot & Tâm lý học — Hiểu chính mình qua 22 lá Ẩn chính',
+      title: 'Chuỗi workshop Tarot & Tâm lý học — Hiểu chính mình qua 22 lá Ẩn chính',
       category: 'TÂM LÝ HỌC',
       category_class: 'data-science', 
       price: 199000,
@@ -77,7 +77,7 @@ module.exports = () => {
       size_limit: 'Khai giảng 25/8/2026',
       badge: 'Đặc biệt',
       image_url: 'asset/vn_talkshow_mindset.png',
-      description: 'Khóa học Tarot & Tâm lý học 8 buổi Online. Giải mã 22 lá Ẩn chính dưới góc nhìn tâm lý học, hiểu vòng lặp suy nghĩ và hành vi của chính mình.',
+      description: 'Chuỗi workshop Tarot & Tâm lý học 8 buổi Online. Giải mã 22 lá Ẩn chính dưới góc nhìn tâm lý học, hiểu vòng lặp suy nghĩ và hành vi của chính mình.',
       custom_url: '/khoa-hoc/tarot-va-tam-ly-hoc',
       curriculum: []
     }
