@@ -606,14 +606,20 @@
                       if (window.trackFbEvent) {
                         window.trackFbEvent('Lead', { content_name: document.title }, { email: payload.email, phone: payload.phone });
                       }
-                      // Gọi sự kiện Google Ads conversion
+                      // Gọi sự kiện Google Ads conversion và chuyển hướng
                       if (typeof gtag_report_conversion === 'function') {
-                        gtag_report_conversion(); // Gọi không có tham số URL để không bị redirect
+                        gtag_report_conversion('/thank-you.html'); 
+                      } else {
+                        window.location.href = '/thank-you.html';
                       }
-                    } catch(e) {}
+                    } catch(e) {
+                      window.location.href = '/thank-you.html';
+                    }
                     msgBox.style.color = '#10B981';
-                    msgBox.textContent = 'Ghi danh thành công! Đội ngũ tư vấn sẽ liên hệ với bạn trong 24h tới.';
+                    msgBox.textContent = 'Đang chuyển hướng...';
                     this.reset();
+                    // Fallback
+                    setTimeout(() => window.location.href = '/thank-you.html', 1000);
                   } else {
                     throw new Error(data.error || 'Có lỗi xảy ra');
                   }

@@ -511,8 +511,9 @@
                   const data = await response.json();
                   if (data.success) {
                     msgBox.style.color = '#10B981'; // Green
-                    msgBox.textContent = 'Đăng ký thành công! Chuyên gia sẽ sớm liên hệ với bạn qua Zalo.';
+                    msgBox.textContent = 'Đang chuyển hướng...';
                     this.reset();
+                    setTimeout(() => window.location.href = '/thank-you.html', 500);
                   } else {
                     throw new Error(data.error || 'Có lỗi xảy ra, vui lòng thử lại.');
                   }
