@@ -15,6 +15,9 @@ conn.on('ready', () => {
     git reset --hard origin/main
     git clean -fd
     
+    echo "--- 3. Restarting Service ---"
+    sudo systemctl restart mywebsite
+    
     echo "✅ Fast deploy completed! Static assets and pages are updated on VPS."
   `;
 
