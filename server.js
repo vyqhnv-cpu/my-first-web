@@ -395,15 +395,58 @@ app.get('/blog/:slug', (req, res) => {
         </script>
         `;
 
+        const currentUrl = `https://thelifeskillhub.com/blog/${post.slug}`;
+        const encodedTitle = encodeURIComponent(post.title);
+        
+        let keyPointsHtml = '';
+        if (post.key_points && Array.isArray(post.key_points) && post.key_points.length > 0) {
+          const listItems = post.key_points.map(pt => `<li>${pt}</li>`).join('\n        ');
+          keyPointsHtml = `
+            <div class="key-points-box">
+              <div class="key-points-title">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <span>KEY POINTS — ĐIỂM CỐT LÕI</span>
+              </div>
+              <ul class="key-points-list">
+                ${listItems}
+              </ul>
+            </div>
+          `;
+        }
+
+        let related = posts.filter(p => p.slug !== post.slug && p.category === post.category);
+        if (related.length < 3) {
+          const others = posts.filter(p => p.slug !== post.slug && p.category !== post.category);
+          related = related.concat(others.slice(0, 3 - related.length));
+        }
+        related = related.slice(0, 4);
+
+        const relatedPostsHtml = related.map(p => `
+          <a href="/blog/${p.slug}" class="essential-read-item">
+            <img src="../${p.image_url}" alt="${p.title}" class="essential-read-thumb" loading="lazy" />
+            <div class="essential-read-info">
+              <div class="essential-read-title">${p.title}</div>
+              <div class="essential-read-meta">${p.read_time} • ${p.date}</div>
+            </div>
+          </a>
+        `).join('\n');
+
         let html = templateData
           .replace(/\{\{TITLE\}\}/g, post.title)
           .replace(/\{\{META_DESC\}\}/g, post.description)
           .replace(/\{\{CATEGORY\}\}/g, post.category)
+          .replace(/\{\{CATEGORY_NAME\}\}/g, post.category)
           .replace(/\{\{READ_TIME\}\}/g, post.read_time)
           .replace(/\{\{AUTHOR\}\}/g, post.author)
           .replace(/\{\{DATE\}\}/g, post.date)
           .replace(/\{\{IMAGE_URL\}\}/g, post.image_url)
           .replace(/\{\{CONTENT\}\}/g, post.content)
+          .replace(/\{\{KEY_POINTS_HTML\}\}/g, keyPointsHtml)
+          .replace(/\{\{RELATED_POSTS_HTML\}\}/g, relatedPostsHtml)
+          .replace(/\{\{CURRENT_URL\}\}/g, currentUrl)
+          .replace(/\{\{ENCODED_TITLE\}\}/g, encodedTitle)
           .replace(/\{\{JSON_LD\}\}/g, jsonLd);
 
         return res.send(html);
