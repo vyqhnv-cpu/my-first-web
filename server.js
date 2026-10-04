@@ -128,6 +128,264 @@ app.post('/api/send-email', async (req, res) => {
 // Protect admin static folder
 app.use('/admin', authMiddleware, express.static(path.join(__dirname, 'admin')));
 
+// ATTACHMENT TEST ENDPOINTS (SQLite)
+const crypto = require('crypto');
+const { runAsync, queryAsync, getAsync } = require('./lib/db');
+const interviewsDb = require('./lib/interviews_db');
+
+function generateLinkCode() {
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  let result = 'GB-';
+  for (let i = 0; i < 6; i++) {
+    result += chars.charAt(crypto.randomInt(0, chars.length));
+  }
+  return result;
+}
+
+app.post('/api/attachment-test/submit', async (req, res) => {
+  try {
+    const data = req.body;
+    
+    // Validate required fields
+    if (!data.age || data.age < 18 || data.age > 30) return res.status(400).json({ error: 'Tuổi không hợp lệ' });
+    if (data.district === 'Ngoài TP.HCM') return res.status(400).json({ error: 'Ngoài TP.HCM' });
+    if (!data.answers || Object.keys(data.answers).length < 24) return res.status(400).json({ error: 'Thiếu câu trả lời' });
+
+    for (let i = 1; i <= 24; i++) {
+      const val = parseInt(data.answers[i]);
+      if (isNaN(val) || val < 1 || val > 7) return res.status(400).json({ error: 'Đáp án không hợp lệ' });
+    }
+
+    const reversedIds = [4, 7, 10, 15, 18, 22];
+    const anxietyIds = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23];
+    const avoidanceIds = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24];
+    
+    let anxietySum = 0;
+    let avoidanceSum = 0;
+    
+    for (let i = 1; i <= 24; i++) {
+      let val = parseInt(data.answers[i]);
+      if (reversedIds.includes(i)) val = 8 - val;
+      if (anxietyIds.includes(i)) anxietySum += val;
+      if (avoidanceIds.includes(i)) avoidanceSum += val;
+    }
+    
+    const anxietyScore = anxietySum / 12;
+    const avoidanceScore = avoidanceSum / 12;
+    const CUTOFF = 4.0;
+    
+    let style = "";
+    if(anxietyScore < CUTOFF && avoidanceScore < CUTOFF) style = "An toàn";
+    else if(anxietyScore >= CUTOFF && avoidanceScore < CUTOFF) style = "Lo âu – bận tâm";
+    else if(anxietyScore < CUTOFF && avoidanceScore >= CUTOFF) style = "Xa cách – né tránh";
+    else style = "Sợ hãi – né tránh";
+
+    const response_id = crypto.randomUUID();
+    const submitted_at = new Date().toISOString();
+    
+    let link_code = null;
+    let isUnique = false;
+    while (!isUnique) {
+      link_code = generateLinkCode();
+      const row = await getAsync('SELECT link_code FROM attachment_responses WHERE link_code = ?', [link_code]);
+      if (!row) isUnique = true;
+    }
+    
+    await runAsync(`
+      INSERT INTO attachment_responses (
+        response_id, submitted_at, version, duration_seconds, age, gender, district, years_in_hcmc, 
+        occupation, living_with, relationship_status, num_relationships, 
+        q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, 
+        q13, q14, q15, q16, q17, q18, q19, q20, q21, q22, q23, q24, 
+        anxiety_score, avoidance_score, style, link_code
+      ) VALUES (
+        ?, ?, ?, ?, ?, ?, ?, ?, 
+        ?, ?, ?, ?, 
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+        ?, ?, ?, ?
+      )
+    `, [
+      response_id, submitted_at, data.version || "v1-pilot", data.duration_seconds || 0,
+      data.age, data.gender || "", data.district || "", data.years_in_hcmc || "",
+      data.occupation || "", data.living_with || "", data.relationship_status || "", data.num_relationships || "",
+      data.answers[1], data.answers[2], data.answers[3], data.answers[4], data.answers[5], data.answers[6],
+      data.answers[7], data.answers[8], data.answers[9], data.answers[10], data.answers[11], data.answers[12],
+      data.answers[13], data.answers[14], data.answers[15], data.answers[16], data.answers[17], data.answers[18],
+      data.answers[19], data.answers[20], data.answers[21], data.answers[22], data.answers[23], data.answers[24],
+      anxietyScore, avoidanceScore, style, link_code
+    ]);
+
+    res.json({ success: true, link_code });
+  } catch (err) {
+    console.error('Attachment Submit Error:', err);
+    res.status(500).json({ error: 'Lỗi server' });
+  }
+});
+
+app.get('/admin/export-attachment', authMiddleware, async (req, res) => {
+  try {
+    const rows = await queryAsync('SELECT * FROM attachment_responses');
+    if (!rows || rows.length === 0) return res.send('Chưa có dữ liệu nào.');
+    
+    // Loai bo link_code khoi CSV an danh
+    const fields = Object.keys(rows[0]).filter(f => f !== 'link_code');
+    const csvRows = [];
+    csvRows.push(fields.join(',')); 
+    for (const row of rows) {
+      const values = fields.map(field => {
+        let val = row[field];
+        if (val === null || val === undefined) val = '';
+        val = String(val).replace(/"/g, '""');
+        if (val.search(/("|,|\n)/g) >= 0) val = `"${val}"`;
+        return val;
+      });
+      csvRows.push(values.join(','));
+    }
+    const csvData = csvRows.join('\n');
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename=attachment_responses.csv');
+    res.write('\ufeff');
+    res.end(csvData);
+  } catch (err) {
+    res.status(500).send('Lỗi xuất dữ liệu.');
+  }
+});
+
+// THONG TIN DANG KY PHONG VAN (Kho cach ly)
+const attemptCache = new Map();
+
+app.post('/api/interviews/submit', async (req, res) => {
+  try {
+    const ip = req.ip || req.connection.remoteAddress;
+    const now = Date.now();
+    let userAttempts = attemptCache.get(ip) || { count: 0, firstAttempt: now };
+    
+    // Chong do ma (max 5/15m)
+    if (now - userAttempts.firstAttempt > 15 * 60 * 1000) {
+      userAttempts = { count: 0, firstAttempt: now };
+    }
+    if (userAttempts.count >= 5) {
+      return res.status(429).json({ error: 'Bạn đã thử sai quá nhiều lần. Vui lòng thử lại sau 15 phút.' });
+    }
+
+    const { nickname, contact_method, contact_value, preferred_format, availability, consent_contact, consent_link_results, link_code } = req.body;
+    
+    if (!nickname || !contact_method || !contact_value || !preferred_format || !consent_contact) {
+      return res.status(400).json({ error: 'Thiếu thông tin bắt buộc' });
+    }
+
+    let finalLinkCode = '';
+    if (consent_link_results && link_code) {
+      const row = await getAsync('SELECT response_id FROM attachment_responses WHERE link_code = ?', [link_code.trim()]);
+      if (!row) {
+        userAttempts.count++;
+        attemptCache.set(ip, userAttempts);
+        return res.status(400).json({ error: 'Mã chưa đúng, bạn kiểm tra lại hoặc để trống' });
+      }
+      finalLinkCode = link_code.trim();
+    }
+
+    // Check trung lap contact_value trong 24h
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    const dup = await interviewsDb.getAsync('SELECT registration_id FROM interview_registrations WHERE contact_value = ? AND submitted_at > ?', [contact_value, yesterday]);
+    if (dup) {
+      return res.status(400).json({ error: 'Thông tin liên hệ này đã được đăng ký gần đây.' });
+    }
+
+    const reg_id = crypto.randomUUID();
+    await interviewsDb.runAsync(`
+      INSERT INTO interview_registrations (
+        registration_id, submitted_at, nickname, contact_method, contact_value, 
+        preferred_format, availability, consent_contact, consent_link_results, link_code, status
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `, [
+      reg_id, new Date().toISOString(), nickname, contact_method, contact_value, 
+      preferred_format, JSON.stringify(availability || []), consent_contact ? 1 : 0, 
+      consent_link_results ? 1 : 0, finalLinkCode, 'moi'
+    ]);
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Interview Submit Error:', err);
+    res.status(500).json({ error: 'Lỗi server' });
+  }
+});
+
+// Admin API
+app.get('/admin/api/interviews', authMiddleware, async (req, res) => {
+  try {
+    const rows = await interviewsDb.queryAsync('SELECT * FROM interview_registrations ORDER BY submitted_at DESC');
+    for (const row of rows) {
+      if (row.link_code) {
+        const testRow = await getAsync('SELECT age, anxiety_score, avoidance_score, style FROM attachment_responses WHERE link_code = ?', [row.link_code]);
+        if (testRow) {
+          row.test_data = testRow;
+        }
+      }
+    }
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: 'Lỗi truy vấn' });
+  }
+});
+
+app.post('/admin/api/interviews/update', authMiddleware, async (req, res) => {
+  try {
+    const { registration_id, status, notes } = req.body;
+    await interviewsDb.runAsync('UPDATE interview_registrations SET status = ?, notes = ? WHERE registration_id = ?', [status, notes, registration_id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Lỗi cập nhật' });
+  }
+});
+
+app.post('/admin/api/interviews/delete', authMiddleware, async (req, res) => {
+  try {
+    const { registration_id } = req.body;
+    await interviewsDb.runAsync('DELETE FROM interview_registrations WHERE registration_id = ?', [registration_id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Lỗi xóa' });
+  }
+});
+
+app.post('/admin/api/interviews/delete_test', authMiddleware, async (req, res) => {
+  try {
+    const { link_code } = req.body;
+    await runAsync('DELETE FROM attachment_responses WHERE link_code = ?', [link_code]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Lỗi xóa test' });
+  }
+});
+
+app.get('/admin/export-interviews', authMiddleware, async (req, res) => {
+  try {
+    const rows = await interviewsDb.queryAsync('SELECT * FROM interview_registrations');
+    if (!rows || rows.length === 0) return res.send('Chưa có dữ liệu nào.');
+    const fields = Object.keys(rows[0]);
+    const csvRows = [];
+    csvRows.push(fields.join(',')); 
+    for (const row of rows) {
+      const values = fields.map(field => {
+        let val = row[field];
+        if (val === null || val === undefined) val = '';
+        val = String(val).replace(/"/g, '""');
+        if (val.search(/("|,|\n)/g) >= 0) val = `"${val}"`;
+        return val;
+      });
+      csvRows.push(values.join(','));
+    }
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename=interview_registrations.csv');
+    res.write('\ufeff');
+    res.end(csvRows.join('\n'));
+  } catch (err) {
+    res.status(500).send('Lỗi xuất dữ liệu.');
+  }
+});
+
 // Load API routes (they use Supabase internally)
 app.use('/api/products', require('./api/products')());
 app.use('/api/customers', require('./api/customers')());

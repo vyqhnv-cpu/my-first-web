@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng ký trò chuyện nghiên cứu</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .registration-container {
+      max-width: 650px;
+      margin: 3rem auto;
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 2.5rem;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--color-dark);
+    }
+    .form-control, .form-select {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 1rem;
+      cursor: pointer;
+    }
+    .checkbox-group input[type="checkbox"] {
+      margin-top: 5px;
+      width: 18px;
+      height: 18px;
+    }
+    .checkbox-label {
+      line-height: 1.5;
+      font-size: 0.95rem;
+      color: var(--color-dark);
+    }
+    .error-msg {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      border-radius: var(--radius-sm);
+      margin-top: 1.5rem;
+    }
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+    .success-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    .summary-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--color-primary);
+      padding: 1.25rem;
+      border-radius: 4px;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    @media (max-width: 600px) {
+      .registration-container {
+        padding: 1.5rem 1rem;
+        margin: 1.5rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="nav-logo" aria-label="The LifeSkill Hub — Trang chủ">
+        <span class="brand-text">The LifeSkill <span class="brand-accent">Hub</span></span>
+      </a>
+
+      <nav class="nav" id="site-nav" aria-label="Chính">
+        <a href="/">Trang chủ</a>
+        <a href="courses.html">Khóa học</a>
+        <a href="talkshow.html">Talkshow</a>
+        <a href="tests.html">Bài test</a>
+        <a href="blog.html">Blog</a>
+      </nav>
+
+      <div class="header-tools">
+        <button
+          type="button"
+          class="nav-toggle"
+          id="nav-toggle"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          onclick="document.getElementById('site-nav').classList.toggle('active')"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="registration-container" id="form-container">
+    <h1 style="text-align: center; margin-bottom: 1.5rem; color: var(--color-dark);">Đăng ký phỏng vấn chuyên sâu</h1>
+    
+    <div class="summary-box">
+      <strong>Về buổi trò chuyện:</strong>
+      <ul style="margin-top: 0.5rem; padding-left: 1.2rem;">
+        <li><strong>Thời lượng:</strong> Khoảng 45–60 phút.</li>
+        <li><strong>Chủ đề:</strong> Trải nghiệm của bạn trong các mối quan hệ thân thiết.</li>
+        <li><strong>Hình thức:</strong> Online hoặc trực tiếp (tùy bạn chọn).</li>
+        <li><strong>Ghi âm:</strong> Nếu có ghi âm, chúng tôi sẽ hỏi xin phép riêng trước khi bắt đầu.</li>
+        <li><strong>Quyền lợi:</strong> Bạn có thể rút lui và yêu cầu xóa dữ liệu bất cứ lúc nào.</li>
+      </ul>
+      <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--color-muted);">
+        *Thông tin liên hệ bên dưới chỉ dùng duy nhất cho mục đích sắp xếp lịch hẹn.
+      </div>
+    </div>
+
+    <form id="interview-form" onsubmit="submitForm(event)">
+      <div class="form-group">
+        <label class="form-label">Tên gọi của bạn (Bắt buộc)</label>
+        <input type="text" id="nickname" class="form-control" placeholder="Tên thân mật, không bắt buộc tên thật" required>
+      </div>
+
+      <div class="form-group" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 150px;">
+          <label class="form-label">Cách liên hệ (Bắt buộc)</label>
+          <select id="contact_method" class="form-select" required onchange="updateContactPlaceholder()">
+            <option value="">-- Chọn --</option>
+            <option value="Zalo">Zalo</option>
+            <option value="Messenger">Messenger (Link FB)</option>
+            <option value="Email">Email</option>
+            <option value="SĐT">Số điện thoại</option>
+          </select>
+        </div>
+        <div style="flex: 2; min-width: 250px;">
+          <label class="form-label">Thông tin liên hệ (Bắt buộc)</label>
+          <input type="text" id="contact_value" class="form-control" placeholder="Nhập thông tin tương ứng" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Hình thức phỏng vấn mong muốn (Bắt buộc)</label>
+        <select id="preferred_format" class="form-select" required>
+          <option value="">-- Chọn --</option>
+          <option value="Online">Online (Google Meet/Zoom)</option>
+          <option value="Offline">Trực tiếp (Tại quán cafe, văn phòng...)</option>
+          <option value="Flexible">Linh hoạt (Sao cũng được)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Khung giờ thuận tiện (Có thể chọn nhiều)</label>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem;">
+          <label class="checkbox-group"><input type="checkbox" name="availability" value="Sáng"> <span class="checkbox-label">Buổi sáng</span></label>
+          <label class="checkbox-group"><input type="checkbox" name="availability" value="Chiều"> <span class="checkbox-label">Buổi chiều</span></label>
+          <label class="checkbox-group"><input type="checkbox" name="availability" value="Tối"> <span class="checkbox-label">Buổi tối</span></label>
+          <label class="checkbox-group"><input type="checkbox" name="availability" value="Cuối tuần"> <span class="checkbox-label">Cuối tuần</span></label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Mã liên kết bài test (Không bắt buộc)</label>
+        <input type="text" id="link_code" class="form-control" placeholder="VD: GB-XXXXXX" style="font-family: monospace; font-size: 1.1rem; letter-spacing: 1px;">
+        <div style="font-size: 0.85rem; color: var(--color-muted); margin-top: 0.5rem;">Nhập mã nếu bạn muốn nhóm nghiên cứu xem được kết quả bài test của bạn.</div>
+      </div>
+
+      <div style="margin-top: 2rem; border-top: 1px solid #e2e8f0; padding-top: 1.5rem;">
+        <label class="checkbox-group">
+          <input type="checkbox" id="consent_contact" required>
+          <span class="checkbox-label">Tôi đồng ý để nhóm nghiên cứu liên hệ với tôi qua thông tin trên để sắp xếp buổi trò chuyện. (*)</span>
+        </label>
+        
+        <label class="checkbox-group">
+          <input type="checkbox" id="consent_link_results">
+          <span class="checkbox-label">Tôi đồng ý cho nhóm nghiên cứu liên kết đăng ký này với kết quả bài test của tôi (thông qua mã liên kết ở trên).</span>
+        </label>
+        
+        <div id="consent-link-container" style="display: none; margin-top: 10px; margin-left: 28px;">
+          <a href="#" id="consent-url-link" target="_blank" style="font-size: 0.9rem; color: var(--color-primary); font-weight: 500;">📄 Đọc phiếu thông tin chi tiết</a>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary-purple btn-submit">Hoàn tất đăng ký</button>
+    </form>
+  </div>
+
+  <div class="registration-container success-message" id="success-container">
+    <div class="success-icon">🎉</div>
+    <h2 style="margin-bottom: 1rem; color: var(--color-dark);">Đăng ký thành công!</h2>
+    <p style="font-size: 1.1rem; color: var(--color-muted); line-height: 1.6;" id="success-msg">
+      Cảm ơn bạn. Nhóm nghiên cứu sẽ liên hệ trong vòng 7 ngày.<br>
+      Bạn có thể rút lui bất cứ lúc nào bằng cách nhắn lại cho chúng tôi.
+    </p>
+    <a href="/" style="display: inline-block; margin-top: 2rem; color: var(--color-primary); font-weight: 600;">Quay lại trang chủ</a>
+  </div>
+
+  <script>
+    // Configuration constants
+    const CONFIG = {
+      REQUIRE_TEST_CODE: false,
+      INTERVIEW_CONSENT_URL: "", // Ví dụ: "/phieu-dong-y.pdf"
+      CONTACT_DAYS: 7
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Đọc mã từ URL nếu có
+      const urlParams = new URLSearchParams(window.location.search);
+      const codeFromUrl = urlParams.get('code');
+      if(codeFromUrl) {
+        document.getElementById('link_code').value = codeFromUrl;
+      }
+
+      // Xử lý hiển thị link phiếu đồng ý
+      if(CONFIG.INTERVIEW_CONSENT_URL) {
+        document.getElementById('consent-link-container').style.display = 'block';
+        document.getElementById('consent-url-link').href = CONFIG.INTERVIEW_CONSENT_URL;
+      }
+
+      // Thông báo số ngày liên hệ
+      document.getElementById('success-msg').innerHTML = `Cảm ơn bạn. Nhóm nghiên cứu sẽ liên hệ trong vòng ${CONFIG.CONTACT_DAYS} ngày.<br>Bạn có thể rút lui bất cứ lúc nào bằng cách nhắn lại cho chúng tôi.`;
+    });
+
+    function updateContactPlaceholder() {
+      const method = document.getElementById('contact_method').value;
+      const input = document.getElementById('contact_value');
+      if (method === 'Zalo' || method === 'SĐT') input.placeholder = 'Nhập số điện thoại';
+      else if (method === 'Messenger') input.placeholder = 'Nhập link Facebook của bạn';
+      else if (method === 'Email') input.placeholder = 'Nhập địa chỉ Email';
+      else input.placeholder = 'Nhập thông tin liên hệ';
+    }
+
+    function submitForm(event) {
+      event.preventDefault();
+      
+      const consentLink = document.getElementById('consent_link_results').checked;
+      let linkCode = document.getElementById('link_code').value.trim();
+      
+      // Nếu không đồng ý liên kết thì hủy mã đi
+      if (!consentLink) {
+        linkCode = '';
+      }
+
+      if (CONFIG.REQUIRE_TEST_CODE && !linkCode && consentLink) {
+        alert("Bạn đã đồng ý liên kết kết quả nhưng chưa nhập mã!");
+        return;
+      }
+
+      // Thu thập availabilities
+      const availabilities = [];
+      document.querySelectorAll('input[name="availability"]:checked').forEach(cb => {
+        availabilities.push(cb.value);
+      });
+
+      const payload = {
+        nickname: document.getElementById('nickname').value,
+        contact_method: document.getElementById('contact_method').value,
+        contact_value: document.getElementById('contact_value').value,
+        preferred_format: document.getElementById('preferred_format').value,
+        availability: availabilities,
+        link_code: linkCode,
+        consent_contact: document.getElementById('consent_contact').checked,
+        consent_link_results: consentLink
+      };
+
+      const btn = document.querySelector('.btn-submit');
+      btn.disabled = true;
+      btn.innerText = 'Đang xử lý...';
+      
+      fetch('/api/interviews/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json().then(data => ({status: res.status, body: data})))
+      .then(res => {
+        btn.disabled = false;
+        btn.innerText = 'Hoàn tất đăng ký';
+        
+        if (res.status !== 200) {
+          alert("Lỗi: " + (res.body.error || "Có lỗi xảy ra"));
+        } else {
+          document.getElementById('form-container').style.display = 'none';
+          document.getElementById('success-container').style.display = 'block';
+        }
+      })
+      .catch(err => {
+        btn.disabled = false;
+        btn.innerText = 'Hoàn tất đăng ký';
+        alert("Lỗi kết nối mạng, vui lòng thử lại!");
+      });
+    }
+  </script>
+</body>
+</html>

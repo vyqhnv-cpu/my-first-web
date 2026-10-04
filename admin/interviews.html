@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản trị Phỏng vấn sâu</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f8fafc; margin: 0; padding: 20px; color: #333; }
+    .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    h1 { margin-top: 0; color: #1e293b; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
+    th { background: #f1f5f9; font-weight: 600; }
+    tr:hover { background: #f8fafc; }
+    .btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+    .btn-primary { background: #3b82f6; color: white; }
+    .btn-danger { background: #ef4444; color: white; }
+    .btn-export { background: #10b981; color: white; text-decoration: none; display: inline-block; }
+    .badge { padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+    .bg-green { background: #dcfce3; color: #166534; }
+    .bg-gray { background: #f1f5f9; color: #475569; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+    .modal-content { background: white; width: 500px; margin: 50px auto; padding: 20px; border-radius: 8px; }
+    .warning-box { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 10px; border-radius: 4px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h1>Quản lý Đăng ký phỏng vấn</h1>
+      <div>
+        <a href="/admin/export-interviews" class="btn btn-export">📥 Xuất CSV Đăng ký</a>
+      </div>
+    </div>
+    
+    <div class="warning-box">
+      <strong>Lưu ý bảo mật:</strong> Dữ liệu này chứa thông tin liên hệ cá nhân. Tuyệt đối không chia sẻ file CSV ra bên ngoài.
+    </div>
+
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>Ngày ĐK</th>
+          <th>Nickname</th>
+          <th>Liên hệ</th>
+          <th>Hình thức & Giờ</th>
+          <th>Trạng thái</th>
+          <th>Liên kết Test</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <tr><td colspan="7">Đang tải dữ liệu...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Detail Modal -->
+  <div id="detailModal" class="modal">
+    <div class="modal-content">
+      <h2 style="margin-top: 0;">Chi tiết đăng ký</h2>
+      <div id="modalBody"></div>
+      
+      <div style="margin-top: 20px;">
+        <label>Đổi trạng thái:</label>
+        <select id="statusSelect" style="padding: 5px;">
+          <option value="moi">Mới</option>
+          <option value="da_lien_he">Đã liên hệ</option>
+          <option value="da_xac_nhan">Đã xác nhận</option>
+          <option value="da_phong_van">Đã phỏng vấn</option>
+          <option value="tu_choi">Từ chối</option>
+          <option value="rut_lui">Rút lui</option>
+        </select>
+      </div>
+      
+      <div style="margin-top: 15px;">
+        <label>Ghi chú:</label>
+        <textarea id="notesArea" style="width: 100%; height: 60px; margin-top: 5px;"></textarea>
+      </div>
+      
+      <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+        <button class="btn btn-primary" onclick="saveChanges()">Lưu thay đổi</button>
+        <button class="btn btn-danger" onclick="deleteReg()">Xóa dữ liệu (Rút lui)</button>
+        <button class="btn" style="background: #e2e8f0;" onclick="closeModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentData = [];
+    let currentSelectedId = null;
+
+    function loadData() {
+      fetch('/admin/api/interviews')
+        .then(res => res.json())
+        .then(data => {
+          currentData = data;
+          renderTable();
+        });
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+      if(currentData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7">Chưa có dữ liệu.</td></tr>';
+        return;
+      }
+      
+      currentData.forEach(row => {
+        const date = new Date(row.submitted_at).toLocaleString('vi-VN');
+        const contact = `${row.contact_method}: ${row.contact_value}`;
+        
+        let availStr = "";
+        try {
+          const arr = JSON.parse(row.availability);
+          availStr = arr.join(", ");
+        } catch(e){}
+        const formatTime = `${row.preferred_format} (${availStr})`;
+        
+        const linked = row.consent_link_results === 1 
+          ? `<span class="badge bg-green">Có mã</span>` 
+          : `<span class="badge bg-gray">Không</span>`;
+          
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${date}</td>
+          <td>${row.nickname}</td>
+          <td>${contact}</td>
+          <td>${formatTime}</td>
+          <td>${row.status}</td>
+          <td>${linked}</td>
+          <td><button class="btn btn-primary" onclick="openModal('${row.registration_id}')">Xem</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openModal(id) {
+      currentSelectedId = id;
+      const row = currentData.find(r => r.registration_id === id);
+      const modalBody = document.getElementById('modalBody');
+      
+      let availStr = "";
+      try { availStr = JSON.parse(row.availability).join(", "); } catch(e){}
+
+      let testHtml = '';
+      if(row.consent_link_results === 1 && row.test_data) {
+        testHtml = `
+          <div style="background: #f0fdf4; padding: 10px; border-radius: 4px; margin-top: 15px;">
+            <strong style="color: #166534;">Dữ liệu bài test liên kết (Mã: ${row.link_code}):</strong><br>
+            Phong cách: <b>${row.test_data.style}</b><br>
+            Điểm: Lo âu ${row.test_data.anxiety_score.toFixed(1)} / Né tránh ${row.test_data.avoidance_score.toFixed(1)}<br>
+            Tuổi: ${row.test_data.age}
+          </div>
+        `;
+      } else if (row.consent_link_results === 1 && !row.test_data) {
+        testHtml = `<div style="color: red; margin-top: 10px;">Có mã liên kết nhưng không tìm thấy dữ liệu test (Có thể đã bị xóa).</div>`;
+      }
+
+      modalBody.innerHTML = `
+        <p><strong>Nickname:</strong> ${row.nickname}</p>
+        <p><strong>Liên hệ:</strong> ${row.contact_method} - ${row.contact_value}</p>
+        <p><strong>Hình thức:</strong> ${row.preferred_format}</p>
+        <p><strong>Giờ rảnh:</strong> ${availStr}</p>
+        ${testHtml}
+      `;
+      
+      document.getElementById('statusSelect').value = row.status || 'moi';
+      document.getElementById('notesArea').value = row.notes || '';
+      
+      document.getElementById('detailModal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('detailModal').style.display = 'none';
+      currentSelectedId = null;
+    }
+
+    function saveChanges() {
+      if(!currentSelectedId) return;
+      const status = document.getElementById('statusSelect').value;
+      const notes = document.getElementById('notesArea').value;
+      
+      fetch('/admin/api/interviews/update', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ registration_id: currentSelectedId, status, notes })
+      }).then(res => res.json()).then(res => {
+        if(res.success) {
+          alert('Đã lưu!');
+          closeModal();
+          loadData();
+        }
+      });
+    }
+
+    function deleteReg() {
+      if(!currentSelectedId) return;
+      const row = currentData.find(r => r.registration_id === currentSelectedId);
+      
+      if(!confirm("BƯỚC 1: Bạn có chắc chắn muốn XÓA VĨNH VIỄN thông tin liên hệ của người này không?")) return;
+      
+      let alsoDeleteTest = false;
+      if(row.consent_link_results === 1 && row.link_code) {
+        alsoDeleteTest = confirm(`BƯỚC 2: Người này CÓ liên kết kết quả bài test (Mã: ${row.link_code}).\nBạn có muốn XÓA LUÔN kết quả bài test của họ trong CSDL nghiên cứu không?\n\n(Chọn OK để xóa cả bài test, Cancel để chỉ xóa thông tin đăng ký)`);
+      }
+
+      fetch('/admin/api/interviews/delete', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ registration_id: currentSelectedId })
+      }).then(res => res.json()).then(res => {
+        if(res.success) {
+          if(alsoDeleteTest) {
+            fetch('/admin/api/interviews/delete_test', {
+              method: 'POST',
+              headers: {'Content-Type':'application/json'},
+              body: JSON.stringify({ link_code: row.link_code })
+            }).then(() => {
+              alert('Đã xóa đăng ký VÀ bài test.');
+              closeModal();
+              loadData();
+            });
+          } else {
+            alert('Đã xóa đăng ký liên hệ.');
+            closeModal();
+            loadData();
+          }
+        }
+      });
+    }
+
+    window.onload = loadData;
+  </script>
+</body>
+</html>

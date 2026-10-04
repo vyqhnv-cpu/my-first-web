@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài test Phong cách gắn bó</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Styling dành riêng cho bài test */
+    .test-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 2rem;
+    }
+    .step-section {
+      display: none;
+    }
+    .step-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .question-item {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border: 1px solid var(--color-primary-light);
+      border-radius: var(--radius-md);
+      background-color: #faf9ff;
+    }
+    .question-text {
+      font-weight: 600;
+      color: var(--color-dark);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    .scale-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .scale-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      flex: 1;
+    }
+    .scale-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: var(--color-primary);
+      transition: all 0.2s ease;
+      background: white;
+    }
+    input[type="radio"] {
+      display: none;
+    }
+    input[type="radio"]:checked + .scale-circle {
+      background: var(--color-primary);
+      color: white;
+      transform: scale(1.1);
+      box-shadow: 0 4px 10px rgba(110, 60, 188, 0.3);
+    }
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--color-muted);
+      margin-top: 0.5rem;
+      padding: 0 10px;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--color-dark);
+    }
+    .form-control, .form-select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+    }
+    
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: var(--color-primary-light);
+      border-radius: 4px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    
+    .buttons-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+    
+    .btn-outline {
+      padding: 0.85rem 2rem;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-primary);
+      color: var(--color-primary);
+      background: transparent;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-outline:hover {
+      background: var(--color-primary-light);
+    }
+    
+    .error-msg {
+      color: #ef4444;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+    
+    /* Result specific styles */
+    .result-style-name {
+      font-size: 2.5rem;
+      text-align: center;
+      margin: 1rem 0;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    /* Ma trận 2x2 */
+    .matrix-container {
+      width: 300px;
+      height: 300px;
+      margin: 2rem auto;
+      border: 2px solid var(--color-dark);
+      position: relative;
+      background: #f8fafc;
+      border-radius: 8px;
+    }
+    .matrix-axis-x {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--color-muted);
+      transform: translateY(-50%);
+    }
+    .matrix-axis-y {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      background: var(--color-muted);
+      transform: translateX(-50%);
+    }
+    .matrix-label {
+      position: absolute;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-muted);
+    }
+    .ml-top { top: -25px; left: 50%; transform: translateX(-50%); }
+    .ml-bottom { bottom: -25px; left: 50%; transform: translateX(-50%); }
+    .ml-left { left: -50px; top: 50%; transform: translateY(-50%); }
+    .ml-right { right: -50px; top: 50%; transform: translateY(-50%); }
+    
+    .quadrant-label {
+      position: absolute;
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      opacity: 0.7;
+    }
+    .ql-tl { top: 10px; left: 10px; }
+    .ql-tr { top: 10px; right: 10px; }
+    .ql-bl { bottom: 10px; left: 10px; }
+    .ql-br { bottom: 10px; right: 10px; }
+    
+    .user-dot {
+      width: 16px;
+      height: 16px;
+      background: var(--color-secondary);
+      border-radius: 50%;
+      position: absolute;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.3);
+      z-index: 10;
+    }
+
+    .score-bars {
+      margin-top: 3rem;
+    }
+    .score-bar-row {
+      margin-bottom: 1.5rem;
+    }
+    .score-bar-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    .score-bar-track {
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .score-bar-fill {
+      height: 100%;
+      background: var(--color-primary);
+      border-radius: 6px;
+    }
+
+    /* Mobile optimization for scale */
+    @media (max-width: 600px) {
+      .scale-circle {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+      }
+      .scale-labels {
+        font-size: 0.75rem;
+      }
+      .test-container {
+        padding: 1.5rem 1rem;
+        margin: 1rem;
+      }
+      .matrix-container {
+        width: 250px;
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="nav-logo" aria-label="The LifeSkill Hub — Trang chủ">
+          <span class="brand-text">The LifeSkill <span class="brand-accent">Hub</span></span>
+        </a>
+
+        <nav class="nav" id="site-nav" aria-label="Chính">
+          <a href="/">Trang chủ</a>
+          <a href="courses.html">Khóa học</a>
+          <a href="talkshow.html">Talkshow</a>
+          <a href="tests.html" class="active">Bài test</a>
+          <a href="blog.html">Blog</a>
+        </nav>
+
+        <div class="header-tools">
+          <button
+            type="button"
+            class="nav-toggle"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="site-nav"
+            onclick="document.getElementById('site-nav').classList.toggle('active')"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+  <!-- Khối dữ liệu nội dung, tách riêng khỏi logic -->
+  <script>
+    const TEST_STRINGS = {
+      introTitle: "Khảo sát về cách chúng ta kết nối trong các mối quan hệ",
+      introTime: "⏱ Thời gian: khoảng 5–7 phút.",
+      introAnon: "🔒 Ẩn danh: không thu thập họ tên, số điện thoại hay thông tin định danh. Dữ liệu được lưu trên máy chủ riêng của nhóm nghiên cứu, chỉ dùng cho mục đích nghiên cứu, không chia sẻ cho bên thứ ba và chỉ được báo cáo ở dạng tổng hợp.",
+      introInterview: "🌱 Sau khi làm xong, bạn có thể tự chọn đăng ký tham gia một buổi trò chuyện nghiên cứu. Khi đó bạn quyết định có liên kết kết quả bài test với đăng ký của mình hay không. Nếu không đăng ký, kết quả của bạn vẫn hoàn toàn ẩn danh.",
+      introVoluntary: "🙋 Tự nguyện: có thể dừng bất cứ lúc nào, không cần nêu lý do.",
+      introNote: "💡 Đây không phải công cụ chẩn đoán tâm lý; kết quả chỉ mang tính tham khảo.",
+      checkboxLabel: "Tôi từ 18 tuổi trở lên, đã đọc thông tin trên và đồng ý tham gia.",
+      
+      ageWarning: "Cảm ơn bạn. Khảo sát nghiên cứu này dành cho người 18–30 tuổi. Bạn vẫn có thể làm thử để xem kết quả nhưng dữ liệu của bạn sẽ KHÔNG được lưu lại.",
+      locationWarning: "Cảm ơn bạn. Khảo sát nghiên cứu này hiện tập trung tại TP.HCM. Bạn vẫn có thể làm thử để xem kết quả nhưng dữ liệu của bạn sẽ KHÔNG được lưu lại.",
+      
+      instruction: "Hãy nghĩ về cách bạn thường cảm nhận và cư xử trong các mối quan hệ thân thiết (người yêu, bạn đời, hoặc người bạn rất thân), không phải một người cụ thể hay một thời điểm. Nếu bạn chưa từng yêu, hãy hình dung theo cách bạn thường thấy ở người bạn thân nhất. Không có đáp án đúng hay sai.",
+      
+      nearThresholdNote: "Điểm của bạn gần ngưỡng phân loại, nên kết quả có thể nằm giữa hai phong cách.",
+      finalDisclaimer: "Phong cách gắn bó không cố định: nó có thể thay đổi theo trải nghiệm, mối quan hệ và quá trình tự nhận thức. Kết quả này không thay thế tư vấn chuyên môn."
+    };
+
+    const STYLES_DESC = {
+      "An toàn": {
+        icon: "🟢",
+        desc: "Thoải mái với sự gần gũi lẫn sự tự lập; tin rằng mình và người khác đều đáng được yêu thương."
+      },
+      "Lo âu – bận tâm": {
+        icon: "🟠",
+        desc: "Khao khát gần gũi mạnh, dễ lo bị bỏ rơi; thường cần được trấn an."
+      },
+      "Xa cách – né tránh": {
+        icon: "🔵",
+        desc: "Coi trọng độc lập, thường giữ khoảng cách cảm xúc khi quan hệ sâu hơn."
+      },
+      "Sợ hãi – né tránh": {
+        icon: "🔴",
+        desc: "Vừa muốn gần vừa sợ bị tổn thương, nên hay giằng co giữa tiến và lùi."
+      }
+    };
+    
+    const CUTOFF = 4.0; // MỘT hằng số cấu hình duy nhất ở đầu file
+  </script>
+
+  <div class="container test-container">
+    
+    <!-- STEP 1: Giới thiệu -->
+    <div id="step-1" class="step-section active">
+      <h2 style="margin-bottom: 1.5rem;" id="ui-intro-title"></h2>
+      <ul style="list-style: none; padding: 0; line-height: 1.8; margin-bottom: 2rem;">
+        <li id="ui-intro-time" style="margin-bottom: 10px;"></li>
+        <li id="ui-intro-anon" style="margin-bottom: 10px;"></li>
+        <li id="ui-intro-interview" style="margin-bottom: 10px;"></li>
+        <li id="ui-intro-voluntary" style="margin-bottom: 10px;"></li>
+        <li id="ui-intro-note" style="margin-bottom: 10px;"></li>
+      </ul>
+      <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 15px; background: #f8fafc; border-radius: 8px;">
+        <input type="checkbox" id="agree-checkbox" style="display: block; margin-top: 5px; width: 20px; height: 20px;">
+        <span id="ui-checkbox-label" style="font-weight: 500;"></span>
+      </label>
+      <div id="agree-error" class="error-msg">Vui lòng xác nhận đồng ý để bắt đầu.</div>
+      <div style="text-align: right; margin-top: 2rem;">
+        <button class="btn-primary-purple" onclick="nextStep(1)">Bắt đầu khảo sát</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Thông tin chung -->
+    <div id="step-2" class="step-section">
+      <h2>Thông tin chung</h2>
+      <p style="margin-bottom: 2rem;">Các thông tin này giúp chúng tôi phân tích thống kê (tất cả không bắt buộc, trừ Tuổi).</p>
+      
+      <div class="form-group">
+        <label class="form-label">Tuổi của bạn (bắt buộc)*</label>
+        <input type="number" id="info-age" class="form-control" placeholder="Ví dụ: 22" required>
+        <div id="age-msg" style="color: #d97706; margin-top: 5px; display: none; font-size: 0.9rem;"></div>
+        <div id="age-error" class="error-msg">Vui lòng nhập số tuổi hợp lệ.</div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Giới tính</label>
+        <select id="info-gender" class="form-select">
+          <option value="">-- Chọn --</option>
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+          <option value="Khác">Khác</option>
+          <option value="Không muốn nêu">Không muốn nêu</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Nơi ở hiện tại</label>
+        <select id="info-district" class="form-select">
+          <option value="">-- Chọn --</option>
+          <option value="Q1">Quận 1</option>
+          <option value="Q3">Quận 3</option>
+          <option value="Q4">Quận 4</option>
+          <option value="Q5">Quận 5</option>
+          <option value="Q6">Quận 6</option>
+          <option value="Q7">Quận 7</option>
+          <option value="Q8">Quận 8</option>
+          <option value="Q10">Quận 10</option>
+          <option value="Q11">Quận 11</option>
+          <option value="Q12">Quận 12</option>
+          <option value="Tân Bình">Tân Bình</option>
+          <option value="Bình Tân">Bình Tân</option>
+          <option value="Bình Thạnh">Bình Thạnh</option>
+          <option value="Tân Phú">Tân Phú</option>
+          <option value="Gò Vấp">Gò Vấp</option>
+          <option value="Phú Nhuận">Phú Nhuận</option>
+          <option value="Thủ Đức">TP Thủ Đức</option>
+          <option value="Bình Chánh">Bình Chánh</option>
+          <option value="Hóc Môn">Hóc Môn</option>
+          <option value="Củ Chi">Củ Chi</option>
+          <option value="Nhà Bè">Nhà Bè</option>
+          <option value="Cần Giờ">Cần Giờ</option>
+          <option value="Ngoài TP.HCM">Ngoài TP.HCM</option>
+        </select>
+        <div id="loc-msg" style="color: #d97706; margin-top: 5px; display: none; font-size: 0.9rem;"></div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Thời gian sống ở TP.HCM</label>
+        <select id="info-years" class="form-select">
+          <option value="">-- Chọn --</option>
+          <option value="Từ nhỏ">Từ nhỏ</option>
+          <option value="Trên 5 năm">Trên 5 năm</option>
+          <option value="1-5 năm">1–5 năm</option>
+          <option value="Dưới 1 năm">Dưới 1 năm</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Hiện đang</label>
+        <select id="info-job" class="form-select">
+          <option value="">-- Chọn --</option>
+          <option value="Học đại học-cao đẳng">Học đại học–cao đẳng</option>
+          <option value="Đi làm toàn thời gian">Đi làm toàn thời gian</option>
+          <option value="Làm bán thời gian-tự do">Làm bán thời gian–tự do</option>
+          <option value="Khác">Khác</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Sống cùng</label>
+        <select id="info-living" class="form-select">
+          <option value="">-- Chọn --</option>
+          <option value="Gia đình">Gia đình</option>
+          <option value="Bạn bè-ở trọ">Bạn bè–ở trọ</option>
+          <option value="Một mình">Một mình</option>
+          <option value="Người yêu-bạn đời">Người yêu–bạn đời</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Tình trạng mối quan hệ</label>
+        <select id="info-relationship" class="form-select">
+          <option value="">-- Chọn --</option>
+          <option value="Độc thân">Độc thân</option>
+          <option value="Đang hẹn hò">Đang hẹn hò</option>
+          <option value="Có người yêu ổn định">Có người yêu ổn định</option>
+          <option value="Đã kết hôn">Đã kết hôn</option>
+          <option value="Khác">Khác</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Số mối quan hệ tình cảm nghiêm túc đã từng có</label>
+        <select id="info-num-relations" class="form-select">
+          <option value="">-- Chọn --</option>
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3 trở lên">3 trở lên</option>
+        </select>
+      </div>
+
+      <div class="buttons-row">
+        <button class="btn-outline" onclick="prevStep(2)">Quay lại</button>
+        <button class="btn-primary-purple" onclick="nextStep(2)">Tiếp tục</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Câu hỏi (Render động) -->
+    <div id="step-3" class="step-section">
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="quiz-progress"></div>
+      </div>
+      
+      <div style="background: #e0f2fe; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        <p style="margin: 0; color: #0284c7; font-size: 0.95rem;" id="ui-instruction"></p>
+      </div>
+
+      <div id="questions-container">
+        <!-- JS render questions here -->
+      </div>
+      
+      <div id="question-error" class="error-msg">Vui lòng trả lời tất cả các câu hỏi trên trang này.</div>
+
+      <div class="buttons-row">
+        <button class="btn-outline" onclick="prevPage()">Quay lại</button>
+        <button class="btn-primary-purple" id="btn-next-page" onclick="nextPage()">Trang tiếp theo</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Kết quả -->
+    <div id="step-4" class="step-section">
+      <h2 style="text-align: center;">Kết quả của bạn</h2>
+      
+      <div class="result-style-name" id="res-style-name"></div>
+      <p style="text-align: center; font-size: 1.1rem; max-width: 600px; margin: 0 auto;" id="res-style-desc"></p>
+      
+      <div id="near-threshold-warning" style="display: none; background: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px auto; max-width: 600px; color: #92400e;">
+        <strong style="display: block; margin-bottom: 5px;">Lưu ý:</strong>
+        <span id="ui-near-threshold"></span>
+      </div>
+
+      <!-- Matrix -->
+      <div class="matrix-container">
+        <div class="matrix-axis-x"></div>
+        <div class="matrix-axis-y"></div>
+        
+        <div class="matrix-label ml-top">Lo âu cao</div>
+        <div class="matrix-label ml-bottom">Lo âu thấp</div>
+        <div class="matrix-label ml-left">Né tránh thấp</div>
+        <div class="matrix-label ml-right">Né tránh cao</div>
+        
+        <div class="quadrant-label ql-tl">Lo âu - bận tâm</div>
+        <div class="quadrant-label ql-tr">Sợ hãi - né tránh</div>
+        <div class="quadrant-label ql-bl">An toàn</div>
+        <div class="quadrant-label ql-br">Xa cách - né tránh</div>
+        
+        <div class="user-dot" id="matrix-dot"></div>
+      </div>
+
+      <!-- Score bars -->
+      <div class="score-bars" style="max-width: 500px; margin: 0 auto;">
+        <div class="score-bar-row">
+          <div class="score-bar-label">
+            <span>Điểm Lo âu</span>
+            <span id="score-anxiety-text">0.0 / 7</span>
+          </div>
+          <div class="score-bar-track">
+            <div class="score-bar-fill" id="score-anxiety-fill" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="score-bar-row">
+          <div class="score-bar-label">
+            <span>Điểm Né tránh</span>
+            <span id="score-avoidance-text">0.0 / 7</span>
+          </div>
+          <div class="score-bar-track">
+            <div class="score-bar-fill" id="score-avoidance-fill" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <p style="text-align: center; margin-top: 3rem; font-size: 0.9rem; color: var(--color-muted);" id="ui-final-disclaimer"></p>
+
+      <!-- Khối mời phỏng vấn -->
+      <div id="interview-invite-block" style="display: none; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1.5rem; border-radius: 8px; margin: 2rem auto; max-width: 600px;">
+        <h3 style="color: #166534; margin-top: 0; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+          🌱 Mời bạn chia sẻ thêm (không bắt buộc)
+        </h3>
+        <p style="color: #15803d; line-height: 1.6; margin-bottom: 1rem; font-size: 0.95rem;">
+          Bài khảo sát cho thấy con số, còn câu chuyện thật nằm ở trải nghiệm của mỗi người. Nếu bạn sẵn lòng trò chuyện khoảng 45–60 phút về cách bạn kết nối trong các mối quan hệ, hãy đăng ký bên dưới. Bạn quyết định có liên kết kết quả bài test hay không, và có thể rút lui bất cứ lúc nào.
+        </p>
+        <div style="background: #ffffff; border: 1px solid #dcfce3; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+          <div style="font-weight: 600; color: #166534; margin-bottom: 0.5rem;">🔑 Mã của bạn: <span id="invite-link-code" style="font-family: monospace; background: #e2e8f0; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 1.1rem; color: #0f172a; margin: 0 0.5rem;"></span>
+            <button onclick="copyLinkCode()" style="background: #16a34a; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">Sao chép mã</button>
+          </div>
+          <p style="font-size: 0.85rem; color: #166534; margin: 0;">Mã này chỉ dùng nếu bạn muốn liên kết kết quả. Hãy lưu lại hoặc chụp màn hình nếu cần.</p>
+        </div>
+        <div style="text-align: center;">
+          <a id="btn-register-interview" href="#" target="_blank" style="display: inline-block; background: #16a34a; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; transition: background 0.2s;">👉 Đăng ký trò chuyện nghiên cứu</a>
+        </div>
+      </div>
+      <div id="invite-loading" style="display: none; text-align: center; margin: 2rem auto; color: var(--color-muted); font-size: 0.9rem;">
+        Đang xử lý kết quả...
+      </div>
+
+      <div style="text-align: center; margin-top: 2rem;">
+        <button class="btn-primary-purple" onclick="location.reload()">Làm lại bài test</button>
+      </div>
+    </div>
+    
+  </div>
+
+  <script>
+    // Dữ liệu câu hỏi
+    const ITEMS = [
+     {id:1,  dim:"A", rev:false, text:"Tôi hay lo rằng người thân thiết không quan tâm đến mình nhiều như mình quan tâm họ."},
+     {id:2,  dim:"V", rev:false, text:"Tôi thấy không thoải mái khi phải chia sẻ cảm xúc sâu sắc với người thân thiết."},
+     {id:3,  dim:"A", rev:false, text:"Khi người ấy lâu không phản hồi tin nhắn, tôi bất an và hay nghĩ đến điều tệ nhất."},
+     {id:4,  dim:"V", rev:true,  text:"Tôi dễ dàng thể hiện tình cảm với người thân thiết."},
+     {id:5,  dim:"A", rev:false, text:"Tôi sợ bị bỏ rơi khi mối quan hệ trở nên gắn bó hơn."},
+     {id:6,  dim:"V", rev:false, text:"Khi người ấy muốn gần gũi hơn, tôi có xu hướng lùi lại."},
+     {id:7,  dim:"A", rev:true,  text:"Tôi hiếm khi lo lắng về việc bị người thân thiết rời bỏ."},
+     {id:8,  dim:"V", rev:false, text:"Tôi thích tự giải quyết vấn đề hơn là nhờ người ấy giúp."},
+     {id:9,  dim:"A", rev:false, text:"Tôi thường nghĩ mình chưa đủ tốt để người khác ở lại lâu dài."},
+     {id:10, dim:"V", rev:true,  text:"Tôi thoải mái dựa vào người thân thiết những lúc khó khăn."},
+     {id:11, dim:"A", rev:false, text:"Tôi cần được người ấy trấn an thường xuyên rằng họ vẫn coi trọng tôi."},
+     {id:12, dim:"V", rev:false, text:"Tôi thấy việc dựa dẫm vào người khác là một dạng yếu đuối."},
+     {id:13, dim:"A", rev:false, text:"Tôi dễ ghen tị hoặc nhạy cảm khi người ấy dành nhiều thời gian cho người khác."},
+     {id:14, dim:"V", rev:false, text:"Khi ai đó đòi hỏi quá nhiều sự gần gũi, tôi thấy ngột ngạt."},
+     {id:15, dim:"A", rev:true,  text:"Tôi tin người ấy vẫn ở bên mình dù hai người có lúc bất đồng."},
+     {id:16, dim:"V", rev:false, text:"Tôi giữ một khoảng cách nhất định để không phụ thuộc vào ai."},
+     {id:17, dim:"A", rev:false, text:"Tôi thấy rất khó chịu khi người ấy có vẻ xa cách, dù chỉ trong thời gian ngắn."},
+     {id:18, dim:"V", rev:true,  text:"Tôi dễ dàng chia sẻ suy nghĩ và cảm xúc thật của mình."},
+     {id:19, dim:"A", rev:false, text:"Tôi hay nghĩ nhiều về khả năng mối quan hệ của mình sẽ kết thúc."},
+     {id:20, dim:"V", rev:false, text:"Tôi khó mở lòng nói về những điều riêng tư."},
+     {id:21, dim:"A", rev:false, text:"Tôi mong muốn hòa làm một với người ấy, và điều này đôi khi khiến họ e ngại."},
+     {id:22, dim:"V", rev:true,  text:"Tôi thấy thoải mái khi gần gũi về mặt cảm xúc."},
+     {id:23, dim:"A", rev:false, text:"Sau khi cãi vã, tôi lo lắng kéo dài cho đến khi hai người làm lành."},
+     {id:24, dim:"V", rev:false, text:"Khi xung đột nổi lên, tôi thường rút lui thay vì nói chuyện thẳng."}
+    ];
+
+    // State Variables
+    let shuffledItems = [];
+    let answers = {}; // id -> value (1-7)
+    let currentPage = 0;
+    const itemsPerPage = 6;
+    let shouldSave = true;
+    let startTime = 0;
+
+    // Khởi tạo UI
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById('ui-intro-title').innerText = TEST_STRINGS.introTitle;
+      document.getElementById('ui-intro-time').innerText = TEST_STRINGS.introTime;
+      document.getElementById('ui-intro-anon').innerText = TEST_STRINGS.introAnon;
+      document.getElementById('ui-intro-interview').innerText = TEST_STRINGS.introInterview;
+      document.getElementById('ui-intro-voluntary').innerText = TEST_STRINGS.introVoluntary;
+      document.getElementById('ui-intro-note').innerText = TEST_STRINGS.introNote;
+      document.getElementById('ui-checkbox-label').innerText = TEST_STRINGS.checkboxLabel;
+      document.getElementById('ui-instruction').innerText = TEST_STRINGS.instruction;
+      document.getElementById('ui-near-threshold').innerText = TEST_STRINGS.nearThresholdNote;
+      document.getElementById('ui-final-disclaimer').innerText = TEST_STRINGS.finalDisclaimer;
+      
+      // Xáo trộn câu hỏi
+      shuffledItems = [...ITEMS].sort(() => Math.random() - 0.5);
+      
+      // Khôi phục session state nếu có
+      const savedState = sessionStorage.getItem('attachment_test_state');
+      if(savedState) {
+        try {
+          const st = JSON.parse(savedState);
+          answers = st.answers || {};
+          shuffledItems = st.shuffledItems || shuffledItems;
+        } catch(e) {}
+      }
+
+      // Xử lý cảnh báo tuổi / địa điểm
+      const ageInput = document.getElementById('info-age');
+      const distInput = document.getElementById('info-district');
+      
+      ageInput.addEventListener('input', () => {
+        const val = parseInt(ageInput.value);
+        if(val && (val < 18 || val > 30)) {
+          document.getElementById('age-msg').innerText = TEST_STRINGS.ageWarning;
+          document.getElementById('age-msg').style.display = 'block';
+          shouldSave = false;
+        } else {
+          document.getElementById('age-msg').style.display = 'none';
+          checkShouldSave();
+        }
+      });
+      
+      distInput.addEventListener('change', () => {
+        if(distInput.value === 'Ngoài TP.HCM') {
+          document.getElementById('loc-msg').innerText = TEST_STRINGS.locationWarning;
+          document.getElementById('loc-msg').style.display = 'block';
+          shouldSave = false;
+        } else {
+          document.getElementById('loc-msg').style.display = 'none';
+          checkShouldSave();
+        }
+      });
+    });
+
+    function checkShouldSave() {
+      const val = parseInt(document.getElementById('info-age').value);
+      const dist = document.getElementById('info-district').value;
+      if ((val && (val < 18 || val > 30)) || dist === 'Ngoài TP.HCM') {
+        shouldSave = false;
+      } else {
+        shouldSave = true;
+      }
+    }
+
+    function saveState() {
+      sessionStorage.setItem('attachment_test_state', JSON.stringify({
+        answers, shuffledItems
+      }));
+    }
+
+    function showStep(stepNum) {
+      document.querySelectorAll('.step-section').forEach(el => el.classList.remove('active'));
+      document.getElementById(`step-${stepNum}`).classList.add('active');
+      window.scrollTo(0,0);
+    }
+
+    function nextStep(currentStep) {
+      if(currentStep === 1) {
+        if(!document.getElementById('agree-checkbox').checked) {
+          document.getElementById('agree-error').style.display = 'block';
+          return;
+        }
+        document.getElementById('agree-error').style.display = 'none';
+        startTime = Date.now();
+        showStep(2);
+      } else if(currentStep === 2) {
+        const age = parseInt(document.getElementById('info-age').value);
+        if(!age || isNaN(age)) {
+          document.getElementById('age-error').style.display = 'block';
+          return;
+        }
+        document.getElementById('age-error').style.display = 'none';
+        
+        currentPage = 0;
+        renderQuizPage();
+        showStep(3);
+      }
+    }
+    
+    function prevStep(currentStep) {
+      showStep(currentStep - 1);
+    }
+
+    function renderQuizPage() {
+      const container = document.getElementById('questions-container');
+      container.innerHTML = '';
+      
+      const startIdx = currentPage * itemsPerPage;
+      const endIdx = Math.min(startIdx + itemsPerPage, shuffledItems.length);
+      
+      for(let i = startIdx; i < endIdx; i++) {
+        const item = shuffledItems[i];
+        const val = answers[item.id] || '';
+        
+        let scalesHtml = '';
+        for(let v = 1; v <= 7; v++) {
+          scalesHtml += `
+            <label class="scale-option">
+              <input type="radio" name="q_${item.id}" value="${v}" ${val == v ? 'checked' : ''} onchange="saveAnswer(${item.id}, ${v})">
+              <div class="scale-circle">${v}</div>
+            </label>
+          `;
+        }
+
+        container.innerHTML += `
+          <div class="question-item">
+            <div class="question-text">${i+1}. ${item.text}</div>
+            <div class="scale-labels">
+              <span style="text-align: center;">Hoàn toàn<br>không đồng ý</span>
+              <span style="text-align: center;">Trung lập</span>
+              <span style="text-align: center;">Hoàn toàn<br>đồng ý</span>
+            </div>
+            <div class="scale-container">
+              ${scalesHtml}
+            </div>
+          </div>
+        `;
+      }
+      
+      // Update progress
+      const totalPages = Math.ceil(shuffledItems.length / itemsPerPage);
+      const progress = ((currentPage) / totalPages) * 100;
+      document.getElementById('quiz-progress').style.width = `${progress}%`;
+      
+      const btnNext = document.getElementById('btn-next-page');
+      if (currentPage === totalPages - 1) {
+        btnNext.innerText = "Hoàn thành & Xem kết quả";
+      } else {
+        btnNext.innerText = "Trang tiếp theo";
+      }
+    }
+
+    // Attach function to global scope to be called by inline onclick
+    window.saveAnswer = function(id, val) {
+      answers[id] = val;
+      saveState();
+      document.getElementById('question-error').style.display = 'none';
+    }
+
+    function nextPage() {
+      const startIdx = currentPage * itemsPerPage;
+      const endIdx = Math.min(startIdx + itemsPerPage, shuffledItems.length);
+      
+      // Check if all answered
+      let allAnswered = true;
+      for(let i = startIdx; i < endIdx; i++) {
+        if(!answers[shuffledItems[i].id]) {
+          allAnswered = false;
+          break;
+        }
+      }
+      
+      if(!allAnswered) {
+        document.getElementById('question-error').style.display = 'block';
+        return;
+      }
+      document.getElementById('question-error').style.display = 'none';
+      
+      const totalPages = Math.ceil(shuffledItems.length / itemsPerPage);
+      if(currentPage < totalPages - 1) {
+        currentPage++;
+        renderQuizPage();
+        window.scrollTo(0,0);
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function prevPage() {
+      if(currentPage > 0) {
+        currentPage--;
+        renderQuizPage();
+        window.scrollTo(0,0);
+      } else {
+        showStep(2);
+      }
+    }
+
+    function finishQuiz() {
+      const duration = Math.round((Date.now() - startTime) / 1000);
+      
+      // Tính điểm
+      let anxietySum = 0;
+      let avoidanceSum = 0;
+      
+      for(const item of ITEMS) {
+        let val = parseInt(answers[item.id]);
+        if(item.rev) val = 8 - val;
+        
+        if(item.dim === 'A') anxietySum += val;
+        if(item.dim === 'V') avoidanceSum += val;
+      }
+      
+      const anxietyScore = anxietySum / 12;
+      const avoidanceScore = avoidanceSum / 12;
+      
+      // Phân loại
+      let styleName = "";
+      if(anxietyScore < CUTOFF && avoidanceScore < CUTOFF) styleName = "An toàn";
+      else if(anxietyScore >= CUTOFF && avoidanceScore < CUTOFF) styleName = "Lo âu – bận tâm";
+      else if(anxietyScore < CUTOFF && avoidanceScore >= CUTOFF) styleName = "Xa cách – né tránh";
+      else styleName = "Sợ hãi – né tránh";
+      
+      // Render Kết quả
+      const sDesc = STYLES_DESC[styleName];
+      document.getElementById('res-style-name').innerHTML = `${sDesc.icon} ${styleName}`;
+      document.getElementById('res-style-desc').innerText = sDesc.desc;
+      
+      // Near threshold
+      if ((anxietyScore >= 3.5 && anxietyScore < 4.5) || (avoidanceScore >= 3.5 && avoidanceScore < 4.5)) {
+        document.getElementById('near-threshold-warning').style.display = 'block';
+      }
+      
+      // Update bars
+      document.getElementById('score-anxiety-text').innerText = `${anxietyScore.toFixed(1)} / 7`;
+      document.getElementById('score-anxiety-fill').style.width = `${(anxietyScore/7)*100}%`;
+      
+      document.getElementById('score-avoidance-text').innerText = `${avoidanceScore.toFixed(1)} / 7`;
+      document.getElementById('score-avoidance-fill').style.width = `${(avoidanceScore/7)*100}%`;
+      
+      // Matrix dot placement
+      // Trục ngang: Né tránh (1 to 7). Mapping to 0-100% of width (300px)
+      // Trục dọc: Lo âu (1 to 7). Trục Y ngược: 7 là trên cùng, 1 là dưới cùng
+      const xPercent = ((avoidanceScore - 1) / 6) * 100;
+      const yPercent = 100 - (((anxietyScore - 1) / 6) * 100);
+      const dot = document.getElementById('matrix-dot');
+      dot.style.left = `${xPercent}%`;
+      dot.style.top = `${yPercent}%`;
+      
+      showStep(4);
+      sessionStorage.removeItem('attachment_test_state'); // Clear session
+      
+      // Mô phỏng lưu dữ liệu (Giai đoạn 1)
+      const payload = {
+        version: "v1-pilot",
+        duration_seconds: duration,
+        age: parseInt(document.getElementById('info-age').value),
+        gender: document.getElementById('info-gender').value,
+        district: document.getElementById('info-district').value,
+        years_in_hcmc: document.getElementById('info-years').value,
+        occupation: document.getElementById('info-job').value,
+        living_with: document.getElementById('info-living').value,
+        relationship_status: document.getElementById('info-relationship').value,
+        num_relationships: document.getElementById('info-num-relations').value,
+        answers: answers
+      };
+      
+      // Giai đoạn C: Nối backend thật
+      if(shouldSave) {
+        document.getElementById('invite-loading').style.display = 'block';
+        
+        fetch('/api/attachment-test/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(res => res.json())
+          .then(data => {
+            document.getElementById('invite-loading').style.display = 'none';
+            if(data.error) {
+              console.error("Lỗi lưu DB:", data.error);
+            } else if(data.link_code) {
+              document.getElementById('invite-link-code').innerText = data.link_code;
+              document.getElementById('btn-register-interview').href = `/dang-ky-phong-van.html?code=${data.link_code}`;
+              document.getElementById('interview-invite-block').style.display = 'block';
+              console.log("Lưu dữ liệu thành công! Mã:", data.link_code);
+            }
+          })
+          .catch(err => {
+            document.getElementById('invite-loading').style.display = 'none';
+            console.error("Lỗi kết nối:", err);
+          });
+      } else {
+        console.log("Bản ghi bị loại (do tuổi hoặc địa điểm), không lưu vào server.");
+      }
+    }
+    
+    // Copy code to clipboard
+    window.copyLinkCode = function() {
+      const code = document.getElementById('invite-link-code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        alert("Đã sao chép mã: " + code);
+      });
+    }
+  </script>
+</body>
+</html>
