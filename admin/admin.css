@@ -528,3 +528,30 @@ select.form-control {
 .toast.error {
   border-left-color: var(--accent-red);
 }
+.nav-link-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+  border-left: 3px solid transparent;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-link-item:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.nav-link-item .icon {
+  font-size: 1.1rem;
+}
