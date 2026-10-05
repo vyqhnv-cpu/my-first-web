@@ -590,6 +590,7 @@ app.get('/khoa-hoc/:slug', (req, res) => {
 });
 
 // Dynamic Blog Post SSR Routing (Lightweight Hydration + Static Pre-rendered Check)
+app.get('/phong-cach-gan-bo-la-gi', (req, res) => res.redirect(301, '/blog/phong-cach-gan-bo-la-gi'));
 app.get('/blog/:slug', (req, res) => {
   const fs = require('fs');
   const slug = req.params.slug.replace(/\.html$/, '');

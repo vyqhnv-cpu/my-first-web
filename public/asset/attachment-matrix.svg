@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="1200" height="630" fill="#fbf8f3"/>
+  <text x="600" y="48" text-anchor="middle" font-size="30" font-weight="700" fill="#1e293b">Bốn phong cách gắn bó</text>
+  <rect x="250" y="80" width="340" height="230" rx="16" fill="#fde7c8"/>
+  <rect x="610" y="80" width="340" height="230" rx="16" fill="#f8cfcf"/>
+  <rect x="250" y="330" width="340" height="230" rx="16" fill="#cfe8d5"/>
+  <rect x="610" y="330" width="340" height="230" rx="16" fill="#cfe0ee"/>
+  <g font-size="28" font-weight="700" text-anchor="middle">
+    <text x="420" y="205" fill="#b45309">Lo âu – bận tâm</text>
+    <text x="780" y="205" fill="#b91c1c">Sợ hãi – né tránh</text>
+    <text x="420" y="455" fill="#15803d">An toàn</text>
+    <text x="780" y="455" fill="#1d4ed8">Xa cách – né tránh</text>
+  </g>
+  <g font-size="18" text-anchor="middle" fill="#475569">
+    <text x="420" y="240">Lo âu cao · Né tránh thấp</text>
+    <text x="780" y="240">Lo âu cao · Né tránh cao</text>
+    <text x="420" y="490">Lo âu thấp · Né tránh thấp</text>
+    <text x="780" y="490">Lo âu thấp · Né tránh cao</text>
+  </g>
+  <g stroke="#1e293b" stroke-width="2.5" fill="#1e293b">
+    <line x1="230" y1="320" x2="970" y2="320"/>
+    <line x1="600" y1="570" x2="600" y2="70"/>
+  </g>
+  <g font-size="20" font-weight="600" fill="#1e293b">
+    <text x="985" y="327">Né tránh →</text>
+    <text x="600" y="605" text-anchor="middle">↑ Lo âu gắn bó</text>
+  </g>
+</svg>
