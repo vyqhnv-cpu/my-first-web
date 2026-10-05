@@ -185,9 +185,9 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label">Mã liên kết bài test (Không bắt buộc)</label>
-        <input type="text" id="link_code" class="form-control" placeholder="VD: GB-XXXXXX" style="font-family: monospace; font-size: 1.1rem; letter-spacing: 1px;">
-        <div style="font-size: 0.85rem; color: var(--color-muted); margin-top: 0.5rem;">Nhập mã nếu bạn muốn nhóm nghiên cứu xem được kết quả bài test của bạn.</div>
+        <label class="form-label">Mã liên kết bài test (Bắt buộc)</label>
+        <input type="text" id="link_code" class="form-control" placeholder="VD: GB-XXXXXX" style="font-family: monospace; font-size: 1.1rem; letter-spacing: 1px;" required>
+        <div style="font-size: 0.85rem; color: var(--color-muted); margin-top: 0.5rem;">Nhập mã để nhóm nghiên cứu xem được kết quả bài test của bạn.</div>
       </div>
 
       <div style="margin-top: 2rem; border-top: 1px solid #e2e8f0; padding-top: 1.5rem;">
@@ -197,8 +197,8 @@
         </label>
         
         <label class="checkbox-group">
-          <input type="checkbox" id="consent_link_results">
-          <span class="checkbox-label">Tôi đồng ý cho nhóm nghiên cứu liên kết đăng ký này với kết quả bài test của tôi (thông qua mã liên kết ở trên).</span>
+          <input type="checkbox" id="consent_link_results" required>
+          <span class="checkbox-label">Tôi đồng ý cho nhóm nghiên cứu liên kết đăng ký này với kết quả bài test của tôi (thông qua mã liên kết ở trên). (*)</span>
         </label>
         
         <div id="consent-link-container" style="display: none; margin-top: 10px; margin-left: 28px;">
@@ -223,7 +223,7 @@
   <script>
     // Configuration constants
     const CONFIG = {
-      REQUIRE_TEST_CODE: false,
+      REQUIRE_TEST_CODE: true,
       INTERVIEW_CONSENT_URL: "", // Ví dụ: "/phieu-dong-y.pdf"
       CONTACT_DAYS: 7
     };
